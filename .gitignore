@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/code/DasherApp/bin/Debug/net6.0
+/code/.vs/DasherApp
+/code/DasherApp/obj
+/code/DasherApp.API/bin/Debug/net6.0
+/code/DasherApp.API/obj
+/code/DasherApp.Models/bin/Debug/net6.0
+/code/DasherApp.Models/obj

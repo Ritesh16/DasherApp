@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasherApp", "DasherApp\DasherApp.csproj", "{1393E777-5015-4496-9EE5-84174D08D7E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasherApp.API", "DasherApp.API\DasherApp.API.csproj", "{84B45FBF-7554-430C-A3AA-DE7EDC552CDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasherApp.Models", "DasherApp.Models\DasherApp.Models.csproj", "{204DCB46-EB28-4B14-8BD4-2063754A6870}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1393E777-5015-4496-9EE5-84174D08D7E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1393E777-5015-4496-9EE5-84174D08D7E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1393E777-5015-4496-9EE5-84174D08D7E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1393E777-5015-4496-9EE5-84174D08D7E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84B45FBF-7554-430C-A3AA-DE7EDC552CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84B45FBF-7554-430C-A3AA-DE7EDC552CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84B45FBF-7554-430C-A3AA-DE7EDC552CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84B45FBF-7554-430C-A3AA-DE7EDC552CDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{204DCB46-EB28-4B14-8BD4-2063754A6870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{204DCB46-EB28-4B14-8BD4-2063754A6870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{204DCB46-EB28-4B14-8BD4-2063754A6870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{204DCB46-EB28-4B14-8BD4-2063754A6870}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {27EEEE10-5161-43F2-8C10-E1BB28D11706}
+	EndGlobalSection
+EndGlobal
