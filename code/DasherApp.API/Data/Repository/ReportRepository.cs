@@ -50,7 +50,9 @@ SELECT   DATEPART(wk, [Date])     WeekId
 FROM        dailydash
 GROUP BY    DATEPART(wk, [Date]), 
 DATEADD(dd, -(DATEPART(dw, [Date]) - 1), [Date]), 
-DATEADD(dd, 7 - (DATEPART(dw, [Date])), [Date]) ").ToList();
+DATEADD(dd, 7 - (DATEPART(dw, [Date])), [Date]) 
+order by startdate desc
+").ToList();
 
             //            var weeklyReport = context.Database
             //                                .SqlQuery<WeeklyReportModel>(@$"SET DATEFIRST 1;

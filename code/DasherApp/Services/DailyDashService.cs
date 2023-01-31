@@ -19,6 +19,22 @@ namespace DasherApp.Services
             this._configuration = configuration;
             this.baseServerUrl = _configuration.GetSection("APIUrl").Value;
         }
+
+        public async Task<IEnumerable<DailyDashModel>> GetDailyDashList()
+        {
+            var response = await _httpClient.GetAsync($"/api/DailyDash");
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var output = JsonConvert.DeserializeObject<IEnumerable<DailyDashModel>>(content);
+                return output;
+            }
+            else
+            {
+                return new List<DailyDashModel>();
+            }
+        }
+
         public async Task<bool> SaveDailyDash(DailyDashAddModel dailyDashModel)
         {
             var dailyDashList = dailyDashModel.ToDailyDash();

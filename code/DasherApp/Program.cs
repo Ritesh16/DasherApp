@@ -13,6 +13,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("APIUrl")) });
 
 builder.Services.AddScoped<IDailyDashService, DailyDashService>();
+builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 
 builder.Services
     .AddBlazorise(options =>

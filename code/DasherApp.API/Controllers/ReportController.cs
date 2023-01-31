@@ -15,10 +15,10 @@ namespace DasherApp.API.Controllers
             this.reportRepository = reportRepository;
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("WeeklyReport")]
+        public async Task<IActionResult> Get()
         {
-            return Ok(reportRepository.GetWeeklyReport());
+            return Ok(await reportRepository.GetWeeklyReport());
         }
 
     }

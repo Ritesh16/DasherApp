@@ -1,0 +1,52 @@
+﻿@page "/Reports/WeeklyEarnings"
+
+@inject IStatisticsService statisticsService
+
+<h3>Weekly Earnings</h3>
+
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var week in weeklyEarnings)
+            {
+                <tr>
+                    <td>
+                        @week.WeekId
+                    </td>
+                    <td>
+                        @week.StartDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @week.EndDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @week.Total.ToString("C2")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    bool successVisible = false;
+    bool failureVisible = false;
+
+    IEnumerable<WeeklyReportModel> weeklyEarnings = new List<WeeklyReportModel>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        weeklyEarnings = await statisticsService.GetWeeklyReports();
+    }
+}

@@ -1,0 +1,172 @@
+﻿@page "/AddDailyDash"
+
+@inject IDailyDashService dailyDashService
+
+<PageTitle>Index</PageTitle>
+
+<h1>Add Dash</h1>
+
+<Alert Color="Color.Success" @bind-Visible="@successVisible">
+    <AlertMessage>
+        @message
+    </AlertMessage>
+</Alert>
+
+<Alert Color="Color.Danger" @bind-Visible="@failureVisible">
+    <AlertMessage>
+        @message
+    </AlertMessage>
+</Alert>
+
+<EditForm Model="DailyDashAddModel" OnValidSubmit="SubmitDash">
+    <DataAnnotationsValidator />
+    <div class="row">
+        <div class="col-4">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <DatePicker @ref="@dashDateTimePicker" TValue="DateTime" @bind-Date="DailyDashAddModel.DateTime" />
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Light" Clicked="@(()=>dashDateTimePicker.ToggleAsync())">
+                        <Icon Name="IconName.CalendarDay" />
+                    </Button>
+                </Addon>
+            </Addons>
+            <ValidationMessage For="()=>DailyDashAddModel.DateTime"></ValidationMessage>
+        </div>
+        <div class="col-3">
+            <InputText @bind-Value="DailyDashAddModel.Location" class="form-control"></InputText>
+            <ValidationMessage For="()=>DailyDashAddModel.Location"></ValidationMessage>
+        </div>
+        <div class="col-3">
+            <a class="btn btn-primary" @onclick="AddRow">Add New Dash</a>
+        </div>
+
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-2">
+            <label>Start Time</label>
+        </div>
+        <div class="col-2">
+            <label>End Time</label>
+        </div>
+        <div class="col-2">
+            <label>Amount</label>
+        </div>
+        <div class="col-2">
+            <label>Mileage</label>
+        </div>
+    </div>
+    @foreach (var dashTime in DailyDashAddModel.DashTimes)
+    {
+        <div class="row mt-2">
+            <div class="col-2">
+                <Addons>
+                    <Addon AddonType="AddonType.Body">
+                        <TimePicker @ref="@dashStartTimePicker" TValue="TimeSpan" @bind-Time="dashTime.StartTime" />
+                    </Addon>
+                    <Addon AddonType="AddonType.End">
+                        <Button Color="Color.Light" Clicked="@(()=>dashStartTimePicker.ToggleAsync())">
+                            <Icon Name="IconName.CalendarDay" />
+                        </Button>
+                    </Addon>
+                </Addons>
+                <ValidationMessage For="()=>dashTime.StartTime"></ValidationMessage>
+            </div>
+            <div class="col-2">
+                <Addons>
+                    <Addon AddonType="AddonType.Body">
+                        <TimePicker @ref="@dashEndTimePicker" TValue="TimeSpan" @bind-Time="dashTime.EndTime" />
+                    </Addon>
+                    <Addon AddonType="AddonType.End">
+                        <Button Color="Color.Light" Clicked="@(()=>dashEndTimePicker.ToggleAsync())">
+                            <Icon Name="IconName.CalendarDay" />
+                        </Button>
+                    </Addon>
+                </Addons>
+                <ValidationMessage For="()=>dashTime.EndTime"></ValidationMessage>
+            </div>
+            <div class="col-2">
+                <InputNumber class="form-control" @bind-Value="dashTime.Amount">
+                </InputNumber>
+                <ValidationMessage For="()=>dashTime.Amount"></ValidationMessage>
+            </div>
+
+            <div class="col-2">
+                <InputNumber class="form-control" @bind-Value="dashTime.Mileage">
+                </InputNumber>
+                <ValidationMessage For="()=>dashTime.Mileage"></ValidationMessage>
+            </div>
+        </div>
+    }
+
+    <div class="row mt-2">
+        <div class="col-3">
+            <button class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    DatePicker<DateTime> dashDateTimePicker;
+    TimePicker<TimeSpan> dashStartTimePicker;
+    TimePicker<TimeSpan> dashEndTimePicker;
+    bool successVisible = false;
+    bool failureVisible = false;
+
+    string message = string.Empty;
+
+    public DailyDashAddModel DailyDashAddModel { get; set; } = new();
+
+    public async Task SubmitDash()
+    {
+        var valid = true;
+        foreach (var dash in DailyDashAddModel.DashTimes)
+        {
+            if (dash.Amount == 0 || dash.Mileage == 0)
+            {
+                failureVisible = true;
+                successVisible = false;
+                valid = false;
+                message = "Please add valid value of Amount/Mileage.";
+                break;
+            }
+
+            if (dash.StartTime == dash.EndTime)
+            {
+                valid = false;
+                failureVisible = true;
+                successVisible = false;
+                message = "Start Time/ End Time cannot be same.";
+                break;
+            }
+        }
+
+
+        if (valid)
+        {
+            var output = await dailyDashService.SaveDailyDash(DailyDashAddModel);
+
+            if (output)
+            {
+                successVisible = true;
+                failureVisible = false;
+                DailyDashAddModel = new();
+                message = "Daily dash saved information.";
+            }
+            else
+            {
+                successVisible = false;
+                failureVisible = true;
+                message = "Problem in saving dash.";
+            }
+        }
+
+    }
+
+    public void AddRow()
+    {
+        DailyDashAddModel.DashTimes.Add(new DailyDashStartEndTimeModel());
+    }
+}

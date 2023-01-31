@@ -18,7 +18,11 @@ namespace DasherApp.API.Data.Repository
         }
         public async Task<IEnumerable<DailyDashModel>> GetAll()
         {
-            var dailyDashList = await context.DailyDash.ToListAsync();
+            var dailyDashList = await context.DailyDash
+                                .OrderByDescending(x => x.Date)
+                                .Take(15)
+                                .ToListAsync();
+
             return mapper.Map<List<DailyDash>, List<DailyDashModel>>(dailyDashList);
         }
 
