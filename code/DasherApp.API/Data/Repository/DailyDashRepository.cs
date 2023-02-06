@@ -36,5 +36,17 @@ namespace DasherApp.API.Data.Repository
 
             return await context.SaveChangesAsync() > 0;
         }
+
+        public async Task<double> TotalEarned()
+        {
+            var total = await context.DailyDash.SumAsync(x => x.Amount);
+            return total;
+        }
+
+        public async Task<double> TotalMileage()
+        {
+            var total = await context.DailyDash.SumAsync(x => x.Mileage);
+            return total;
+        }
     }
 }

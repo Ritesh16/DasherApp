@@ -20,7 +20,19 @@ namespace DasherApp.API.Controllers
         public async Task<IActionResult> Get()
         {
             return Ok(await dailyDashRepository.GetAll());
-        } 
+        }
+
+        [HttpGet("GetTotalAmount")]
+        public async Task<IActionResult> GetTotalAmount()
+        {
+            return Ok(await dailyDashRepository.TotalEarned());
+        }
+
+        [HttpGet("GetTotalMileage")]
+        public async Task<IActionResult> GetTotalMileage()
+        {
+            return Ok(await dailyDashRepository.TotalMileage());
+        }
 
         [HttpPost]
         public async Task<IActionResult> Save([FromBody]IEnumerable<DailyDashModel> dailyDashList)

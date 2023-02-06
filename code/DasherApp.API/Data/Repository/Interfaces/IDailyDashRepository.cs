@@ -1,5 +1,4 @@
-﻿using DasherApp.API.Data.Entity;
-using DasherApp.Models;
+﻿using DasherApp.Models;
 
 namespace DasherApp.API.Data.Repository.Interfaces
 {
@@ -7,5 +6,7 @@ namespace DasherApp.API.Data.Repository.Interfaces
     {
         Task<IEnumerable<DailyDashModel>> GetAll();
         Task<bool> Save(IEnumerable<DailyDashModel> dailyDashList);
+        Task<double> TotalEarned();
+        Task<double> TotalMileage();
     }
 }

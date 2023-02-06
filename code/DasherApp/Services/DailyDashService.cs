@@ -35,6 +35,32 @@ namespace DasherApp.Services
             }
         }
 
+        public async Task<double> GetTotalEarned()
+        {
+            var response = await _httpClient.GetAsync($"/api/DailyDash/GetTotalAmount");
+            var content = await response.Content.ReadAsStringAsync();
+            double output = 0;
+            if (response.IsSuccessStatusCode)
+            {
+                output = JsonConvert.DeserializeObject<double>(content);
+            }
+
+            return output;
+        }
+
+        public async Task<double> GetTotalMileage()
+        {
+            var response = await _httpClient.GetAsync($"/api/DailyDash/GetTotalMileage");
+            var content = await response.Content.ReadAsStringAsync();
+            double output = 0;
+            if (response.IsSuccessStatusCode)
+            {
+                output = JsonConvert.DeserializeObject<double>(content);
+            }
+
+            return output;
+        }
+
         public async Task<bool> SaveDailyDash(DailyDashAddModel dailyDashModel)
         {
             var dailyDashList = dailyDashModel.ToDailyDash();

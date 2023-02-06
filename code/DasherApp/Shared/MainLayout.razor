@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-
+@inject IDailyDashService dailyDashService
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -7,7 +7,8 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <h5>Total Earned : @totalAmount.ToString("C2")</h5>
+            <h5>Mileage: @totalMileage</h5>
         </div>
 
         <article class="content px-4">
@@ -15,3 +16,14 @@
         </article>
     </main>
 </div>
+
+@code{
+    double totalAmount = 0;
+    double totalMileage = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        totalAmount = await dailyDashService.GetTotalEarned();
+        totalMileage = await dailyDashService.GetTotalMileage();
+    }
+}
