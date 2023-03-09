@@ -1,6 +1,7 @@
 ﻿using DasherApp.API.Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace DasherApp.API.Controllers
 {
@@ -17,6 +18,7 @@ namespace DasherApp.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            var date = DateTime.ParseExact("03082023", "MMddyyyy", CultureInfo.InvariantCulture);
             var locations = locationRepository.GetLocations();
             return Ok(locations);
         }
