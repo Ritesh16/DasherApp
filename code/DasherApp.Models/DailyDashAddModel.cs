@@ -18,7 +18,7 @@ namespace DasherApp.Models
             DashTimes.Add(new DailyDashStartEndTimeModel());
             DateTime = DateTime.Now;
             IsActive = true;
-            Location = "Middeltown";
+            Location = "Middletown";
         }
     }
 }
