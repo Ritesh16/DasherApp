@@ -1,6 +1,7 @@
 ﻿@page "/AddDailyDash"
 
 @inject IDailyDashService dailyDashService
+@inject AppState appState
 
 <PageTitle>Index</PageTitle>
 
@@ -161,6 +162,10 @@
                 failureVisible = true;
                 message = "Problem in saving dash.";
             }
+
+            var totalAmount = await dailyDashService.GetTotalEarned();
+            var totalMileage = await dailyDashService.GetTotalMileage();
+            appState.LoadHeaders(totalAmount, totalMileage);
         }
 
     }

@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject IDailyDashService dailyDashService
+@inject AppState appState
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -7,8 +9,8 @@
 
     <main>
         <div class="top-row px-4">
-            <h5>Total Earned : @totalAmount.ToString("C2")</h5>
-            <h5 style="margin-left:20px">Mileage: @totalMileage</h5>
+            <h5>Total Earned : @appState.TotalAmount.ToString("C2")</h5>
+            <h5 style="margin-left:20px">Mileage: @appState.TotalMileage</h5>
         </div>
 
         <article class="content px-4">
@@ -17,7 +19,7 @@
     </main>
 </div>
 
-@code{
+@code {
     double totalAmount = 0;
     double totalMileage = 0;
 
@@ -25,5 +27,6 @@
     {
         totalAmount = await dailyDashService.GetTotalEarned();
         totalMileage = await dailyDashService.GetTotalMileage();
+        appState.LoadHeaders(totalAmount, totalMileage);
     }
 }

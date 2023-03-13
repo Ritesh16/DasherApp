@@ -15,6 +15,8 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<IDailyDashService, DailyDashService>();
 builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 
+builder.Services.AddSingleton<AppState>();
+
 
 builder.Services
     .AddBlazorise(options =>
