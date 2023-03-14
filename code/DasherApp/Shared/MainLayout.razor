@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject IDailyDashService dailyDashService
 @inject AppState appState
+@implements IDisposable
 
 <div class="page">
     <div class="sidebar">
@@ -28,5 +29,12 @@
         totalAmount = await dailyDashService.GetTotalEarned();
         totalMileage = await dailyDashService.GetTotalMileage();
         appState.LoadHeaders(totalAmount, totalMileage);
+
+        appState.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        appState.OnChange -= StateHasChanged;
     }
 }
