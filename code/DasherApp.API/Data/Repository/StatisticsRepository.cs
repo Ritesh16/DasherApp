@@ -17,16 +17,11 @@ namespace DasherApp.API.Data.Repository
 
         public Task<OutputModel> GetHighestEarningDay(DateTime? fromDate, DateTime? toDate, string location)
         {
-            //var query = GetDailyDashQuery(fromDate, toDate, location);
+            var query = GetDailyDashQuery(fromDate, toDate, location);
 
-            //var output = query.GroupBy(x => x.Date)
-            //                  .Select(x => new OutputModel
-            //                  {
-            //                      Date = x.Key,
-            //                      Value = x.Sum(x => x.Amount)
-            //                  }).Take(1);
+            var output = query.GroupBy(x => x.Date)
+                              .Select(grp => grp.ToList()).Take(1);
 
-            //return output;
 
             throw new NotImplementedException();
         }
@@ -56,9 +51,14 @@ namespace DasherApp.API.Data.Repository
         {
             var query = context.DailyDash.AsQueryable();
 
-            if (fromDate == null || toDate == null)
+            if (fromDate != null)
             {
-                query = query.Where(x => x.StartTime >= fromDate && x.EndTime <= toDate);
+                query = query.Where(x => x.StartTime >= fromDate);
+            }
+
+            if (toDate != null)
+            {
+                query = query.Where(x => x.EndTime <= toDate);
             }
 
             if (!string.IsNullOrEmpty(location))

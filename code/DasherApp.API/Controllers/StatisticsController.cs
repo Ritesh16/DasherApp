@@ -1,6 +1,7 @@
 ﻿using DasherApp.API.Data.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace DasherApp.API.Controllers
 {
@@ -8,16 +9,21 @@ namespace DasherApp.API.Controllers
     [ApiController]
     public class StatisticsController : ControllerBase
     {
-        private readonly IDailyDashRepository dailyDashRepository;
-        public StatisticsController(IDailyDashRepository dailyDashRepository)
+        private readonly IStatisticsRepository statisticsRepository;
+        public StatisticsController(IStatisticsRepository statisticsRepository)
         {
-            this.dailyDashRepository = dailyDashRepository;
+            this.statisticsRepository = statisticsRepository;
         }
 
         [HttpGet("GetTotalEarned")]
-        public async Task<IActionResult> GetTotalEarned(string fromDate, string toDate)
+        public async Task<IActionResult> GetTotalEarned(string fromDate = null, string toDate = null, string location = null)
         {
-            return Ok();
+            DateTime from_Date = DateTime.ParseExact(fromDate, "MMddyyyy", CultureInfo.InvariantCulture);
+            DateTime to_Date = DateTime.ParseExact(toDate, "MMddyyyy", CultureInfo.InvariantCulture);
+
+            var totalEarned = await statisticsRepository.GetTotalEarned(from_Date, to_Date, location);
+            return Ok(totalEarned);
         }
+
     }
 }
