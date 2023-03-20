@@ -1,11 +1,12 @@
 ﻿@page "/Reports/statistics"
+@inject ILocationService _locationService
 
 <h1>Add Dash</h1>
 
-@*<EditForm Model="FilterModel" OnValidSubmit="Search">
+<EditForm Model="FilterModel" OnValidSubmit="Search">
     <DataAnnotationsValidator />
     <div class="row">
-        <div class="col-4">
+        <div class="col-3">
             <Addons>
                 <Addon AddonType="AddonType.Body">
                     <DatePicker @ref="@dashDateTimePicker" TValue="DateTime" @bind-Date="FilterModel.FromDate" />
@@ -19,27 +20,90 @@
             <ValidationMessage For="()=>FilterModel.FromDate"></ValidationMessage>
         </div>
         <div class="col-3">
-            <InputText @bind-Value="FilterModel.Location" class="form-control"></InputText>
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <DatePicker @ref="@dashDateTimePicker" TValue="DateTime" @bind-Date="FilterModel.ToDate" />
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Light" Clicked="@(()=>dashDateTimePicker.ToggleAsync())">
+                        <Icon Name="IconName.CalendarDay" />
+                    </Button>
+                </Addon>
+            </Addons>
+            <ValidationMessage For="()=>FilterModel.ToDate"></ValidationMessage>
+        </div>
+        <div class="col-3">
+            <InputSelect @bind-Value="FilterModel.Location" class="form-control">
+                <option value="0">
+                    --ALL--
+                </option>
+                @foreach (var location in locations)
+                {
+                    <option value="@location">@location</option>
+                }
+            </InputSelect>
             <ValidationMessage For="()=>FilterModel.Location"></ValidationMessage>
         </div>
-
+        <div class="col-3">
+            <button class="btn btn-primary">Search</button>
+        </div>
 
     </div>
-   
-    <div class="row mt-2">
+
+
+</EditForm>
+<hr/>
+<div>
+    <div class="row">
         <div class="col-3">
-            <button class="btn btn-primary">Save</button>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Total Earned</h5>
+                    <p class="card-text">$2000</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Total Mileage</h5>
+                    <p class="card-text">2100mi</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Highest Earning Day</h5>
+                    <p class="card-text">2023-03-03</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                </div>
+            </div>
         </div>
     </div>
-</EditForm>*@
-
-
+</div>
 @code {
-    //DatePicker<DateTime> dashDateTimePicker;
-    //public FilterModel FilterModel { get; set; } = new FilterModel();
+    DatePicker<DateTime> dashDateTimePicker;
+    IEnumerable<string> locations = new List<string>();
+    public FilterModel FilterModel { get; set; } = new FilterModel();
 
-    //public async Task Search()
-    //{
-        
-    //}
-}
+    protected async override Task OnInitializedAsync()
+    {
+        locations = await _locationService.GetLocations();
+    }
+
+    public async Task Search()
+    {
+
+    }
+    }
