@@ -1,7 +1,7 @@
 ﻿@page "/Reports/statistics"
 @inject ILocationService _locationService
 
-<h1>Add Dash</h1>
+<h1>Statistics</h1>
 
 <EditForm Model="FilterModel" OnValidSubmit="Search">
     <DataAnnotationsValidator />
@@ -45,14 +45,14 @@
             <ValidationMessage For="()=>FilterModel.Location"></ValidationMessage>
         </div>
         <div class="col-3">
-            <button class="btn btn-primary">Search</button>
+            <button class="btn btn-danger">Search</button>
         </div>
 
     </div>
 
 
 </EditForm>
-<hr/>
+<hr />
 <div>
     <div class="row">
         <div class="col-3">
@@ -83,15 +83,85 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    <p class="card-text">2023-03-03</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Hourly Rate</h5>
+                    <p class="card-text">$20</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div style="margin-top:10px">
+    <h2>Week days Earning</h2>
+</div>
+<hr/>
+<div>
+    <div class="row">
+        <div class="col-2">
+            <div class="card" style="width: 11rem; margin:4px">
+                <div class="card-body">
+                    <h5 class="card-title">Monday</h5>
+                    <p class="card-text">$2000</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 11rem;  margin:4px">
+                <div class="card-body">
+                    <h5 class="card-title">Tuesday</h5>
+                    <p class="card-text">2100mi</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 11rem;  margin:4px">
+                <div class="card-body">
+                    <h5 class="card-title">Wednesday</h5>
+                    <p class="card-text">2023-03-03</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 11rem;  margin:4px">
+                <div class="card-body">
+                    <h5 class="card-title">Thursday</h5>
+                    <p class="card-text">2023-03-03</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 11rem;  margin:4px">
+                <div class="card-body">
+                    <h5 class="card-title">Friday</h5>
+                    <p class="card-text">2023-03-03</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 11rem;  margin:4px">
+                <div class="card-body">
+                    <h5 class="card-title">Saturday</h5>
+                    <p class="card-text">2023-03-03</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="card" style="width: 11rem;  margin:4px">
+                <div class="card-body">
+                    <h5 class="card-title">Sunday</h5>
+                    <p class="card-text">2023-03-03</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
     DatePicker<DateTime> dashDateTimePicker;
     IEnumerable<string> locations = new List<string>();
@@ -106,4 +176,4 @@
     {
 
     }
-    }
+}
