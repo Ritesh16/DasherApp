@@ -6,33 +6,37 @@
 <EditForm Model="FilterModel" OnValidSubmit="Search">
     <DataAnnotationsValidator />
     <div class="row">
-        <div class="col-3">
+        <div class="col-2">
+            <input type="checkbox" bind="@FilterModel.SearchWithoutDates" @oninput="CheckboxChanged" />
+            <span>Till Date</span>
+        </div>
+        <div class="col-2">
             <Addons>
                 <Addon AddonType="AddonType.Body">
-                    <DatePicker @ref="@dashDateTimePicker" TValue="DateTime" @bind-Date="FilterModel.FromDate" />
+                    <DatePicker @ref="@dashFromDateTimePicker" TValue="DateTime" @bind-Date="FilterModel.FromDate" Disabled="@FilterModel.SearchWithoutDates" />
                 </Addon>
                 <Addon AddonType="AddonType.End">
-                    <Button Color="Color.Light" Clicked="@(()=>dashDateTimePicker.ToggleAsync())">
+                    <Button Color="Color.Light" Clicked="@(()=>dashFromDateTimePicker.ToggleAsync())" Disabled="@FilterModel.SearchWithoutDates">
                         <Icon Name="IconName.CalendarDay" />
                     </Button>
                 </Addon>
             </Addons>
             <ValidationMessage For="()=>FilterModel.FromDate"></ValidationMessage>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <Addons>
                 <Addon AddonType="AddonType.Body">
-                    <DatePicker @ref="@dashDateTimePicker" TValue="DateTime" @bind-Date="FilterModel.ToDate" />
+                    <DatePicker @ref="@dashToDateTimePicker" TValue="DateTime" @bind-Date="FilterModel.ToDate" Disabled="@FilterModel.SearchWithoutDates" />
                 </Addon>
                 <Addon AddonType="AddonType.End">
-                    <Button Color="Color.Light" Clicked="@(()=>dashDateTimePicker.ToggleAsync())">
+                    <Button Color="Color.Light" Clicked="@(()=>dashToDateTimePicker.ToggleAsync())" Disabled="@FilterModel.SearchWithoutDates">
                         <Icon Name="IconName.CalendarDay" />
                     </Button>
                 </Addon>
             </Addons>
             <ValidationMessage For="()=>FilterModel.ToDate"></ValidationMessage>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <InputSelect @bind-Value="FilterModel.Location" class="form-control">
                 <option value="0">
                     --ALL--
@@ -56,7 +60,7 @@
 <div>
     <div class="row">
         <div class="col-3">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Total Earned</h5>
                     <p class="card-text">$2000</p>
@@ -64,7 +68,7 @@
             </div>
         </div>
         <div class="col-3">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Total Mileage</h5>
                     <p class="card-text">2100mi</p>
@@ -72,7 +76,7 @@
             </div>
         </div>
         <div class="col-3">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Highest Earning Day</h5>
                     <p class="card-text">2023-03-03</p>
@@ -80,7 +84,7 @@
             </div>
         </div>
         <div class="col-3">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Highest Mileage</h5>
                     <p class="card-text">2023-03-03</p>
@@ -88,7 +92,7 @@
             </div>
         </div>
         <div class="col-3">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Hourly Rate</h5>
                     <p class="card-text">$20</p>
@@ -96,7 +100,7 @@
             </div>
         </div>
         <div class="col-3">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Highest Dash</h5>
                     <p class="card-text">$20</p>
@@ -178,7 +182,9 @@
 </div>
 
 @code {
-    DatePicker<DateTime> dashDateTimePicker;
+    DatePicker<DateTime> dashFromDateTimePicker;
+    DatePicker<DateTime> dashToDateTimePicker;
+
     IEnumerable<string> locations = new List<string>();
     public FilterModel FilterModel { get; set; } = new FilterModel();
 
@@ -187,8 +193,18 @@
         locations = await _locationService.GetLocations();
     }
 
+    private void CheckboxChanged(ChangeEventArgs e)
+    {
+        // get the checkbox state
+        FilterModel.SearchWithoutDates = (bool)e.Value;
+        Console.WriteLine($"Checkbox changed {FilterModel.SearchWithoutDates}");
+
+        if (!FilterModel.SearchWithoutDates)
+        {
+        }
+    }
     public async Task Search()
     {
-
+        Console.WriteLine(FilterModel.SearchWithoutDates);
     }
 }
