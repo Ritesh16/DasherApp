@@ -1,6 +1,7 @@
 ﻿using DasherApp.Models;
 using DasherApp.Services.Interfaces;
 using Newtonsoft.Json;
+using DasherApp.Extensions;
 
 namespace DasherApp.Services
 {
@@ -14,6 +15,30 @@ namespace DasherApp.Services
             this._httpClient = httpClient;
             this._configuration = configuration;
             this.baseServerUrl = _configuration.GetSection("APIUrl").Value;
+        }
+
+        public async Task<double> GetTotalEarned(FilterModel filterModel)
+        {
+            var url = $"/api/Statistics/GetTotalEarned";
+            if (!filterModel.SearchWithoutDates)
+            {
+                url = url + "?fromDate=" + filterModel.FromDate.ToDateTimeString() + "&toDate=" + filterModel.ToDate.ToDateTimeString() + "&location=" + filterModel.Location;
+            }
+            else
+            {
+                url = url + "?fromDate=" +  "&toDate="  + "&location=" + filterModel.Location;
+            }
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            double output = 0;
+            
+            if (response.IsSuccessStatusCode)
+            {
+                output = JsonConvert.DeserializeObject<double>(content);
+            }
+
+            return output;
         }
 
         public async Task<IEnumerable<WeeklyReportModel>> GetWeeklyReports()

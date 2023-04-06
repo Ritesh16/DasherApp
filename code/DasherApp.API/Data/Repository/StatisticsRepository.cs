@@ -50,6 +50,7 @@ namespace DasherApp.API.Data.Repository
         private IQueryable<DailyDash> GetDailyDashQuery(DateTime? fromDate, DateTime? toDate, string location)
         {
             var query = context.DailyDash.AsQueryable();
+            location = location.ToLower();
 
             if (fromDate != null)
             {
@@ -61,9 +62,9 @@ namespace DasherApp.API.Data.Repository
                 query = query.Where(x => x.EndTime <= toDate);
             }
 
-            if (!string.IsNullOrEmpty(location))
+            if (!string.IsNullOrEmpty(location) && location != "all")
             {
-                query = query.Where(x => x.Location.ToLower() == location.ToLower());
+                query = query.Where(x => x.Location.ToLower() == location);
             }
 
             return query;

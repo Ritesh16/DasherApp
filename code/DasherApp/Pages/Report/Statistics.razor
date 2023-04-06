@@ -1,5 +1,6 @@
 ﻿@page "/Reports/statistics"
 @inject ILocationService _locationService
+@inject IStatisticsService _statisticsService
 
 <h1>Statistics</h1>
 
@@ -63,7 +64,7 @@
             <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Total Earned</h5>
-                    <p class="card-text">$2000</p>
+                    <p class="card-text">@StatisticsModel.TotalEarned.ToString("C2")</p>
                 </div>
             </div>
         </div>
@@ -188,23 +189,21 @@
     IEnumerable<string> locations = new List<string>();
     public FilterModel FilterModel { get; set; } = new FilterModel();
 
+    public StatisticsModel StatisticsModel { get; set; } = new();
+
     protected async override Task OnInitializedAsync()
     {
         locations = await _locationService.GetLocations();
+        StatisticsModel.TotalEarned = await _statisticsService.GetTotalEarned(FilterModel);
     }
 
     private void CheckboxChanged(ChangeEventArgs e)
     {
         // get the checkbox state
         FilterModel.SearchWithoutDates = (bool)e.Value;
-        Console.WriteLine($"Checkbox changed {FilterModel.SearchWithoutDates}");
-
-        if (!FilterModel.SearchWithoutDates)
-        {
-        }
     }
     public async Task Search()
     {
-        Console.WriteLine(FilterModel.SearchWithoutDates);
+        StatisticsModel.TotalEarned = await _statisticsService.GetTotalEarned(FilterModel);
     }
 }
