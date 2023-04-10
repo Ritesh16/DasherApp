@@ -9,6 +9,7 @@
 
         public FilterModel()
         {
+            Location = "All";
             SearchWithoutDates = true;
             ToDate = DateTime.Now;
             FromDate = new DateTime(ToDate.Year, ToDate.Month, 1);

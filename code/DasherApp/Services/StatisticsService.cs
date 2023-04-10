@@ -26,7 +26,8 @@ namespace DasherApp.Services
             }
             else
             {
-                url = url + "?fromDate=" +  "&toDate="  + "&location=" + filterModel.Location;
+                var date = new DateTime(2022, 01, 01);
+                url = url + "?fromDate=" + date.ToDateTimeString() +  "&toDate="  + DateTime.Now.ToDateTimeString() + "&location=" + filterModel.Location;
             }
 
             var response = await _httpClient.GetAsync(url);

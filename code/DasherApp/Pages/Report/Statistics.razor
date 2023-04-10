@@ -7,9 +7,9 @@
 <EditForm Model="FilterModel" OnValidSubmit="Search">
     <DataAnnotationsValidator />
     <div class="row">
-        <div class="col-2">
-            <input type="checkbox" bind="@FilterModel.SearchWithoutDates" @oninput="CheckboxChanged" />
-            <span>Till Date</span>
+        <div class="col-3">
+            <input type="checkbox" bind="@FilterModel.SearchWithoutDates" @oninput="CheckboxChanged" checked="checked" />
+            <span>Search Without Dates</span>
         </div>
         <div class="col-2">
             <Addons>
@@ -39,7 +39,7 @@
         </div>
         <div class="col-2">
             <InputSelect @bind-Value="FilterModel.Location" class="form-control">
-                <option value="0">
+                <option value="All">
                     --ALL--
                 </option>
                 @foreach (var location in locations)
