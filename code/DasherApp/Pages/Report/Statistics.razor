@@ -72,7 +72,7 @@
             <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Total Mileage</h5>
-                    <p class="card-text">2100mi</p>
+                    <p class="card-text">@StatisticsModel.TotalMileage mi</p>
                 </div>
             </div>
         </div>
@@ -195,6 +195,7 @@
     {
         locations = await _locationService.GetLocations();
         StatisticsModel.TotalEarned = await _statisticsService.GetTotalEarned(FilterModel);
+        StatisticsModel.TotalMileage = await _statisticsService.GetTotalMileage(FilterModel);
     }
 
     private void CheckboxChanged(ChangeEventArgs e)
@@ -205,5 +206,6 @@
     public async Task Search()
     {
         StatisticsModel.TotalEarned = await _statisticsService.GetTotalEarned(FilterModel);
+        StatisticsModel.TotalMileage = await _statisticsService.GetTotalMileage(FilterModel);
     }
 }

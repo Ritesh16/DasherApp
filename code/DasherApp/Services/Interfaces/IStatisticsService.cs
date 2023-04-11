@@ -6,5 +6,6 @@ namespace DasherApp.Services.Interfaces
     {
         Task<IEnumerable<WeeklyReportModel>> GetWeeklyReports();
         Task<double> GetTotalEarned(FilterModel filterModel);
+        Task<double> GetTotalMileage(FilterModel filterModel);
     }
 }

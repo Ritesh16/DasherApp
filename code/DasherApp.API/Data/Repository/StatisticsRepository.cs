@@ -31,7 +31,7 @@ namespace DasherApp.API.Data.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<double> GetMileage(DateTime? fromDate, DateTime? toDate, string location)
+        public async Task<double> GetTotalMileage(DateTime? fromDate, DateTime? toDate, string location)
         {
             IQueryable<DailyDash> query = GetDailyDashQuery(fromDate, toDate, location);
 
