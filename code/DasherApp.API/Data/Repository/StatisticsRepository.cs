@@ -15,15 +15,20 @@ namespace DasherApp.API.Data.Repository
             this.context = context;
         }
 
-        public Task<OutputModel> GetHighestEarningDay(DateTime? fromDate, DateTime? toDate, string location)
+        public async Task<OutputModel> GetHighestEarningDay(DateTime? fromDate, DateTime? toDate, string location)
         {
             var query = GetDailyDashQuery(fromDate, toDate, location);
 
-            var output = query.GroupBy(x => x.Date)
-                              .Select(grp => grp.ToList()).Take(1);
+            var output = await query.GroupBy(x => x.Date)
+                                .Select(g => new OutputModel
+                                {
+                                    Date = g.Key,
+                                    Value = g.Sum(s => s.Amount)
+                                })
+                                .OrderByDescending(x => x.Value)
+                                .FirstOrDefaultAsync();
 
-
-            throw new NotImplementedException();
+            return output;
         }
 
         public Task<OutputModel> GetHighestMileageDay(DateTime? fromDate, DateTime? toDate, string location)

@@ -80,7 +80,8 @@
             <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Highest Earning Day</h5>
-                    <p class="card-text">2023-03-03</p>
+                    <p class="card-text">@StatisticsModel.HighestEarningDay.Date</p>
+                    <p class="card-text">@StatisticsModel.HighestEarningDay.Value.ToString("C2")</p>
                 </div>
             </div>
         </div>
@@ -196,6 +197,7 @@
         locations = await _locationService.GetLocations();
         StatisticsModel.TotalEarned = await _statisticsService.GetTotalEarned(FilterModel);
         StatisticsModel.TotalMileage = await _statisticsService.GetTotalMileage(FilterModel);
+        StatisticsModel.HighestEarningDay = await _statisticsService.GetHighestEarningDay(FilterModel);
     }
 
     private void CheckboxChanged(ChangeEventArgs e)
@@ -207,5 +209,6 @@
     {
         StatisticsModel.TotalEarned = await _statisticsService.GetTotalEarned(FilterModel);
         StatisticsModel.TotalMileage = await _statisticsService.GetTotalMileage(FilterModel);
+        StatisticsModel.HighestEarningDay = await _statisticsService.GetHighestEarningDay(FilterModel);
     }
 }

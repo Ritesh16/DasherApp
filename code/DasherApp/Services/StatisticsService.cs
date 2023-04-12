@@ -17,14 +17,19 @@ namespace DasherApp.Services
             this.baseServerUrl = _configuration.GetSection("APIUrl").Value;
         }
 
+        public async Task<OutputModel> GetHighestEarningDay(FilterModel filterModel)
+        {
+            return await GetStatistics<OutputModel>(filterModel, "GetHighestEarningDay");
+        }
+
         public async Task<double> GetTotalEarned(FilterModel filterModel)
         {
-            return await GetStatistics(filterModel, "GetTotalEarned");
+            return await GetStatistics<double>(filterModel, "GetTotalEarned");
         }
 
         public async Task<double> GetTotalMileage(FilterModel filterModel)
         {
-            return await GetStatistics(filterModel, "GetTotalMileage");
+            return await GetStatistics<double>(filterModel, "GetTotalMileage");
         }
 
         public async Task<IEnumerable<WeeklyReportModel>> GetWeeklyReports()
@@ -62,6 +67,31 @@ namespace DasherApp.Services
             if (response.IsSuccessStatusCode)
             {
                 output = JsonConvert.DeserializeObject<double>(content);
+            }
+
+            return output;
+        }
+
+        private async Task<T> GetStatistics<T>(FilterModel filterModel, string methodName)
+        {
+            var url = $"/api/Statistics/{methodName}";
+            if (!filterModel.SearchWithoutDates)
+            {
+                url = url + "?fromDate=" + filterModel.FromDate.ToDateTimeString() + "&toDate=" + filterModel.ToDate.ToDateTimeString() + "&location=" + filterModel.Location;
+            }
+            else
+            {
+                var date = new DateTime(2022, 01, 01);
+                url = url + "?fromDate=" + date.ToDateTimeString() + "&toDate=" + DateTime.Now.ToDateTimeString() + "&location=" + filterModel.Location;
+            }
+
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            T output = default(T);
+
+            if (response.IsSuccessStatusCode)
+            {
+                output = JsonConvert.DeserializeObject<T>(content);
             }
 
             return output;

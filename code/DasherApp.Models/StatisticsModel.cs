@@ -10,5 +10,11 @@ namespace DasherApp.Models
     {
         public double TotalEarned { get; set; }
         public double TotalMileage { get; set; }
+        public OutputModel HighestEarningDay { get; set; }
+
+        public StatisticsModel()
+        {
+            HighestEarningDay= new OutputModel();   
+        }
     }
 }

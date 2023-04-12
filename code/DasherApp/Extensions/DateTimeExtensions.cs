@@ -10,7 +10,7 @@
         public static string ToValidMonthDay(this int number)
         {
             var output = string.Empty;
-            if (number > 10)
+            if (number >= 10)
             {
                 output = number.ToString();
             }
