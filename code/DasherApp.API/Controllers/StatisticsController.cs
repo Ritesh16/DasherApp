@@ -42,8 +42,13 @@ namespace DasherApp.API.Controllers
             DateTime from_Date = ParseDate(fromDate);
             DateTime to_Date = ParseDate(toDate);
 
-            var totalMileage = await statisticsRepository.GetHighestEarningDay(from_Date, to_Date, location);
-            return Ok(totalMileage);
+            var highestEarning = await statisticsRepository.GetHighestEarningDay(from_Date, to_Date, location);
+            if(highestEarning == null)
+            {
+                highestEarning = new Models.OutputModel();
+            }
+
+            return Ok(highestEarning);
         }
 
         private DateTime ParseDate(string dateString)

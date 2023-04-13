@@ -80,8 +80,15 @@
             <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Highest Earning Day</h5>
-                    <p class="card-text">@StatisticsModel.HighestEarningDay.Date</p>
-                    <p class="card-text">@StatisticsModel.HighestEarningDay.Value.ToString("C2")</p>
+                    @if (StatisticsModel.HighestEarningDay.Date != DateTime.MinValue)
+                    {
+                        <p class="card-text">@StatisticsModel.HighestEarningDay.Date</p>
+                        <p class="card-text">@StatisticsModel.HighestEarningDay.Value.ToString("C2")</p>
+                    }
+                    else
+                    {
+                        <p>$0</p>
+                    }
                 </div>
             </div>
         </div>
