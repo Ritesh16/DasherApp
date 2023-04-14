@@ -72,6 +72,7 @@
             <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Total Mileage</h5>
+
                     <p class="card-text">@StatisticsModel.TotalMileage mi</p>
                 </div>
             </div>
@@ -82,8 +83,15 @@
                     <h5 class="card-title">Highest Earning Day</h5>
                     @if (StatisticsModel.HighestEarningDay.Date != DateTime.MinValue)
                     {
-                        <p class="card-text">@StatisticsModel.HighestEarningDay.Date</p>
-                        <p class="card-text">@StatisticsModel.HighestEarningDay.Value.ToString("C2")</p>
+                        <span style="text-align:left">
+                            @StatisticsModel.HighestEarningDay.Date.ToShortDateString()
+                        </span>
+                        <span style="text-align:right; margin-left:45%">
+                            @StatisticsModel.HighestEarningDay.Value.ToString("C2")
+                        </span>
+                        @*  <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                    </div>*@
                     }
                     else
                     {
@@ -121,7 +129,7 @@
 <div style="margin-top:10px">
     <h2>Week days Earning</h2>
 </div>
-<hr/>
+<hr />
 <div>
     <div class="row">
         <div class="col-2">
@@ -183,7 +191,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Sunday</h5>
                     <p class="card-text">2023-03-03</p>
-                     <p class="card-text">$18/hr</p>
+                    <p class="card-text">$18/hr</p>
                 </div>
             </div>
         </div>
