@@ -8,5 +8,6 @@ namespace DasherApp.API.Data.Repository.Interfaces
         Task<double> GetTotalMileage(DateTime? fromDate, DateTime? toDate, string location);
         Task<OutputModel> GetHighestEarningDay(DateTime? fromDate, DateTime? toDate, string location);
         Task<OutputModel> GetHighestMileageDay(DateTime? fromDate, DateTime? toDate, string location);
+        Task<double> GetHourlyRate(DateTime? fromDate, DateTime? toDate, string location);
     }
 }

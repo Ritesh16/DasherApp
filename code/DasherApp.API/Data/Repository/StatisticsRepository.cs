@@ -52,6 +52,50 @@ namespace DasherApp.API.Data.Repository
             return total;
         }
 
+        public async Task<double> GetHourlyRate(DateTime? fromDate, DateTime? toDate, string location)
+        {
+            try
+            {
+                IQueryable<DailyDash> query = GetDailyDashQuery(fromDate, toDate, location);
+
+                //var output = await query.GroupBy(x => x.Date)
+                //                   .Select(g => new
+                //                   {
+                //                       Date = g.Key,
+                //                       TotalTime = g.Sum(s => (s.EndTime - s.StartTime).TotalSeconds),
+                //                       TotalAmount = g.Sum(s => s.Amount)
+                //                   }).ToListAsync();
+
+                //var output = (from q in query
+                //             group new { q.Amount, q.StartTime, q.EndTime } by q.Date into gr
+                //             select new
+                //             {
+                //                 a = gr.Key,
+                //                 b =  gr.ToList()
+                //             }).ToList();
+
+                var output = (from q in query
+                              group new { q.Amount, q.StartTime, q.EndTime } by q.Date into gr
+                              select new
+                              {
+                                  a = gr.Key,
+                                  Amount = (from s in gr
+                                      select s.Amount).Sum()
+                                  //TotalTime = (from s in gr
+                                  //             select (s.EndTime - s.StartTime).TotalSeconds).Sum()
+
+                              }).ToList();
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return 0;
+        }
+
         private IQueryable<DailyDash> GetDailyDashQuery(DateTime? fromDate, DateTime? toDate, string location)
         {
             var query = context.DailyDash.AsQueryable();
