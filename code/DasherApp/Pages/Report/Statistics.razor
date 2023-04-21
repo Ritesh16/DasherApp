@@ -89,9 +89,6 @@
                         <span style="text-align:right; margin-left:45%">
                             @StatisticsModel.HighestEarningDay.Value.ToString("C2")
                         </span>
-                        @*  <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                    </div>*@
                     }
                     else
                     {
@@ -104,7 +101,19 @@
             <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Highest Mileage</h5>
-                    <p class="card-text">2023-03-03</p>
+                    @if (StatisticsModel.HighestMileageDay.Date != DateTime.MinValue)
+                    {
+                        <span style="text-align:left">
+                            @StatisticsModel.HighestMileageDay.Date.ToShortDateString()
+                        </span>
+                        <span style="text-align:right; margin-left:45%">
+                            @StatisticsModel.HighestMileageDay.Value.ToString("C2")
+                        </span>
+                    }
+                    else
+                    {
+                        <p>$0</p>
+                    }
                 </div>
             </div>
         </div>
@@ -112,7 +121,7 @@
             <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Hourly Rate</h5>
-                    <p class="card-text">$20</p>
+                    <p class="card-text">@StatisticsModel.HourlyRate.ToString("C2")</p>
                 </div>
             </div>
         </div>
@@ -213,6 +222,8 @@
         StatisticsModel.TotalEarned = await _statisticsService.GetTotalEarned(FilterModel);
         StatisticsModel.TotalMileage = await _statisticsService.GetTotalMileage(FilterModel);
         StatisticsModel.HighestEarningDay = await _statisticsService.GetHighestEarningDay(FilterModel);
+        StatisticsModel.HourlyRate = await _statisticsService.GetHourlyRate(FilterModel);
+        StatisticsModel.HighestMileageDay = await _statisticsService.GetHighestMileageDay(FilterModel);
     }
 
     private void CheckboxChanged(ChangeEventArgs e)
@@ -225,5 +236,7 @@
         StatisticsModel.TotalEarned = await _statisticsService.GetTotalEarned(FilterModel);
         StatisticsModel.TotalMileage = await _statisticsService.GetTotalMileage(FilterModel);
         StatisticsModel.HighestEarningDay = await _statisticsService.GetHighestEarningDay(FilterModel);
+        StatisticsModel.HourlyRate = await _statisticsService.GetHourlyRate(FilterModel);
+        StatisticsModel.HighestMileageDay = await _statisticsService.GetHighestMileageDay(FilterModel);
     }
 }

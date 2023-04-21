@@ -31,9 +31,20 @@ namespace DasherApp.API.Data.Repository
             return output;
         }
 
-        public Task<OutputModel> GetHighestMileageDay(DateTime? fromDate, DateTime? toDate, string location)
+        public async Task<OutputModel> GetHighestMileageDay(DateTime? fromDate, DateTime? toDate, string location)
         {
-            throw new NotImplementedException();
+            var query = GetDailyDashQuery(fromDate, toDate, location);
+
+            var output = await query.GroupBy(x => x.Date)
+                                .Select(g => new OutputModel
+                                {
+                                    Date = g.Key,
+                                    Value = g.Sum(s => s.Mileage)
+                                })
+                                .OrderByDescending(x => x.Value)
+                                .FirstOrDefaultAsync();
+
+            return output;
         }
 
         public async Task<double> GetTotalMileage(DateTime? fromDate, DateTime? toDate, string location)
@@ -54,21 +65,20 @@ namespace DasherApp.API.Data.Repository
 
         public async Task<double> GetHourlyRate(DateTime? fromDate, DateTime? toDate, string location)
         {
-            try
-            {
-                IQueryable<DailyDash> query = GetDailyDashQuery(fromDate, toDate, location);
-                var amount = await query.SumAsync(x => x.Amount);
-                var totalTimeInHour = query.Select(x => (x.EndTime - x.StartTime).TotalSeconds).ToList().Sum();
-                var hourlyRate = amount / totalTimeInHour;
+            var query = GetDailyDashQuery(fromDate, toDate, location);
+            var amount = await query.SumAsync(x => x.Amount);
+            var totalTimeInHour = query.Select(x => (x.EndTime - x.StartTime).TotalSeconds).ToList().Sum();
 
-                return hourlyRate;
-            }
-            catch (Exception ex)
+            if (totalTimeInHour <= 0)
             {
-
+                return 0;
             }
 
-            return 0;
+            totalTimeInHour = totalTimeInHour / 3600;
+
+            var hourlyRate = amount / totalTimeInHour;
+
+            return hourlyRate;
         }
 
         private IQueryable<DailyDash> GetDailyDashQuery(DateTime? fromDate, DateTime? toDate, string location)

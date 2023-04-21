@@ -36,6 +36,16 @@ namespace DasherApp.API.Controllers
             return Ok(totalMileage);
         }
 
+        [HttpGet("GetHighestMileageDay")]
+        public async Task<IActionResult> GetHighestMileageDay(string fromDate = null, string toDate = null, string location = null)
+        {
+            DateTime from_Date = ParseDate(fromDate);
+            DateTime to_Date = ParseDate(toDate);
+
+            var totalMileage = await statisticsRepository.GetHighestMileageDay(from_Date, to_Date, location);
+            return Ok(totalMileage);
+        }
+
         [HttpGet("GetHighestEarningDay")]
         public async Task<IActionResult> GetHighestEarningDay(string fromDate = null, string toDate = null, string location = null)
         {

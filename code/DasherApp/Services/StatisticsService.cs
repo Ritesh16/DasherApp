@@ -22,6 +22,16 @@ namespace DasherApp.Services
             return await GetStatistics<OutputModel>(filterModel, "GetHighestEarningDay");
         }
 
+        public async Task<OutputModel> GetHighestMileageDay(FilterModel filterModel)
+        {
+            return await GetStatistics<OutputModel>(filterModel, "GetHighestMileageDay");
+        }
+
+        public async Task<double> GetHourlyRate(FilterModel filterModel)
+        {
+            return await GetStatistics<double>(filterModel, "GetHourlyRate");
+        }
+
         public async Task<double> GetTotalEarned(FilterModel filterModel)
         {
             return await GetStatistics<double>(filterModel, "GetTotalEarned");

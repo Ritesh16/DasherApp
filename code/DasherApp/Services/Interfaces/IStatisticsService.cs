@@ -8,5 +8,8 @@ namespace DasherApp.Services.Interfaces
         Task<double> GetTotalEarned(FilterModel filterModel);
         Task<double> GetTotalMileage(FilterModel filterModel);
         Task<OutputModel> GetHighestEarningDay(FilterModel filterModel);
+        Task<OutputModel> GetHighestMileageDay(FilterModel filterModel);
+        Task<double> GetHourlyRate(FilterModel filterModel);
+
     }
 }
