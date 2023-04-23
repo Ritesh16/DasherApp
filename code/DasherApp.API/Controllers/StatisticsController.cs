@@ -71,6 +71,17 @@ namespace DasherApp.API.Controllers
             
             return Ok(hourlyRate);
         }
+
+        [HttpGet("GetHighestDash")]
+        public async Task<IActionResult> GetHighestDash(string fromDate = null, string toDate = null, string location = null)
+        {
+            DateTime from_Date = ParseDate(fromDate);
+            DateTime to_Date = ParseDate(toDate);
+
+            var hourlyRate = await statisticsRepository.GetHighestDash(from_Date, to_Date, location);
+
+            return Ok(hourlyRate);
+        }
         private DateTime ParseDate(string dateString)
         {
             var date = DateTime.ParseExact(dateString, "MMddyyyy", CultureInfo.InvariantCulture);

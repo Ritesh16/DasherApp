@@ -17,6 +17,11 @@ namespace DasherApp.Services
             this.baseServerUrl = _configuration.GetSection("APIUrl").Value;
         }
 
+        public async Task<OutputModel> GetHighestDash(FilterModel filterModel)
+        {
+            return await GetStatistics<OutputModel>(filterModel, "GetHighestDash");
+        }
+
         public async Task<OutputModel> GetHighestEarningDay(FilterModel filterModel)
         {
             return await GetStatistics<OutputModel>(filterModel, "GetHighestEarningDay");

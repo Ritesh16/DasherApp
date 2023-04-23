@@ -10,6 +10,7 @@ namespace DasherApp.Services.Interfaces
         Task<OutputModel> GetHighestEarningDay(FilterModel filterModel);
         Task<OutputModel> GetHighestMileageDay(FilterModel filterModel);
         Task<double> GetHourlyRate(FilterModel filterModel);
+        Task<OutputModel> GetHighestDash(FilterModel filterModel);
 
     }
 }

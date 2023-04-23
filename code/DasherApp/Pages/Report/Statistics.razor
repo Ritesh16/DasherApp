@@ -107,12 +107,12 @@
                             @StatisticsModel.HighestMileageDay.Date.ToShortDateString()
                         </span>
                         <span style="text-align:right; margin-left:45%">
-                            @StatisticsModel.HighestMileageDay.Value.ToString("C2")
+                            @StatisticsModel.HighestMileageDay.Value (miles)
                         </span>
                     }
                     else
                     {
-                        <p>$0</p>
+                        <p>0 miles</p>
                     }
                 </div>
             </div>
@@ -129,7 +129,19 @@
             <div class="card" style="width: 18rem; margin:2px">
                 <div class="card-body">
                     <h5 class="card-title">Highest Dash</h5>
-                    <p class="card-text">$20</p>
+                    @if (StatisticsModel.HighestDashDay.Date != DateTime.MinValue)
+                    {
+                        <span style="text-align:left">
+                            @StatisticsModel.HighestDashDay.Date.ToShortDateString()
+                        </span>
+                        <span style="text-align:right; margin-left:45%">
+                            @StatisticsModel.HighestDashDay.Value.ToString("C2")
+                        </span>
+                    }
+                    else
+                    {
+                        <p>$0</p>
+                    }
                 </div>
             </div>
         </div>
@@ -219,11 +231,7 @@
     protected async override Task OnInitializedAsync()
     {
         locations = await _locationService.GetLocations();
-        StatisticsModel.TotalEarned = await _statisticsService.GetTotalEarned(FilterModel);
-        StatisticsModel.TotalMileage = await _statisticsService.GetTotalMileage(FilterModel);
-        StatisticsModel.HighestEarningDay = await _statisticsService.GetHighestEarningDay(FilterModel);
-        StatisticsModel.HourlyRate = await _statisticsService.GetHourlyRate(FilterModel);
-        StatisticsModel.HighestMileageDay = await _statisticsService.GetHighestMileageDay(FilterModel);
+        await LoadData();
     }
 
     private void CheckboxChanged(ChangeEventArgs e)
@@ -233,10 +241,16 @@
     }
     public async Task Search()
     {
+        await LoadData();
+    }
+
+    public async Task LoadData()
+    {
         StatisticsModel.TotalEarned = await _statisticsService.GetTotalEarned(FilterModel);
         StatisticsModel.TotalMileage = await _statisticsService.GetTotalMileage(FilterModel);
         StatisticsModel.HighestEarningDay = await _statisticsService.GetHighestEarningDay(FilterModel);
         StatisticsModel.HourlyRate = await _statisticsService.GetHourlyRate(FilterModel);
         StatisticsModel.HighestMileageDay = await _statisticsService.GetHighestMileageDay(FilterModel);
+        StatisticsModel.HighestDashDay = await _statisticsService.GetHighestDash(FilterModel);
     }
 }

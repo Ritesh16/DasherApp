@@ -108,14 +108,13 @@ namespace DasherApp.API.Data.Repository
         {
             var query = GetDailyDashQuery(fromDate, toDate, location);
 
-            var output = await query.GroupBy(x => x.Date)
-                                .Select(g => new OutputModel
-                                {
-                                    Date = g.Key,
-                                    Value = g.Sum(s => s.Amount)
-                                })
-                                .OrderByDescending(x => x.Value)
-                                .FirstOrDefaultAsync();
+            var output = await query.Select(x => new OutputModel
+            {
+                Date = x.Date,
+                Value = x.Amount
+            })
+             .OrderByDescending(x => x.Value)
+             .FirstOrDefaultAsync();
 
             return output;
         }
