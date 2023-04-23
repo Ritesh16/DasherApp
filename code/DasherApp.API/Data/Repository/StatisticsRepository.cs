@@ -103,5 +103,21 @@ namespace DasherApp.API.Data.Repository
 
             return query;
         }
+
+        public async Task<OutputModel> GetHighestDash(DateTime? fromDate, DateTime? toDate, string location)
+        {
+            var query = GetDailyDashQuery(fromDate, toDate, location);
+
+            var output = await query.GroupBy(x => x.Date)
+                                .Select(g => new OutputModel
+                                {
+                                    Date = g.Key,
+                                    Value = g.Sum(s => s.Amount)
+                                })
+                                .OrderByDescending(x => x.Value)
+                                .FirstOrDefaultAsync();
+
+            return output;
+        }
     }
 }
