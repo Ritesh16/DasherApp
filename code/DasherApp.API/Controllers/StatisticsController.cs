@@ -82,6 +82,16 @@ namespace DasherApp.API.Controllers
 
             return Ok(hourlyRate);
         }
+
+        [HttpGet("GetTotalAmountForDay")]
+        public async Task<IActionResult> GetTotalAmountForDay(DayOfWeek dayOfWeek, string fromDate = null, string toDate = null, string location = null)
+        {
+            DateTime from_Date = ParseDate(fromDate);
+            DateTime to_Date = ParseDate(toDate);
+
+            var totalAmount =  statisticsRepository.GetTotalAmountForDay(from_Date, to_Date, location, dayOfWeek);
+            return Ok(totalAmount);
+        }
         private DateTime ParseDate(string dateString)
         {
             var date = DateTime.ParseExact(dateString, "MMddyyyy", CultureInfo.InvariantCulture);

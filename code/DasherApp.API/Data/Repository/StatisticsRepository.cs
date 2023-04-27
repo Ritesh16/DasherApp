@@ -4,6 +4,7 @@ using DasherApp.API.Data.Repository.Interfaces;
 using DasherApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Data.Entity.Core.Objects;
 
 namespace DasherApp.API.Data.Repository
 {
@@ -117,6 +118,21 @@ namespace DasherApp.API.Data.Repository
              .FirstOrDefaultAsync();
 
             return output;
+        }
+
+        public double GetTotalAmountForDay(DateTime? fromDate, DateTime? toDate, string location, DayOfWeek dayOfWeek)
+        {
+            var query = GetDailyDashQuery(fromDate, toDate, location);
+
+            var data = query
+                    .AsEnumerable() // After this everything uses LINQ to Objects and is executed locally, not on your SQL server
+                    .GroupBy(o => o.Date.DayOfWeek)
+                    .Select(g => new { DayOfWeek = g.Key, Amount = g.Sum(x => x.Amount), TotalDashes = g.Count() })
+                    .ToList();
+
+
+            
+            return 0;
         }
     }
 }
