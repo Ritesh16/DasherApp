@@ -153,69 +153,79 @@
 <hr />
 <div>
     <div class="row">
-        <div class="col-2">
-            <div class="card" style="width: 11rem; margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Monday</h5>
-                    <p class="card-text">$2000</p>
-                    <p class="card-text">$18/hr</p>
+        @if (StatisticsModel.WeekDayEarnings.Count() > 0)
+        {
+            <div class="col-2">
+                <div class="card" style="width: 11rem; margin:4px">
+                    <div class="card-body">
+                        <h5 class="card-title">Monday</h5>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Monday).Amount.ToString("C2")</p>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Monday).TotalDashes</p>
+
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Tuesday</h5>
-                    <p class="card-text">2100mi</p>
-                    <p class="card-text">$17/hr</p>
+            <div class="col-2">
+                <div class="card" style="width: 11rem;  margin:4px">
+                    <div class="card-body">
+                        <h5 class="card-title">Tuesday</h5>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Tuesday).Amount.ToString("C2")</p>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Tuesday).TotalDashes</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Wednesday</h5>
-                    <p class="card-text">2023-03-03</p>
-                    <p class="card-text">$18/hr</p>
+            <div class="col-2">
+                <div class="card" style="width: 11rem;  margin:4px">
+                    <div class="card-body">
+                        <h5 class="card-title">Wednesday</h5>
+                         <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Wednesday).Amount.ToString("C2")</p>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Wednesday).TotalDashes</p>
+                   </div>
                 </div>
             </div>
-        </div>
-        <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Thursday</h5>
-                    <p class="card-text">2023-03-03</p>
-                    <p class="card-text">$18/hr</p>
+            <div class="col-2">
+                <div class="card" style="width: 11rem;  margin:4px">
+                    <div class="card-body">
+                        <h5 class="card-title">Thursday</h5>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Thursday).Amount.ToString("C2")</p>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Thursday).TotalDashes</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Friday</h5>
-                    <p class="card-text">2023-03-03</p>
-                    <p class="card-text">$23/hr</p>
+            <div class="col-2">
+                <div class="card" style="width: 11rem;  margin:4px">
+                    <div class="card-body">
+                        <h5 class="card-title">Friday</h5>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Friday).Amount.ToString("C2")</p>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Friday).TotalDashes</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Saturday</h5>
-                    <p class="card-text">2023-03-03</p>
-                    <p class="card-text">$14/hr</p>
+            <div class="col-2">
+                <div class="card" style="width: 11rem;  margin:4px">
+                    <div class="card-body">
+                        <h5 class="card-title">Saturday</h5>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Saturday).Amount.ToString("C2")</p>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Saturday).TotalDashes</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Sunday</h5>
-                    <p class="card-text">2023-03-03</p>
-                    <p class="card-text">$18/hr</p>
+            <div class="col-2">
+                <div class="card" style="width: 11rem;  margin:4px">
+                    <div class="card-body">
+                        <h5 class="card-title">Sunday</h5>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Sunday).Amount.ToString("C2")</p>
+                        <p class="card-text">@StatisticsModel.WeekDayEarnings.FirstOrDefault(x=>x.DayOfWeek == DayOfWeek.Sunday).TotalDashes</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div>
+                No data found
+            </div>
+        }
     </div>
 </div>
 
@@ -252,5 +262,6 @@
         StatisticsModel.HourlyRate = await _statisticsService.GetHourlyRate(FilterModel);
         StatisticsModel.HighestMileageDay = await _statisticsService.GetHighestMileageDay(FilterModel);
         StatisticsModel.HighestDashDay = await _statisticsService.GetHighestDash(FilterModel);
+        StatisticsModel.WeekDayEarnings = await _statisticsService.GetWeekDayEarning(FilterModel);
     }
 }

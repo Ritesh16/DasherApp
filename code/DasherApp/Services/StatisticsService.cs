@@ -47,6 +47,11 @@ namespace DasherApp.Services
             return await GetStatistics<double>(filterModel, "GetTotalMileage");
         }
 
+        public async Task<IEnumerable<WeekDayEarningModel>> GetWeekDayEarning(FilterModel filterModel)
+        {
+            return await GetStatistics<IEnumerable<WeekDayEarningModel>>(filterModel, "GetWeekDayEarning");
+        }
+
         public async Task<IEnumerable<WeeklyReportModel>> GetWeeklyReports()
         {
             var response = await _httpClient.GetAsync($"/api/Report/WeeklyReport");

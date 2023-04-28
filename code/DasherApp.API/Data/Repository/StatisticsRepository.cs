@@ -120,19 +120,25 @@ namespace DasherApp.API.Data.Repository
             return output;
         }
 
-        public double GetTotalAmountForDay(DateTime? fromDate, DateTime? toDate, string location, DayOfWeek dayOfWeek)
+        public async Task<IEnumerable<WeekDayEarningModel>> GetWeekDayEarning(DateTime? fromDate, DateTime? toDate, string location)
         {
             var query = GetDailyDashQuery(fromDate, toDate, location);
 
-            var data = query
-                    .AsEnumerable() // After this everything uses LINQ to Objects and is executed locally, not on your SQL server
+            var enumerableData = await query.ToListAsync();
+
+            var data = enumerableData
                     .GroupBy(o => o.Date.DayOfWeek)
-                    .Select(g => new { DayOfWeek = g.Key, Amount = g.Sum(x => x.Amount), TotalDashes = g.Count() })
+                    .Select(g => new WeekDayEarningModel  
+                                {
+                                    DayOfWeek = g.Key, 
+                                    Amount = g.Sum(x => x.Amount), 
+                                    TotalDashes = g.Count() 
+                                })
                     .ToList();
 
 
             
-            return 0;
+            return data;
         }
     }
 }

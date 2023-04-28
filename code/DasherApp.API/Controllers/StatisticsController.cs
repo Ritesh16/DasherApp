@@ -83,14 +83,14 @@ namespace DasherApp.API.Controllers
             return Ok(hourlyRate);
         }
 
-        [HttpGet("GetTotalAmountForDay")]
-        public async Task<IActionResult> GetTotalAmountForDay(DayOfWeek dayOfWeek, string fromDate = null, string toDate = null, string location = null)
+        [HttpGet("GetWeekDayEarning")]
+        public async Task<IActionResult> GetWeekDayEarning(string fromDate = null, string toDate = null, string location = null)
         {
             DateTime from_Date = ParseDate(fromDate);
             DateTime to_Date = ParseDate(toDate);
 
-            var totalAmount =  statisticsRepository.GetTotalAmountForDay(from_Date, to_Date, location, dayOfWeek);
-            return Ok(totalAmount);
+            var weekDayEarnings =  await statisticsRepository.GetWeekDayEarning(from_Date, to_Date, location);
+            return Ok(weekDayEarnings);
         }
         private DateTime ParseDate(string dateString)
         {
