@@ -126,19 +126,18 @@ namespace DasherApp.API.Data.Repository
 
             var enumerableData = await query.ToListAsync();
 
-            var data = enumerableData
+            var result = enumerableData
                     .GroupBy(o => o.Date.DayOfWeek)
-                    .Select(g => new WeekDayEarningModel  
-                                {
-                                    DayOfWeek = g.Key, 
-                                    Amount = g.Sum(x => x.Amount), 
-                                    TotalDashes = g.Count() 
-                                })
+                    .Select(g => new WeekDayEarningModel
+                    {
+                        DayOfWeek = g.Key,
+                        Amount = g.Sum(x => x.Amount),
+                        TotalDashes = g.Count()
+                    })
+
                     .ToList();
 
-
-            
-            return data;
+            return result;
         }
     }
 }
