@@ -106,7 +106,7 @@
                         <span style="text-align:left">
                             @StatisticsModel.HighestMileageDay.Date.ToShortDateString()
                         </span>
-                        <span style="text-align:right; margin-left:45%">
+                        <span style="text-align:right; margin-left:35%">
                             @StatisticsModel.HighestMileageDay.Value (miles)
                         </span>
                     }
@@ -156,8 +156,18 @@
         <div class="col-2">
             <div class="card" style="width: 11rem; margin:4px">
                 <div class="card-body">
-                    <h5 class="card-title">Monday</h5>
-                    <p class="card-text">@(Monday != null ? @Monday.Amount.ToString("C2") : 0)</p>
+                    @if (Monday != null)
+                    {
+                        <h5 class="card-title">Monday (@Monday.TotalDashes)</h5>
+                        <p class="card-text">@(Monday != null ? @Monday.Amount.ToString("C2") : 0)</p>
+                        <p class="card-text">@((Monday.Amount/ Monday.TotalTimeSpend).ToString("C2"))</p>
+                    }
+                    else
+                    {
+                        <h5 class="card-title">Monday (Total Dashes = 0)</h5>
+                        <p class="card-text">$0</p>
+                        <p class="card-text">$0</p>
+                    }
                 </div>
             </div>
         </div>

@@ -132,9 +132,9 @@ namespace DasherApp.API.Data.Repository
                     {
                         DayOfWeek = g.Key,
                         Amount = g.Sum(x => x.Amount),
-                        TotalDashes = g.Count()
+                        TotalDashes = g.Count(),
+                        TotalTimeSpend = g.Select(x => (x.EndTime - x.StartTime).TotalSeconds).ToList().Sum() / 3600
                     })
-
                     .ToList();
 
             return result;
