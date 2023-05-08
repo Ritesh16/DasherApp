@@ -1,0 +1,24 @@
+﻿<div class="card" style="width: 11rem; margin:4px">
+    <div class="card-body">
+        @if (WeekDay != null)
+        {
+            <h5 class="card-title">@WeekDay.DayOfWeek.ToString() (@WeekDay.TotalDashes)</h5>
+            <p class="card-text">Total Earned: @WeekDay.Amount.ToString("C2")</p>
+            <p class="card-text">Hourly Rate: @((WeekDay.Amount / WeekDay.TotalTimeSpend).ToString("C2"))</p>
+        }
+        else
+        {
+            <h5 class="card-title">@Day (0)</h5>
+            <p class="card-text">Total Earned: $0</p>
+            <p class="card-text">Hourly Rate: $0</p>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public WeekDayEarningModel WeekDay { get; set; }
+
+    [Parameter]
+    public string Day { get; set; }
+}

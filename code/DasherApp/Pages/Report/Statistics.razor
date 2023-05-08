@@ -1,6 +1,7 @@
 ﻿@page "/Reports/statistics"
 @inject ILocationService _locationService
 @inject IStatisticsService _statisticsService
+@using DasherApp.Pages.Controls
 
 <h1>Statistics</h1>
 
@@ -154,70 +155,79 @@
 <div>
     <div class="row">
         <div class="col-2">
-            <div class="card" style="width: 11rem; margin:4px">
-                <div class="card-body">
-                    @if (Monday != null)
-                    {
-                        <h5 class="card-title">Monday (@Monday.TotalDashes)</h5>
-                        <p class="card-text">@(Monday != null ? @Monday.Amount.ToString("C2") : 0)</p>
-                        <p class="card-text">@((Monday.Amount/ Monday.TotalTimeSpend).ToString("C2"))</p>
-                    }
-                    else
-                    {
-                        <h5 class="card-title">Monday (Total Dashes = 0)</h5>
-                        <p class="card-text">$0</p>
-                        <p class="card-text">$0</p>
-                    }
-                </div>
+            @*<div class="card" style="width: 11rem; margin:4px">
+            <div class="card-body">
+            @if (Monday != null)
+            {
+            <h5 class="card-title">Monday (@Monday.TotalDashes)</h5>
+            <p class="card-text">Total Earned: @(Monday != null ? @Monday.Amount.ToString("C2") : 0)</p>
+            <p class="card-text">Hourly Rate: @((Monday.Amount/ Monday.TotalTimeSpend).ToString("C2"))</p>
+            }
+            else
+            {
+            <h5 class="card-title">Monday (0)</h5>
+            <p class="card-text">Total Earned: $0</p>
+            <p class="card-text">Hourly Rate: $0</p>
+            }
             </div>
+            </div>*@
+            <_WeekDayStatistics WeekDay="@Monday" Day="Monday"></_WeekDayStatistics>
+
         </div>
         <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Tuesday</h5>
-                    <p class="card-text">@(Tuesday != null ? @Tuesday.Amount.ToString("C2") : 0)</p>
-                </div>
+            @*            <div class="card" style="width: 11rem;  margin:4px">
+            <div class="card-body">
+            <h5 class="card-title">Tuesday</h5>
+            <p class="card-text">@(Tuesday != null ? @Tuesday.Amount.ToString("C2") : 0)</p>
             </div>
+            </div>*@
+            <_WeekDayStatistics WeekDay="@Tuesday" Day="Tuesday"></_WeekDayStatistics>
         </div>
         <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Wednesday</h5>
-                    <p class="card-text">@(Wednesday != null ? @Wednesday.Amount.ToString("C2") : 0)</p>
-                </div>
+            @*<div class="card" style="width: 11rem;  margin:4px">
+            <div class="card-body">
+            <h5 class="card-title">Wednesday</h5>
+            <p class="card-text">@(Wednesday != null ? @Wednesday.Amount.ToString("C2") : 0)</p>
             </div>
+            </div>*@
+            <_WeekDayStatistics WeekDay="@Wednesday" Day="Wednesday"></_WeekDayStatistics>
         </div>
         <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Thursday</h5>
-                    <p class="card-text">@(Thursday != null ? @Thursday.Amount.ToString("C2") : 0)</p>
-                </div>
+            @*<div class="card" style="width: 11rem;  margin:4px">
+            <div class="card-body">
+            <h5 class="card-title">Thursday</h5>
+            <p class="card-text">@(Thursday != null ? @Thursday.Amount.ToString("C2") : 0)</p>
             </div>
+            </div>*@
+            <_WeekDayStatistics WeekDay="@Thursday" Day="Thursday"></_WeekDayStatistics>
         </div>
         <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Friday</h5>
-                    <p class="card-text">@(Friday != null ? @Friday.Amount.ToString("C2") : 0)</p>
-                </div>
+            @*            <div class="card" style="width: 11rem;  margin:4px">
+            <div class="card-body">
+            <h5 class="card-title">Friday</h5>
+            <p class="card-text">@(Friday != null ? @Friday.Amount.ToString("C2") : 0)</p>
             </div>
+            </div>*@
+            <_WeekDayStatistics WeekDay="@Friday" Day="Friday"></_WeekDayStatistics>
         </div>
         <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
-                <div class="card-body">
-                    <h5 class="card-title">Saturday</h5>
-                    <p class="card-text">@(Saturday != null ? @Saturday.Amount.ToString("C2") : 0)</p>
-                </div>
+            @*            <div class="card" style="width: 11rem;  margin:4px">
+            <div class="card-body">
+            <h5 class="card-title">Saturday</h5>
+            <p class="card-text">@(Saturday != null ? @Saturday.Amount.ToString("C2") : 0)</p>
             </div>
+            </div>*@
+            <_WeekDayStatistics WeekDay="@Saturday" Day="Saturday"></_WeekDayStatistics>
         </div>
         <div class="col-2">
-            <div class="card" style="width: 11rem;  margin:4px">
+            @*<div class="card" style="width: 11rem;  margin:4px">
                 <div class="card-body">
                     <h5 class="card-title">Sunday</h5>
                     <p class="card-text">@(Sunday != null ? @Sunday.Amount.ToString("C2") : 0)</p>
                 </div>
-            </div>
+            </div>*@
+            <_WeekDayStatistics WeekDay="@Sunday" Day="Sunday"></_WeekDayStatistics>
+
         </div>
     </div>
 </div>
