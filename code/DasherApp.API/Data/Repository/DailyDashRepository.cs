@@ -20,7 +20,7 @@ namespace DasherApp.API.Data.Repository
         {
             var dailyDashList = await context.DailyDash
                                 .OrderByDescending(x => x.Date)
-                                .Take(15)
+                                .Take(10)
                                 .ToListAsync();
 
             return mapper.Map<List<DailyDash>, List<DailyDashModel>>(dailyDashList);

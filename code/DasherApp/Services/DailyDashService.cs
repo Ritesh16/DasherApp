@@ -27,6 +27,12 @@ namespace DasherApp.Services
             if (response.IsSuccessStatusCode)
             {
                 var output = JsonConvert.DeserializeObject<IEnumerable<DailyDashModel>>(content);
+                foreach (var item in output)
+                {
+                    var hours = (item.EndTime - item.StartTime).TotalHours;
+                    item.HourlyRate = Math.Round(item.Amount / hours, 2);
+                }
+
                 return output;
             }
             else
