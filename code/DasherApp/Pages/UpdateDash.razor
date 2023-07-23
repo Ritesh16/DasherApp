@@ -1,0 +1,120 @@
+﻿@page "/UpdateDash/{id:int}"
+
+
+@inject IDailyDashService dailyDashService
+
+<h1>Update Dash</h1>
+
+<EditForm Model="Model" OnValidSubmit="SubmitDash">
+    <DataAnnotationsValidator />
+    <div class="row">
+        <div class="col-4">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <DatePicker @ref="@dashDateTimePicker" TValue="DateTime" @bind-Date="Model.Date" />
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Light" Clicked="@(()=>dashDateTimePicker.ToggleAsync())">
+                        <Icon Name="IconName.CalendarDay" />
+                    </Button>
+                </Addon>
+            </Addons>
+            <ValidationMessage For="()=>Model.Date"></ValidationMessage>
+        </div>
+        <div class="col-3">
+            <InputText @bind-Value="Model.Location" class="form-control"></InputText>
+            <ValidationMessage For="()=>Model.Location"></ValidationMessage>
+        </div>
+   
+
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-2">
+            <label>Start Time</label>
+        </div>
+        <div class="col-2">
+            <label>End Time</label>
+        </div>
+        <div class="col-2">
+            <label>Amount</label>
+        </div>
+        <div class="col-2">
+            <label>Mileage</label>
+        </div>
+    </div>
+
+    @*<div class="row mt-2">
+        <div class="col-2">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <TimePicker @ref="@dashStartTimePicker" TValue="TimeSpan" @bind-Time="Model.StartTime" />
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Light" Clicked="@(()=>dashStartTimePicker.ToggleAsync())">
+                        <Icon Name="IconName.CalendarDay" />
+                    </Button>
+                </Addon>
+            </Addons>
+            <ValidationMessage For="()=>Model.StartTime"></ValidationMessage>
+        </div>
+        <div class="col-2">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <TimePicker @ref="@dashEndTimePicker" TValue="TimeSpan" @bind-Time="Model.EndTime" />
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Light" Clicked="@(()=>dashEndTimePicker.ToggleAsync())">
+                        <Icon Name="IconName.CalendarDay" />
+                    </Button>
+                </Addon>
+            </Addons>
+            <ValidationMessage For="()=>Model.EndTime"></ValidationMessage>
+        </div>
+        <div class="col-2">
+            <InputNumber class="form-control" @bind-Value="Model.Amount">
+            </InputNumber>
+            <ValidationMessage For="()=>Model.Amount"></ValidationMessage>
+        </div>
+
+        <div class="col-2">
+            <InputNumber class="form-control" @bind-Value="Model.Mileage">
+            </InputNumber>
+            <ValidationMessage For="()=>Model.Mileage"></ValidationMessage>
+        </div>
+    </div>*@
+
+
+    <div class="row mt-2">
+        <div class="col-3">
+            <button class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</EditForm>
+
+
+@code {
+    DatePicker<DateTime> dashDateTimePicker;
+    TimePicker<TimeSpan> dashStartTimePicker;
+    TimePicker<TimeSpan> dashEndTimePicker;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    public DailyDashModel Model { get; set; } = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Model.Id = Id;
+            Model.Mileage = 10;
+        }
+    }
+    public async Task SubmitDash()
+    {
+        var output = await dailyDashService.SaveDailyDash(null);
+
+
+    }
+}
