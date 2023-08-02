@@ -1,4 +1,5 @@
 ﻿using DasherApp.API.Data.Repository.Interfaces;
+using DasherApp.API.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,15 @@ namespace DasherApp.API.Controllers
         public async Task<IActionResult> Get()
         {
             return Ok(await reportRepository.GetWeeklyReport());
+        }
+
+        [HttpGet("DailyReport")]
+        public async Task<IActionResult> GetDailyReport(string fromDate = null, string toDate = null, string location = null)
+        {
+            DateTime from_Date = fromDate.ParseDate();
+            DateTime to_Date = toDate.ParseDate();
+
+            return Ok(await reportRepository.GetDailyDashReport(from_Date, to_Date, location));
         }
 
     }

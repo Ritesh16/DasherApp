@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using DasherApp.API.Extensions;
 
 namespace DasherApp.API.Controllers
 {
@@ -19,8 +19,8 @@ namespace DasherApp.API.Controllers
         [HttpGet("GetTotalEarned")]
         public async Task<IActionResult> GetTotalEarned(string fromDate = null, string toDate = null, string location = null)
         {
-            DateTime from_Date = ParseDate(fromDate);
-            DateTime to_Date = ParseDate(toDate);
+            DateTime from_Date = fromDate.ParseDate();
+            DateTime to_Date = toDate.ParseDate();
 
             var totalEarned = await statisticsRepository.GetTotalEarned(from_Date, to_Date, location);
             return Ok(totalEarned);
@@ -29,8 +29,8 @@ namespace DasherApp.API.Controllers
         [HttpGet("GetTotalMileage")]
         public async Task<IActionResult> GetTotalMileage(string fromDate = null, string toDate = null, string location = null)
         {
-            DateTime from_Date = ParseDate(fromDate);
-            DateTime to_Date = ParseDate(toDate); 
+            DateTime from_Date = fromDate.ParseDate();
+            DateTime to_Date = toDate.ParseDate();
 
             var totalMileage = await statisticsRepository.GetTotalMileage(from_Date, to_Date, location);
             return Ok(totalMileage);
@@ -39,8 +39,8 @@ namespace DasherApp.API.Controllers
         [HttpGet("GetHighestMileageDay")]
         public async Task<IActionResult> GetHighestMileageDay(string fromDate = null, string toDate = null, string location = null)
         {
-            DateTime from_Date = ParseDate(fromDate);
-            DateTime to_Date = ParseDate(toDate);
+            DateTime from_Date = fromDate.ParseDate();
+            DateTime to_Date = toDate.ParseDate();
 
             var totalMileage = await statisticsRepository.GetHighestMileageDay(from_Date, to_Date, location);
             return Ok(totalMileage);
@@ -49,8 +49,8 @@ namespace DasherApp.API.Controllers
         [HttpGet("GetHighestEarningDay")]
         public async Task<IActionResult> GetHighestEarningDay(string fromDate = null, string toDate = null, string location = null)
         {
-            DateTime from_Date = ParseDate(fromDate);
-            DateTime to_Date = ParseDate(toDate);
+            DateTime from_Date = fromDate.ParseDate();
+            DateTime to_Date = toDate.ParseDate();
 
             var highestEarning = await statisticsRepository.GetHighestEarningDay(from_Date, to_Date, location);
             if(highestEarning == null)
@@ -64,8 +64,8 @@ namespace DasherApp.API.Controllers
         [HttpGet("GetHourlyRate")]
         public async Task<IActionResult> GetHourlyRate(string fromDate = null, string toDate = null, string location = null)
         {
-            DateTime from_Date = ParseDate(fromDate);
-            DateTime to_Date = ParseDate(toDate);
+            DateTime from_Date = fromDate.ParseDate();
+            DateTime to_Date = toDate.ParseDate();
 
             var hourlyRate = await statisticsRepository.GetHourlyRate(from_Date, to_Date, location);
             
@@ -75,8 +75,8 @@ namespace DasherApp.API.Controllers
         [HttpGet("GetHighestDash")]
         public async Task<IActionResult> GetHighestDash(string fromDate = null, string toDate = null, string location = null)
         {
-            DateTime from_Date = ParseDate(fromDate);
-            DateTime to_Date = ParseDate(toDate);
+            DateTime from_Date = fromDate.ParseDate();
+            DateTime to_Date = toDate.ParseDate();
 
             var hourlyRate = await statisticsRepository.GetHighestDash(from_Date, to_Date, location);
 
@@ -86,16 +86,11 @@ namespace DasherApp.API.Controllers
         [HttpGet("GetWeekDayEarning")]
         public async Task<IActionResult> GetWeekDayEarning(string fromDate = null, string toDate = null, string location = null)
         {
-            DateTime from_Date = ParseDate(fromDate);
-            DateTime to_Date = ParseDate(toDate);
+            DateTime from_Date = fromDate.ParseDate();
+            DateTime to_Date = toDate.ParseDate();
 
             var weekDayEarnings =  await statisticsRepository.GetWeekDayEarning(from_Date, to_Date, location);
             return Ok(weekDayEarnings);
-        }
-        private DateTime ParseDate(string dateString)
-        {
-            var date = DateTime.ParseExact(dateString, "MMddyyyy", CultureInfo.InvariantCulture);
-            return date;
         }
     }
 }

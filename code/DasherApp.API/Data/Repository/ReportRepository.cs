@@ -1,4 +1,6 @@
-﻿using DasherApp.API.Data.Repository.Interfaces;
+﻿using AutoMapper;
+using DasherApp.API.Data.Entity;
+using DasherApp.API.Data.Repository.Interfaces;
 using DasherApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -9,36 +11,22 @@ namespace DasherApp.API.Data.Repository
     {
 
         private readonly AppDbContext context;
+        private readonly IMapper mapper;
 
-        public ReportRepository(AppDbContext context)
+        public ReportRepository(AppDbContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
-        public DataTable GetAverageTemperatures()
+        public async Task<IEnumerable<DailyDashModel>> GetDailyDashReport(DateTime? fromDate, DateTime? toDate, string location)
         {
-            using (var command = context.Database.GetDbConnection().CreateCommand())
-            {
-                command.CommandText = @$"SET DATEFIRST 1;
-SELECT   DATEPART(wk, [Date])     WeekId
-        , SUM(Amount)           Total
-        , DATEADD(dd, -(DATEPART(dw, [Date]) - 1), [Date]) StartDate
-        , DATEADD(dd, 7 - (DATEPART(dw, [Date])), [Date]) EndDate
-FROM        dailydash
-GROUP BY    DATEPART(wk, [Date]), 
-DATEADD(dd, -(DATEPART(dw, [Date]) - 1), [Date]), 
-DATEADD(dd, 7 - (DATEPART(dw, [Date])), [Date]) ";
+            var query = GetDailyDashQuery(fromDate, toDate, location);
+            var dailyDashList = await query.ToListAsync();
 
-
-                using (var reader = command.ExecuteReader())
-                {
-                    var table = new DataTable();
-                    table.Load(reader);
-
-                    return table;
-                }
-            }
+            return mapper.Map<List<DailyDash>, List<DailyDashModel>>(dailyDashList);
         }
+
         public async Task<IEnumerable<WeeklyReportModel>> GetWeeklyReport()
         {
 
@@ -74,6 +62,29 @@ order by startdate desc
 
 
             return weeklyReport;
+        }
+
+        private IQueryable<DailyDash> GetDailyDashQuery(DateTime? fromDate, DateTime? toDate, string location)
+        {
+            var query = context.DailyDash.AsQueryable();
+            location = location.ToLower();
+
+            if (fromDate != null)
+            {
+                query = query.Where(x => x.StartTime >= fromDate);
+            }
+
+            if (toDate != null)
+            {
+                query = query.Where(x => x.EndTime <= toDate);
+            }
+
+            if (!string.IsNullOrEmpty(location) && location != "all")
+            {
+                query = query.Where(x => x.Location.ToLower() == location);
+            }
+
+            return query;
         }
     }
 }
