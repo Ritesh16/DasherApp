@@ -22,6 +22,12 @@ namespace DasherApp.API.Controllers
             return Ok(await dailyDashRepository.GetAll());
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            return Ok(await dailyDashRepository.GetById(id));
+        }
+
         [HttpGet("GetTotalAmount")]
         public async Task<IActionResult> GetTotalAmount()
         {

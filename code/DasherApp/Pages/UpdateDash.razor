@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    @*<div class="row mt-2">
+    <div class="row mt-2">
         <div class="col-2">
             <Addons>
                 <Addon AddonType="AddonType.Body">
@@ -82,7 +82,7 @@
             </InputNumber>
             <ValidationMessage For="()=>Model.Mileage"></ValidationMessage>
         </div>
-    </div>*@
+    </div>
 
 
     <div class="row mt-2">
@@ -101,19 +101,17 @@
     [Parameter]
     public int Id { get; set; }
 
-    public DailyDashModel Model { get; set; } = new();
+    public UpdateDailyDashModel Model { get; set; } = new();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
-        {
-            Model.Id = Id;
-            Model.Mileage = 10;
-        }
+        Model = await dailyDashService.GetDailyDashById(Id);
     }
+
+    
     public async Task SubmitDash()
     {
-        var output = await dailyDashService.SaveDailyDash(null);
+        //var output = await dailyDashService.SaveDailyDash(null);
 
 
     }

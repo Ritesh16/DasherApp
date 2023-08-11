@@ -18,12 +18,32 @@ namespace DasherApp.API.Data.Repository
         }
         public async Task<IEnumerable<DailyDashModel>> GetAll()
         {
+            //var dailyDashList = await context.DailyDash
+            //                    .OrderByDescending(x => x.Date)
+            //                    .Take(10)
+            //                    .ToListAsync();
+
             var dailyDashList = await context.DailyDash
-                                .OrderByDescending(x => x.Date)
-                                .Take(10)
-                                .ToListAsync();
+                               .OrderByDescending(x => x.Id)
+                               .Take(10)
+                               .ToListAsync();
 
             return mapper.Map<List<DailyDash>, List<DailyDashModel>>(dailyDashList);
+        }
+
+        public async Task<UpdateDailyDashModel> GetById(int id)
+        {
+            var dash = await context.DailyDash.SingleOrDefaultAsync(x => x.Id == id);
+            return new UpdateDailyDashModel
+            {
+                Id = dash.Id,
+                Amount = dash.Amount,
+                StartTime = dash.StartTime.TimeOfDay,
+                Date = dash.Date,
+                EndTime = dash.EndTime.TimeOfDay,
+                Location = dash.Location,
+                Mileage = dash.Mileage
+            };
         }
 
         public async Task<bool> Save(IEnumerable<DailyDashModel> dailyDashList)

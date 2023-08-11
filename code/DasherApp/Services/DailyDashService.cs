@@ -20,6 +20,20 @@ namespace DasherApp.Services
             this.baseServerUrl = _configuration.GetSection("APIUrl").Value;
         }
 
+        public async Task<UpdateDailyDashModel> GetDailyDashById(int id)
+        {
+            var url = $"/api/DailyDash/{id}";
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var output = JsonConvert.DeserializeObject<UpdateDailyDashModel>(content);
+                return output;
+            }
+
+            return new UpdateDailyDashModel();
+        }
+
         public async Task<IEnumerable<DailyDashModel>> GetDailyDashList()
         {
             var response = await _httpClient.GetAsync($"/api/DailyDash");

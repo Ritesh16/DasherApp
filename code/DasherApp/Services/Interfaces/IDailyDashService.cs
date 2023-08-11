@@ -8,5 +8,6 @@ namespace DasherApp.Services.Interfaces
         Task<double> GetTotalEarned();
         Task<double> GetTotalMileage();
         Task<IEnumerable<DailyDashModel>> GetDailyDashList();
+        Task<UpdateDailyDashModel> GetDailyDashById(int id);
     }
 }
