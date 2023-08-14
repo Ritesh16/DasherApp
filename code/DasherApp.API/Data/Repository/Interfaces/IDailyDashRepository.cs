@@ -9,5 +9,6 @@ namespace DasherApp.API.Data.Repository.Interfaces
         Task<bool> Save(IEnumerable<DailyDashModel> dailyDashList);
         Task<double> TotalEarned();
         Task<double> TotalMileage();
+        Task<bool> Update(UpdateDailyDashModel updateDailyDashModel);
     }
 }

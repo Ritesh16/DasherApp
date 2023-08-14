@@ -97,7 +97,19 @@ namespace DasherApp.Services
                 return false;
             }
         }
-
-
+        public async Task<bool> UpdateDailyDash(UpdateDailyDashModel updateDailyDashModel)
+        {
+            var response = await _httpClient.PostAsJsonAsync($"/api/DailyDash/UpdateDash", updateDailyDashModel);
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var output = JsonConvert.DeserializeObject<bool>(content);
+                return output;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

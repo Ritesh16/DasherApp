@@ -68,5 +68,25 @@ namespace DasherApp.API.Data.Repository
             var total = await context.DailyDash.SumAsync(x => x.Mileage);
             return total;
         }
+
+        public async Task<bool> Update(UpdateDailyDashModel updateDailyDashModel)
+        {
+            var dash = await context.DailyDash.FirstOrDefaultAsync(x=>x.Id == updateDailyDashModel.Id);  
+            if(dash == null)
+            {
+                return false;
+            }
+
+            dash.Location = updateDailyDashModel.Location;
+            dash.Date = updateDailyDashModel.Date;
+            dash.StartTime = updateDailyDashModel.Date.Add(updateDailyDashModel.StartTime);
+            dash.EndTime = updateDailyDashModel.Date.Add(updateDailyDashModel.EndTime);
+            dash.Amount = updateDailyDashModel.Amount;
+            dash.Mileage = updateDailyDashModel.Mileage;
+
+            context.SaveChanges();
+
+            return true;
+        }
     }
 }

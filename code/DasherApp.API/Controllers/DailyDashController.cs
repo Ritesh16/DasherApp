@@ -46,5 +46,12 @@ namespace DasherApp.API.Controllers
             var result = await dailyDashRepository.Save(dailyDashList);
            return Ok(result);
         }
+
+        [HttpPost("UpdateDash")]
+        public async Task<IActionResult> Update([FromBody] UpdateDailyDashModel updateDailyDashModel)
+        {
+            var result = await dailyDashRepository.Update(updateDailyDashModel);
+            return Ok(result);
+        }
     }
 }

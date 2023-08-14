@@ -5,6 +5,18 @@
 
 <h1>Update Dash</h1>
 
+<Alert Color="Color.Success" @bind-Visible="@successVisible">
+    <AlertMessage>
+        @message
+    </AlertMessage>
+</Alert>
+
+<Alert Color="Color.Danger" @bind-Visible="@failureVisible">
+    <AlertMessage>
+        @message
+    </AlertMessage>
+</Alert>
+
 <EditForm Model="Model" OnValidSubmit="SubmitDash">
     <DataAnnotationsValidator />
     <div class="row">
@@ -98,6 +110,12 @@
     TimePicker<TimeSpan> dashStartTimePicker;
     TimePicker<TimeSpan> dashEndTimePicker;
 
+    bool successVisible = false;
+    bool failureVisible = false;
+
+    string message = string.Empty;
+
+
     [Parameter]
     public int Id { get; set; }
 
@@ -108,11 +126,23 @@
         Model = await dailyDashService.GetDailyDashById(Id);
     }
 
-    
+
     public async Task SubmitDash()
     {
-        //var output = await dailyDashService.SaveDailyDash(null);
+        var output = await dailyDashService.UpdateDailyDash(Model);
 
+        if (output)
+        {
+            successVisible = true;
+            failureVisible = false;
+            message = "Dash updated successfully!";
+        }
+        else
+        {
+            successVisible = false;
+            failureVisible = true;
+            message = "Problem in saving Dash!";
+        }
 
     }
 }
