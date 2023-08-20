@@ -14,5 +14,13 @@
             ToDate = DateTime.Now;
             FromDate = new DateTime(ToDate.Year, ToDate.Month, 1);
         }
+
+        public FilterModel(DateTime toDate)
+        {
+            Location = "All";
+            SearchWithoutDates = true;
+            ToDate = toDate;
+            FromDate = new DateTime(ToDate.Year, ToDate.Month, 1);
+        }
     }
 }

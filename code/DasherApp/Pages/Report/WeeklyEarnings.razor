@@ -1,6 +1,6 @@
 ﻿@page "/Reports/WeeklyEarnings"
 
-@inject IStatisticsService statisticsService
+@inject IReportService reportService
 
 <h3>Weekly Earnings</h3>
 
@@ -47,6 +47,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        weeklyEarnings = await statisticsService.GetWeeklyReports();
+        weeklyEarnings = await reportService.GetWeeklyReports();
     }
 }
