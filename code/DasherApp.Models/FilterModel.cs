@@ -15,12 +15,12 @@
             FromDate = new DateTime(ToDate.Year, ToDate.Month, 1);
         }
 
-        public FilterModel(DateTime toDate)
+        public FilterModel(DateTime fromDate)
         {
             Location = "All";
             SearchWithoutDates = true;
-            ToDate = toDate;
-            FromDate = new DateTime(ToDate.Year, ToDate.Month, 1);
+            ToDate = DateTime.Now;
+            FromDate = fromDate;
         }
     }
 }

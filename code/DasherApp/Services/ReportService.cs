@@ -1,4 +1,5 @@
-﻿using DasherApp.Models;
+﻿using DasherApp.Extensions;
+using DasherApp.Models;
 using DasherApp.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -16,6 +17,22 @@ namespace DasherApp.Services
             this._configuration = configuration;
             this.baseServerUrl = _configuration.GetSection("APIUrl").Value;
         }
+
+        public async Task<IEnumerable<DailyDashModel>> GetDailyDashReport(FilterModel filterModel)
+        {
+            var url = $"/api/Report/DailyReport";
+            url = url + "?fromDate=" + filterModel.FromDate.ToDateTimeString() + "&toDate=" + filterModel.ToDate.ToDateTimeString() + "&location=" + filterModel.Location;
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var output = JsonConvert.DeserializeObject<IEnumerable<DailyDashModel>>(content);
+                return output;
+            }
+
+            return new List<DailyDashModel>();
+        }
+
         public async Task<IEnumerable<WeeklyReportModel>> GetWeeklyReports()
         {
             var response = await _httpClient.GetAsync($"/api/Report/WeeklyReport");
@@ -25,10 +42,8 @@ namespace DasherApp.Services
                 var output = JsonConvert.DeserializeObject<IEnumerable<WeeklyReportModel>>(content);
                 return output;
             }
-            else
-            {
-                return new List<WeeklyReportModel>();
-            }
+
+            return new List<WeeklyReportModel>();
         }
     }
 }

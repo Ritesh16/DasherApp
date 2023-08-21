@@ -1,31 +1,86 @@
 ﻿@page "/Reports/Generate"
 
 @inject IJSRuntime JSRuntime
+@inject ILocationService _locationService
+@inject IReportService _reportService
+@using DasherApp.Extensions
 
 <h3>Generate</h3>
 <hr/>
+<EditForm Model="FilterModel" OnValidSubmit="GenerateReport">
+    <DataAnnotationsValidator />
+    <div class="row">
+        <div class="col-2">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <DatePicker @ref="@dashFromDateTimePicker" TValue="DateTime" @bind-Date="FilterModel.FromDate" />
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Light" Clicked="@(()=>dashFromDateTimePicker.ToggleAsync())">
+                        <Icon Name="IconName.CalendarDay" />
+                    </Button>
+                </Addon>
+            </Addons>
+            <ValidationMessage For="()=>FilterModel.FromDate"></ValidationMessage>
+        </div>
+        <div class="col-2">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <DatePicker @ref="@dashToDateTimePicker" TValue="DateTime" @bind-Date="FilterModel.ToDate" />
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Light" Clicked="@(()=>dashToDateTimePicker.ToggleAsync())">
+                        <Icon Name="IconName.CalendarDay" />
+                    </Button>
+                </Addon>
+            </Addons>
+            <ValidationMessage For="()=>FilterModel.ToDate"></ValidationMessage>
+        </div>
+        <div class="col-2">
+            <InputSelect @bind-Value="FilterModel.Location" class="form-control">
+                <option value="All">
+                    --ALL--
+                </option>
+                @foreach (var location in locations)
+                {
+                    <option value="@location">@location</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="()=>FilterModel.Location"></ValidationMessage>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-danger">Generate Report</button>
+        </div>
 
-<textarea @bind="fileContent"
-          style="width:150px;height:100px" />
+    </div>
 
-<button @onclick="SaveFile">SaveFile</button>
 
-<button @onclick="DownloadFile">GenerateFile</button>
+</EditForm>
 
 @code {
 
-    string Content;
+    DatePicker<DateTime> dashFromDateTimePicker;
+    DatePicker<DateTime> dashToDateTimePicker;
 
-    string fileContent;
+    IEnumerable<string> locations = new List<string>();
 
-    string fileName = "file.txt";
+    public FilterModel FilterModel { get; set; } = new FilterModel(new DateTime(DateTime.Now.Year, 1, 1));
 
-    public void SaveFile()
+    protected async override Task OnInitializedAsync()
     {
-        Content = fileContent;
+        locations = await _locationService.GetLocations();
     }
-    public async void DownloadFile()
+
+    public async Task GenerateReport()
     {
-        await JSRuntime.InvokeAsync<object>("saveFile", fileName, Content);
+        var dailyDashList = await _reportService.GetDailyDashReport(FilterModel);
+        var csvData = dailyDashList.ToCsvData();
+        await DownloadFile(csvData);
+    }
+
+
+    private async Task DownloadFile(string data)
+    {
+        await JSRuntime.InvokeAsync<object>("saveFile", "Mileage Log.csv", data);
     }
 }

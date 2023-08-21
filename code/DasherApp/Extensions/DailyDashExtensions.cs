@@ -1,4 +1,5 @@
 ﻿using DasherApp.Models;
+using System.Text;
 
 namespace DasherApp.Extensions
 {
@@ -23,6 +24,22 @@ namespace DasherApp.Extensions
             }
 
             return dailyDashList;
+        }
+
+        public static string ToCsvData(this IEnumerable<DailyDashModel> dailyDashList)
+        {
+            var csv = new StringBuilder();
+            csv.AppendLine($"Date, StartTime, EndTime, Amount, Mileage");
+
+            foreach (var dailyDash in dailyDashList)
+            {
+                var ss = dailyDash.StartTime.TimeOfDay.ToString("hh:mm tt");
+                var newLine = $"{dailyDash.Date.ToString("MM-dd-yyyy")}, {dailyDash.StartTime.TimeOfDay.ToString("hh:mm tt")}, {dailyDash.EndTime.TimeOfDay.ToString("hh:mm tt")}, {dailyDash.Amount.ToString("C2")}, {dailyDash.Mileage}";
+                csv.AppendLine(newLine);
+
+            }
+
+            return csv.ToString();
         }
     }
 }
