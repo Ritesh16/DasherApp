@@ -5,8 +5,21 @@
 @inject IReportService _reportService
 @using DasherApp.Extensions
 
-<h3>Generate</h3>
+<h3>Generate Report For Taxes</h3>
 <hr/>
+
+<Alert Color="Color.Success" @bind-Visible="@successVisible">
+    <AlertMessage>
+        @message
+    </AlertMessage>
+</Alert>
+
+<Alert Color="Color.Danger" @bind-Visible="@failureVisible">
+    <AlertMessage>
+        @message
+    </AlertMessage>
+</Alert>
+
 <EditForm Model="FilterModel" OnValidSubmit="GenerateReport">
     <DataAnnotationsValidator />
     <div class="row">
@@ -58,7 +71,9 @@
 </EditForm>
 
 @code {
-
+    bool successVisible = false;
+    bool failureVisible = false;
+    string message = string.Empty;
     DatePicker<DateTime> dashFromDateTimePicker;
     DatePicker<DateTime> dashToDateTimePicker;
 
@@ -73,9 +88,21 @@
 
     public async Task GenerateReport()
     {
-        var dailyDashList = await _reportService.GetDailyDashReport(FilterModel);
-        var csvData = dailyDashList.ToCsvData();
-        await DownloadFile(csvData);
+        try
+        {
+            var dailyDashList = await _reportService.GetDailyDashReport(FilterModel);
+            var csvData = dailyDashList.ToCsvData();
+            await DownloadFile(csvData);
+            successVisible = true;
+            failureVisible = false;
+            message = $"Report generated successfully from {FilterModel.FromDate.ToString("MMM-dd-yyyy")} to {FilterModel.ToDate.ToString("MMM-dd-yyyy")} for {FilterModel.Location} location(s).";
+        }
+        catch(Exception ex)
+        {
+            successVisible = false;
+            failureVisible = true;
+            message = ex.Message;
+        }
     }
 
 
