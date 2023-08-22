@@ -2,7 +2,7 @@
 
 @inject IReportService reportService
 
-<h3>Weekly Earnings</h3>
+<h2>Weekly Earnings</h2>
 
 
 <div>
@@ -16,23 +16,31 @@
             </tr>
         </thead>
         <tbody>
-
-            @foreach (var week in weeklyEarnings)
+             @if (isLoading)
             {
-                <tr>
-                    <td>
-                        @week.WeekId
-                    </td>
-                    <td>
-                        @week.StartDate.ToShortDateString()
-                    </td>
-                    <td>
-                        @week.EndDate.ToShortDateString()
-                    </td>
-                    <td>
-                        @week.Total.ToString("C2")
-                    </td>
-                </tr>
+                <div class="centered">
+                    <img src="images/loading.gif" />
+                </div>
+            }
+            else
+            {
+                @foreach (var week in weeklyEarnings)
+                {
+                    <tr>
+                        <td>
+                            @week.WeekId
+                        </td>
+                        <td>
+                            @week.StartDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @week.EndDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @week.Total.ToString("C2")
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -41,12 +49,15 @@
 @code {
     bool successVisible = false;
     bool failureVisible = false;
+    bool isLoading = false;
 
     IEnumerable<WeeklyReportModel> weeklyEarnings = new List<WeeklyReportModel>();
 
 
     protected override async Task OnInitializedAsync()
     {
+        isLoading = true;
         weeklyEarnings = await reportService.GetWeeklyReports();
+        isLoading = false;
     }
 }

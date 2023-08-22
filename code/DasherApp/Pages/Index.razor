@@ -4,7 +4,7 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Recent Dashes</h1>
+<h2>Recent Dashes</h2>
 
 <div>
     <table class="table">
@@ -22,36 +22,46 @@
         </thead>
         <tbody>
 
-            @foreach (var dash in dailyDashList)
+            @if (isLoading)
             {
-                <tr>
-                    <td>
-                        @dash.Id
-                    </td>
-                    <td>
-                        @dash.Date.ToShortDateString()
-                    </td>
-                    <td>
-                        @dash.StartTime.ToShortTimeString()
-                    </td>
-                    <td>
-                        @dash.EndTime.ToShortTimeString()
-                    </td>
-                    <td>
-                        @dash.Amount.ToString("C2")
-                    </td>
-                    <td>
-                        @dash.Mileage
-                    </td>
-                    <td>
-                        @dash.HourlyRate.ToString("C2")
-                    </td>
-                    <td>
-                        <NavLink class="nav-link" href=@($"/UpdateDash/{dash.Id}")>
-                            <span class="oi oi-plus" aria-hidden="true"></span> Edit
-                        </NavLink>
-                    </td>
-                </tr>
+                <div class="centered">
+                    <img src="images/loading.gif" />
+                </div>
+            }
+            else
+            {
+                @foreach (var dash in dailyDashList)
+                {
+                    <tr>
+                        <td>
+                            @dash.Id
+                        </td>
+                        <td>
+                            @dash.Date.ToShortDateString()
+                        </td>
+                        <td>
+                            @dash.StartTime.ToShortTimeString()
+                        </td>
+                        <td>
+                            @dash.EndTime.ToShortTimeString()
+                        </td>
+                        <td>
+                            @dash.Amount.ToString("C2")
+                        </td>
+                        <td>
+                            @dash.Mileage
+                        </td>
+                        <td>
+                            @dash.HourlyRate.ToString("C2")
+                        </td>
+                        <td>
+                            <NavLink class="nav-link" href=@($"/UpdateDash/{dash.Id}")>
+                                <span class="oi oi-plus" aria-hidden="true"></span> Edit
+                            </NavLink>
+                        </td>
+                    </tr>
+                }
+
             }
         </tbody>
     </table>
@@ -60,12 +70,15 @@
 @code {
     bool successVisible = false;
     bool failureVisible = false;
+    bool isLoading = false;
 
     IEnumerable<DailyDashModel> dailyDashList = new List<DailyDashModel>();
 
 
     protected override async Task OnInitializedAsync()
     {
+        isLoading = true;
         dailyDashList = await dailyDashService.GetDailyDashList();
+        isLoading = false;
     }
 }
