@@ -104,7 +104,12 @@
         </div>
     </div>
 </EditForm>
-
+@if (isLoading)
+{
+    <div class="centered">
+        <img src="images/loading.gif" />
+    </div>
+}
 
 @code {
     DatePicker<DateTime> dashDateTimePicker;
@@ -113,6 +118,7 @@
 
     bool successVisible = false;
     bool failureVisible = false;
+    bool isLoading = false;
 
     string message = string.Empty;
 
@@ -130,6 +136,7 @@
 
     public async Task SubmitDash()
     {
+        isLoading = true;
         var output = await dailyDashService.UpdateDailyDash(Model);
 
         if (output)
@@ -145,5 +152,6 @@
             message = "Problem in saving Dash!";
         }
 
+        isLoading = false;
     }
 }

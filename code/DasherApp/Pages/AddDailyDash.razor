@@ -109,12 +109,20 @@
     </div>
 </EditForm>
 
+@if (isLoading)
+{
+    <div class="centered">
+        <img src="images/loading.gif" />
+    </div>
+}
+
 @code {
     DatePicker<DateTime> dashDateTimePicker;
     TimePicker<TimeSpan> dashStartTimePicker;
     TimePicker<TimeSpan> dashEndTimePicker;
     bool successVisible = false;
     bool failureVisible = false;
+    bool isLoading = false;
 
     string message = string.Empty;
 
@@ -122,6 +130,7 @@
 
     public async Task SubmitDash()
     {
+        isLoading = true;
         var valid = true;
         foreach (var dash in DailyDashAddModel.DashTimes)
         {
@@ -168,6 +177,7 @@
             appState.LoadHeaders(totalAmount, totalMileage);
         }
 
+        isLoading = false;
     }
 
     public void AddRow()
