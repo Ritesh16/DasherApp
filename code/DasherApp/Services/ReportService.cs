@@ -20,7 +20,7 @@ namespace DasherApp.Services
 
         public async Task<IEnumerable<DailyDashModel>> GetDailyDashReport(FilterModel filterModel)
         {
-            var url = $"/api/Report/DailyReport";
+            var url = $"{this.baseServerUrl}/api/Report/DailyReport";
             url = url + "?fromDate=" + filterModel.FromDate.ToDateTimeString() + "&toDate=" + filterModel.ToDate.ToDateTimeString() + "&location=" + filterModel.Location;
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -35,7 +35,7 @@ namespace DasherApp.Services
 
         public async Task<IEnumerable<WeeklyReportModel>> GetWeeklyReports()
         {
-            var response = await _httpClient.GetAsync($"/api/Report/WeeklyReport");
+            var response = await _httpClient.GetAsync($"{this.baseServerUrl}/api/Report/WeeklyReport");
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {

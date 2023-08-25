@@ -17,7 +17,7 @@ namespace DasherApp.Services
         }
         public async Task<IEnumerable<string>> GetLocations()
         {
-            var response = await _httpClient.GetAsync($"/api/Locations");
+            var response = await _httpClient.GetAsync($"{this.baseServerUrl}/api/Locations");
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {

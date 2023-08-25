@@ -54,7 +54,7 @@ namespace DasherApp.Services
 
         private async Task<T> GetStatistics<T>(FilterModel filterModel, string methodName)
         {
-            var url = $"/api/Statistics/{methodName}";
+            var url = $"{this.baseServerUrl}/api/Statistics/{methodName}";
             if (!filterModel.SearchWithoutDates)
             {
                 url = url + "?fromDate=" + filterModel.FromDate.ToDateTimeString() + "&toDate=" + filterModel.ToDate.ToDateTimeString() + "&location=" + filterModel.Location;

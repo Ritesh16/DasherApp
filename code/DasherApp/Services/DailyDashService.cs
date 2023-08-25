@@ -22,7 +22,7 @@ namespace DasherApp.Services
 
         public async Task<UpdateDailyDashModel> GetDailyDashById(int id)
         {
-            var url = $"/api/DailyDash/{id}";
+            var url = $"{this.baseServerUrl}/api/DailyDash/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
@@ -36,7 +36,7 @@ namespace DasherApp.Services
 
         public async Task<IEnumerable<DailyDashModel>> GetDailyDashList()
         {
-            var response = await _httpClient.GetAsync($"/api/DailyDash");
+            var response = await _httpClient.GetAsync($"{this.baseServerUrl}/api/DailyDash");
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
@@ -57,7 +57,7 @@ namespace DasherApp.Services
 
         public async Task<double> GetTotalEarned()
         {
-            var response = await _httpClient.GetAsync($"/api/DailyDash/GetTotalAmount");
+            var response = await _httpClient.GetAsync($"{this.baseServerUrl}/api/DailyDash/GetTotalAmount");
             var content = await response.Content.ReadAsStringAsync();
             double output = 0;
             if (response.IsSuccessStatusCode)
@@ -70,7 +70,7 @@ namespace DasherApp.Services
 
         public async Task<double> GetTotalMileage()
         {
-            var response = await _httpClient.GetAsync($"/api/DailyDash/GetTotalMileage");
+            var response = await _httpClient.GetAsync($"{this.baseServerUrl}/api/DailyDash/GetTotalMileage");
             var content = await response.Content.ReadAsStringAsync();
             double output = 0;
             if (response.IsSuccessStatusCode)
@@ -85,7 +85,7 @@ namespace DasherApp.Services
         {
             var dailyDashList = dailyDashModel.ToDailyDash();
 
-            var response = await _httpClient.PostAsJsonAsync($"/api/DailyDash", dailyDashList);
+            var response = await _httpClient.PostAsJsonAsync($"{this.baseServerUrl}/api/DailyDash", dailyDashList);
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
@@ -99,7 +99,7 @@ namespace DasherApp.Services
         }
         public async Task<bool> UpdateDailyDash(UpdateDailyDashModel updateDailyDashModel)
         {
-            var response = await _httpClient.PostAsJsonAsync($"/api/DailyDash/UpdateDash", updateDailyDashModel);
+            var response = await _httpClient.PostAsJsonAsync($"{this.baseServerUrl}/api/DailyDash/UpdateDash", updateDailyDashModel);
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
