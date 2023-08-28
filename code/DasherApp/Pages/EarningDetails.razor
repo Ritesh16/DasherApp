@@ -1,0 +1,26 @@
+﻿@page "/Earnings"
+
+<h3>Earnings</h3>
+<hr />
+
+<div>
+    <input type="radio" value="Weekly" name="EarningType"
+           checked="@(SelectedValue.Equals("Weekly"))" @onchange="@(() => SelectedValue = "Weekly")" /> <span>Weekly</span>
+    <input type="radio" value="Monthly" name="EarningType"
+           checked="@(SelectedValue.Equals("Monthly"))" @onchange="@(() => SelectedValue = "Monthly")" /> <span>Monthly</span>
+    <input type="radio" value="Daily" name="EarningType"
+           checked="@(SelectedValue.Equals("Daily"))" @onchange="@(() => SelectedValue = "Daily")" /> <span>Daily</span>
+</div>
+
+@if(SelectedValue == "Weekly") 
+{
+    <DasherApp.Pages.Controls._WeeklyEarnings></DasherApp.Pages.Controls._WeeklyEarnings>
+}
+
+
+
+@code {
+    public string SelectedValue { get; set; } = "Weekly";
+
+}
+
