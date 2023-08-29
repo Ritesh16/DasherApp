@@ -9,3 +9,7 @@
 /code/DasherApp.API/obj
 /code/DasherApp.Models/bin/Debug/net6.0
 /code/DasherApp.Models/obj
+/code/DasherApp/bin/Release/net6.0
+/code/DasherApp.Models/bin/Release/net6.0
+/code/.vs/ProjectEvaluation
+/code/DasherApp.API/bin/Release/net6.0
