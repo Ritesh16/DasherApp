@@ -4,6 +4,7 @@ using DasherApp.API.Data.Repository.Interfaces;
 using DasherApp.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Globalization;
 
 namespace DasherApp.API.Data.Repository
 {
@@ -25,6 +26,20 @@ namespace DasherApp.API.Data.Repository
             var dailyDashList = await query.ToListAsync();
 
             return mapper.Map<List<DailyDash>, List<DailyDashModel>>(dailyDashList);
+        }
+
+        public async Task<IEnumerable<MonthlyReportModel>> GetMonthlyReport()
+        {
+            var query =  GetDailyDashQuery(null, null, "all");
+            var monthlyData = query.GroupBy(x => new { x.Date.Month, x.Date.Year })
+                .Select(x => new MonthlyReportModel
+                {
+                    Month = DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(x.Key.Month) ,
+                    Year = x.Key.Year,
+                    Amount = x.Sum(s => s.Amount)
+                }).AsEnumerable();
+
+            return monthlyData;
         }
 
         public async Task<IEnumerable<WeeklyReportModel>> GetWeeklyReport()

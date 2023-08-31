@@ -33,6 +33,19 @@ namespace DasherApp.Services
             return new List<DailyDashModel>();
         }
 
+        public async Task<IEnumerable<MonthlyReportModel>> GetMonthlyReports()
+        {
+            var response = await _httpClient.GetAsync($"{this.baseServerUrl}/api/Report/MonthlyReport");
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var output = JsonConvert.DeserializeObject<IEnumerable<MonthlyReportModel>>(content);
+                return output;
+            }
+
+            return new List<MonthlyReportModel>();
+        }
+
         public async Task<IEnumerable<WeeklyReportModel>> GetWeeklyReports()
         {
             var response = await _httpClient.GetAsync($"{this.baseServerUrl}/api/Report/WeeklyReport");

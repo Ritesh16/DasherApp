@@ -1,0 +1,57 @@
+﻿@inject IReportService reportService
+
+<h2>Monthly Earnings</h2>
+
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Month</th>
+                <th scope="col">Year</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (isLoading)
+            {
+                <div class="centered">
+                    <img src="images/loading.gif" />
+                </div>
+            }
+            else
+            {
+                @foreach (var monthlyEarning in monthlyEarnings)
+                {
+                    <tr>
+                        <td>
+                            @monthlyEarning.Month
+                        </td>
+                        <td>
+                            @monthlyEarning.Year
+                        </td>
+                        <td>
+                            @monthlyEarning.Amount.ToString("C2")
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    bool successVisible = false;
+    bool failureVisible = false;
+    bool isLoading = false;
+
+    IEnumerable<MonthlyReportModel> monthlyEarnings = new List<MonthlyReportModel>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        monthlyEarnings = await reportService.GetMonthlyReports();
+        isLoading = false;
+    }
+}
