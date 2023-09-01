@@ -30,16 +30,27 @@ namespace DasherApp.API.Data.Repository
 
         public async Task<IEnumerable<MonthlyReportModel>> GetMonthlyReport()
         {
-            var query =  GetDailyDashQuery(null, null, "all");
-            var monthlyData = query.GroupBy(x => new { x.Date.Month, x.Date.Year })
-                .Select(x => new MonthlyReportModel
-                {
-                    Month = DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(x.Key.Month) ,
-                    Year = x.Key.Year,
-                    Amount = x.Sum(s => s.Amount)
-                }).AsEnumerable();
+            try
+            {
+                var query = GetDailyDashQuery(null, null, "all");
+                var monthlyData = query.GroupBy(x => new { x.Date.Month, x.Date.Year })
+                    .Select(x => new MonthlyReportModel
+                    {
+                        MonthName = DateTimeFormatInfo.CurrentInfo.GetAbbreviatedMonthName(x.Key.Month),
+                        Month = x.Key.Month,
+                        Year = x.Key.Year,
+                        Amount = x.Sum(s => s.Amount)
+                    }).ToList();
 
-            return monthlyData;
+                monthlyData = monthlyData.OrderByDescending(x => x.Year).ThenByDescending(x => x.Month).ToList();
+
+                return monthlyData;
+
+            }
+            catch (Exception ex)
+            {
+                return new List<MonthlyReportModel>();
+            }
         }
 
         public async Task<IEnumerable<WeeklyReportModel>> GetWeeklyReport()
@@ -56,25 +67,6 @@ DATEADD(dd, -(DATEPART(dw, [Date]) - 1), [Date]),
 DATEADD(dd, 7 - (DATEPART(dw, [Date])), [Date]) 
 order by startdate desc
 ").ToList();
-
-            //            var weeklyReport = context.Database
-            //                                .SqlQuery<WeeklyReportModel>(@$"SET DATEFIRST 1;
-            //SELECT   DATEPART(wk, [Date])     WeekId
-            //        , SUM(Amount)           Total
-            //        , DATEADD(dd, -(DATEPART(dw, [Date]) - 1), [Date]) StartDate
-            //        , DATEADD(dd, 7 - (DATEPART(dw, [Date])), [Date]) EndDate
-            //FROM        dailydash
-            //GROUP BY    DATEPART(wk, [Date]), DATEADD(dd, -(DATEPART(dw, [Date]) - 1), [Date]), DATEADD(dd, 7 - (DATEPART(dw, [Date])), [Date]) ")
-
-            //                                .Select(x => new WeeklyReportModel
-            //                                {
-            //                                    EndDate = x.EndDate,
-            //                                    StartDate = x.StartDate,
-            //                                    Total = x.Total,
-            //                                    WeekId = x.WeekId
-            //                                })
-            //                                .ToList();
-
 
             return weeklyReport;
         }
