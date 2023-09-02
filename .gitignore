@@ -13,3 +13,7 @@
 /code/DasherApp.Models/bin/Release/net6.0
 /code/.vs/ProjectEvaluation
 /code/DasherApp.API/bin/Release/net6.0
+/code/DasherApp/Properties/PublishProfiles
+/code/DasherApp.API/Properties/PublishProfiles
+/code/DasherApp.API/DasherApp.API.csproj.user
+/code/DasherApp/DasherApp.csproj.user
