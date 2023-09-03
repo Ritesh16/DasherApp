@@ -1,8 +1,5 @@
 ﻿@inject IReportService reportService
 
-<h2>Weekly Earnings</h2>
-
-
 <div>
     <table class="table">
         <thead>
@@ -22,7 +19,7 @@
             }
             else
             {
-                @foreach (var week in weeklyEarnings)
+                @foreach (var week in weeklyPaginationList)
                 {
                     <tr>
                         <td>
@@ -44,10 +41,35 @@
     </table>
 </div>
 
+@if (weeklyPaginationList != null && weeklyPaginationList.Count > 0)
+{
+    <div style="text-align:center">
+        <div>
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">&laquo;</a>
+                </li>
+                @for (int i = 0; i < weeklyPaginationList.TotalPages; i++)
+                {
+                    var index = i + 1;
+                    <li class="page-item @(weeklyPaginationList.CurrentPage == (i+1) ? "active" : "")">
+                        <a class="page-link" @onclick="() => GoToPage(index)">@index</a>
+                    </li>
+                }
+                <li class="page-item  @(weeklyPaginationList.CurrentPage == weeklyPaginationList.TotalPages ? "disabled" : "")">
+                    <a class="page-link" @onclick="() => GoToPage((weeklyPaginationList.CurrentPage+1))">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+}
+
 @code {
     bool successVisible = false;
     bool failureVisible = false;
     bool isLoading = false;
+    PagedListModel<WeeklyReportModel> weeklyPaginationList;
 
     IEnumerable<WeeklyReportModel> weeklyEarnings = new List<WeeklyReportModel>();
 
@@ -56,6 +78,14 @@
     {
         isLoading = true;
         weeklyEarnings = await reportService.GetWeeklyReports();
+        weeklyPaginationList = PagedListModel<WeeklyReportModel>.Create(weeklyEarnings, 1, 10);
+        isLoading = false;
+    }
+
+    public void GoToPage(int page)
+    {
+        isLoading = true;
+        weeklyPaginationList = PagedListModel<WeeklyReportModel>.Create(weeklyEarnings, page, 10);
         isLoading = false;
     }
 }
