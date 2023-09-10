@@ -1,6 +1,27 @@
 ﻿@inject IReportService reportService
 
+<EditForm Model="YearFilterModel" OnValidSubmit="Search">
+    <div class="row">
+        <div class="col-2">
+            <label>Choose by Year</label>
+        </div>
+        <div class="col-3">
+            <InputSelect @bind-Value="@YearFilterModel.Year" class="form-control">
+                <option value="0">
+                    --ALL--
+                </option>
+                @foreach (var y in Years)
+                {
+                    <option value="@y">@y</option>
+                }
 
+            </InputSelect>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-danger">Search</button>
+        </div>
+    </div>
+</EditForm>
 <div>
     <table class="table">
         <thead>
@@ -43,12 +64,27 @@
     bool failureVisible = false;
     bool isLoading = false;
 
+    public YearFilterModel YearFilterModel { get; set; } = new YearFilterModel();
+
     IEnumerable<MonthlyReportModel> monthlyEarnings = new List<MonthlyReportModel>();
+
+    [Parameter]
+    public IEnumerable<int> Years { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadData(DateTime.Now.Year);
+    }
+
+    public async Task Search()
+    {
+        await LoadData(YearFilterModel.Year);
+    }
+
+    public async Task LoadData(int year)
+    {
         isLoading = true;
-        monthlyEarnings = await reportService.GetMonthlyReports();
+        monthlyEarnings = await reportService.GetMonthlyReports(year);
         isLoading = false;
     }
 }

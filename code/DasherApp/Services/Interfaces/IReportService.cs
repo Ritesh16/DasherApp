@@ -7,6 +7,6 @@ namespace DasherApp.Services.Interfaces
         Task<IEnumerable<WeeklyReportModel>> GetWeeklyReports();
         Task<IEnumerable<MonthlyReportModel>> GetMonthlyReports(int year);
         Task<IEnumerable<DailyDashModel>> GetDailyDashReport(FilterModel filterModel);
-
+        Task<IEnumerable<int>> GetYears();
     }
 }

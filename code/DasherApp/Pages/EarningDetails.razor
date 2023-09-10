@@ -1,5 +1,8 @@
 ﻿@page "/Earnings"
 
+@inject IReportService reportService
+
+
 <div class="row">
     <div class="col-1">
         <h3>
@@ -18,19 +21,25 @@
 
 </div>
 
-
-@if(SelectedValue == "Weekly") 
-{
-    <DasherApp.Pages.Controls._WeeklyEarnings></DasherApp.Pages.Controls._WeeklyEarnings>
-}
-@if (SelectedValue == "Monthly")
-{
-    <DasherApp.Pages.Controls._MonthlyEarnings></DasherApp.Pages.Controls._MonthlyEarnings>
-}
+<div style="margin:1%">
+    @if (SelectedValue == "Weekly")
+    {
+        <DasherApp.Pages.Controls._WeeklyEarnings></DasherApp.Pages.Controls._WeeklyEarnings>
+    }
+    @if (SelectedValue == "Monthly")
+    {
+        <DasherApp.Pages.Controls._MonthlyEarnings Years="years"></DasherApp.Pages.Controls._MonthlyEarnings>
+    }
+</div>
 
 
 @code {
     public string SelectedValue { get; set; } = "Weekly";
+    IEnumerable<int> years = new List<int>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        years = await reportService.GetYears();
+    }
 }
 

@@ -58,5 +58,19 @@ namespace DasherApp.Services
 
             return new List<WeeklyReportModel>();
         }
+
+        public async Task<IEnumerable<int>> GetYears()
+        {
+            var years = new List<int>();
+            int startYear = 2022;
+            int currentYear = DateTime.Today.Year;
+            while(startYear <= currentYear)
+            {
+                years.Add(startYear);
+                startYear++;
+            }
+
+            return await Task.FromResult<IEnumerable<int>>(years);     
+        }
     }
 }
