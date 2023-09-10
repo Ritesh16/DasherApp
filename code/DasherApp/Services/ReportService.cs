@@ -33,9 +33,9 @@ namespace DasherApp.Services
             return new List<DailyDashModel>();
         }
 
-        public async Task<IEnumerable<MonthlyReportModel>> GetMonthlyReports()
+        public async Task<IEnumerable<MonthlyReportModel>> GetMonthlyReports(int year)
         {
-            var response = await _httpClient.GetAsync($"{this.baseServerUrl}/api/Report/MonthlyReport");
+            var response = await _httpClient.GetAsync($"{this.baseServerUrl}/api/Report/MonthlyReport/{year}");
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {

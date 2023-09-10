@@ -22,10 +22,10 @@ namespace DasherApp.API.Controllers
             return Ok(await reportRepository.GetWeeklyReport());
         }
 
-        [HttpGet("MonthlyReport")]
-        public async Task<IActionResult> GetMonthlyReport()
+        [HttpGet("MonthlyReport/{year}")]
+        public async Task<IActionResult> GetMonthlyReport(int year)
         {
-            return Ok(await reportRepository.GetMonthlyReport());
+            return Ok(await reportRepository.GetMonthlyReport(year));
         }
 
         [HttpGet("DailyReport")]

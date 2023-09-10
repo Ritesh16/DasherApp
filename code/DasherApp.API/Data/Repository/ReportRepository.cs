@@ -28,11 +28,20 @@ namespace DasherApp.API.Data.Repository
             return mapper.Map<List<DailyDash>, List<DailyDashModel>>(dailyDashList);
         }
 
-        public async Task<IEnumerable<MonthlyReportModel>> GetMonthlyReport()
+        public async Task<IEnumerable<MonthlyReportModel>> GetMonthlyReport(int year)
         {
             try
             {
-                var query = GetDailyDashQuery(null, null, "all");
+                DateTime? fromDate = null;
+                DateTime? toDate = null;
+
+                if (year > 0)
+                {
+                    fromDate = new DateTime(year, 1, 1);
+                    toDate = new DateTime(year, 12, 31);
+                }
+
+                var query = GetDailyDashQuery(fromDate, toDate, "all");
                 var monthlyData = query.GroupBy(x => new { x.Date.Month, x.Date.Year })
                     .Select(x => new MonthlyReportModel
                     {
