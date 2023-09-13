@@ -7,5 +7,6 @@ namespace DasherApp.API.Data.Repository.Interfaces
         Task<IEnumerable<WeeklyReportModel>> GetWeeklyReport();
         Task<IEnumerable<MonthlyReportModel>> GetMonthlyReport(int year);
         Task<IEnumerable<DailyDashModel>> GetDailyDashReport(DateTime? fromDate, DateTime? toDate, string location);
+        Task<IEnumerable<DailyEarningsModel>> GetDailyEarnings(DateTime? fromDate, DateTime? toDate);
     }
 }

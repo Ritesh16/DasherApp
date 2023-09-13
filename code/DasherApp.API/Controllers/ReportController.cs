@@ -37,5 +37,13 @@ namespace DasherApp.API.Controllers
             return Ok(await reportRepository.GetDailyDashReport(from_Date, to_Date, location));
         }
 
+        [HttpGet("DailyEarnings")]
+        public async Task<IActionResult> GetDailyEarnings(string fromDate = null, string toDate = null)
+        {
+            DateTime from_Date = fromDate.ParseDate();
+            DateTime to_Date = toDate.ParseDate();
+
+            return Ok(await reportRepository.GetDailyEarnings(from_Date, to_Date));
+        }
     }
 }

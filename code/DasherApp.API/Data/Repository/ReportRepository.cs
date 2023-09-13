@@ -28,6 +28,21 @@ namespace DasherApp.API.Data.Repository
             return mapper.Map<List<DailyDash>, List<DailyDashModel>>(dailyDashList);
         }
 
+        public async Task<IEnumerable<DailyEarningsModel>> GetDailyEarnings(DateTime? fromDate, DateTime? toDate)
+        {
+            var query = GetDailyDashQuery(fromDate, toDate, "all");
+            var dailyEarnings = query.ToList().GroupBy(x => x.Date)
+                .Select(x => new DailyEarningsModel
+                {
+                    Date = x.Key,
+                    Amount = x.Sum(s => s.Amount),
+                    Mileage = x.Sum(s => s.Mileage),
+                    TotalMinutes = x.Sum(s => (s.EndTime - s.StartTime).TotalMinutes)
+                }).ToList();
+
+            return dailyEarnings;
+        }
+
         public async Task<IEnumerable<MonthlyReportModel>> GetMonthlyReport(int year)
         {
             try
