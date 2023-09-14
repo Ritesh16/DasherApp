@@ -2,7 +2,6 @@
 using DasherApp.Models;
 using DasherApp.Services.Interfaces;
 using Newtonsoft.Json;
-using System.Net.Http;
 
 namespace DasherApp.Services
 {
@@ -32,6 +31,22 @@ namespace DasherApp.Services
 
             return new List<DailyDashModel>();
         }
+
+        public async Task<IEnumerable<DailyEarningsModel>> GetDailyEarnings(DateTime fromDate, DateTime toDate)
+        {
+            var url = $"{this.baseServerUrl}/api/Report/DailyEarnings";
+            url = $"{url}?fromDate={fromDate.Month}{fromDate.Day}{fromDate.Year}&toDate={toDate.Month}{toDate.Day}{toDate.Year}";
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var output = JsonConvert.DeserializeObject<IEnumerable<DailyEarningsModel>>(content);
+                return output;
+            }
+
+            return new List<DailyEarningsModel>();
+        }
+    
 
         public async Task<IEnumerable<MonthlyReportModel>> GetMonthlyReports(int year)
         {
