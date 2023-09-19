@@ -35,7 +35,8 @@ namespace DasherApp.Services
         public async Task<IEnumerable<DailyEarningsModel>> GetDailyEarnings(DateTime fromDate, DateTime toDate)
         {
             var url = $"{this.baseServerUrl}/api/Report/DailyEarnings";
-            url = $"{url}?fromDate={fromDate.Month}{fromDate.Day}{fromDate.Year}&toDate={toDate.Month}{toDate.Day}{toDate.Year}";
+           
+            url = $"{url}?fromDate={fromDate.ToDateTimeString()}&toDate={toDate.ToDateTimeString()}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)

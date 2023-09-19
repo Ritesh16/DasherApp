@@ -38,7 +38,7 @@ namespace DasherApp.API.Data.Repository
                     Amount = x.Sum(s => s.Amount),
                     Mileage = x.Sum(s => s.Mileage),
                     TotalMinutes = x.Sum(s => (s.EndTime - s.StartTime).TotalMinutes)
-                }).ToList();
+                }).OrderByDescending(x => x.Date).ToList();
 
             return dailyEarnings;
         }

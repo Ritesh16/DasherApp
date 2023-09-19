@@ -1,5 +1,67 @@
-﻿<h3>_DailyEarnings</h3>
+﻿@inject IReportService reportService
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Total Minutes</th>
+                <th scope="col">Hourly Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (isLoading)
+            {
+                <div class="centered">
+                    <img src="images/loading.gif" />
+                </div>
+            }
+            else
+            {
+                @foreach (var dailyEarning in dailyEarningsList)
+                {
+                    <tr>
+                        <td>
+                            @dailyEarning.Date.ToShortDateString()
+                        </td>
+                        <td>
+                            @dailyEarning.Amount.ToString("C2")
+                        </td>
+                        <td>
+                            @dailyEarning.TotalMinutes
+                        </td>
+                        <td>
+                            @dailyEarning.HourlyRate
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
 
 @code {
+    bool successVisible = false;
+    bool failureVisible = false;
+    bool isLoading = false;
+    DateTime fromDate = new DateTime(2023, 9, 1);
+    DateTime toDate = DateTime.Now;
+    //PagedListModel<WeeklyReportModel> weeklyPaginationList;
+    IEnumerable<DailyEarningsModel> dailyEarningsList = new List<DailyEarningsModel>();
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        dailyEarningsList = await reportService.GetDailyEarnings(fromDate, toDate);
+        isLoading = false;
+    }
+
+    public void GoToPage(int page)
+    {
+        isLoading = true;
+        isLoading = false;
+    }
 }
