@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            @if (isLoading)
+            @if (ViewModel.IsLoading)
             {
                 <div class="centered">
                     <img src="images/loading.gif" />
@@ -19,7 +19,7 @@
             }
             else
             {
-                @foreach (var dailyEarning in dailyEarningsList)
+                @foreach (var dailyEarning in ViewModel.DailyEarnings)
                 {
                     <tr>
                         <td>
@@ -41,27 +41,47 @@
     </table>
 </div>
 
+@if (ViewModel.DailyEarnings != null && ViewModel.DailyEarnings.Count() > 0)
+{
+<div style="text-align:center">
+    <div>
+        <ul class="pagination">
+                <li class="page-item @(ViewModel.DailyEarnings.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" @onclick="() => GoToPage((ViewModel.DailyEarnings.CurrentPage - 1))">&laquo;</a>
+            </li>
+                @for (int i = 0; i < ViewModel.DailyEarnings.TotalPages; i++)
+            {
+                var index = i + 1;
+                    <li class="page-item @(ViewModel.DailyEarnings.CurrentPage == (i+1) ? "active" : "")">
+                    <a class="page-link" @onclick="() => GoToPage(index)">@index</a>
+                </li>
+            }
+                <li class="page-item  @(ViewModel.DailyEarnings.CurrentPage == ViewModel.DailyEarnings.TotalPages ? "disabled" : "")">
+                    <a class="page-link" @onclick="() => GoToPage((ViewModel.DailyEarnings.CurrentPage + 1))">&raquo;</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+}
+
 
 @code {
-    bool successVisible = false;
-    bool failureVisible = false;
-    bool isLoading = false;
-    DateTime fromDate = new DateTime(2023, 9, 1);
-    DateTime toDate = DateTime.Now;
-    //PagedListModel<WeeklyReportModel> weeklyPaginationList;
-    IEnumerable<DailyEarningsModel> dailyEarningsList = new List<DailyEarningsModel>();
-
+    public DailyEarningsViewModel ViewModel { get; set; } = new DailyEarningsViewModel();
+    private IEnumerable<DailyEarningsModel> dailyEarnings = new List<DailyEarningsModel>();
 
     protected override async Task OnInitializedAsync()
     {
-        isLoading = true;
-        dailyEarningsList = await reportService.GetDailyEarnings(fromDate, toDate);
-        isLoading = false;
+        ViewModel.IsLoading = true;
+        dailyEarnings = await reportService.GetDailyEarnings(ViewModel.FromDate, ViewModel.ToDate);
+        ViewModel.DailyEarnings = PagedListModel<DailyEarningsModel>.Create(dailyEarnings, 1, 10);
+        ViewModel.IsLoading = false;
     }
 
     public void GoToPage(int page)
     {
-        isLoading = true;
-        isLoading = false;
+        ViewModel.IsLoading = true;
+        ViewModel.DailyEarnings = PagedListModel<DailyEarningsModel>.Create(dailyEarnings, page, 10);
+        ViewModel.IsLoading = false;
     }
 }
