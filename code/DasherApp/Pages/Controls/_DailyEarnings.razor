@@ -1,5 +1,42 @@
 ﻿@inject IReportService reportService
 
+<EditForm Model="ViewModel" OnValidSubmit="Search">
+    <DataAnnotationsValidator />
+    <div class="row">
+        <div class="col-2">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <DatePicker @ref="@dashFromDateTimePicker" TValue="DateTime" @bind-Date="ViewModel.FromDate"  />
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Light" Clicked="@(()=>dashFromDateTimePicker.ToggleAsync())">
+                        <Icon Name="IconName.CalendarDay" />
+                    </Button>
+                </Addon>
+            </Addons>
+            <ValidationMessage For="() => ViewModel.FromDate"></ValidationMessage>
+        </div>
+        <div class="col-2">
+            <Addons>
+                <Addon AddonType="AddonType.Body">
+                    <DatePicker @ref="@dashToDateTimePicker" TValue="DateTime" @bind-Date="ViewModel.ToDate" />
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Light" Clicked="@(()=>dashToDateTimePicker.ToggleAsync())">
+                        <Icon Name="IconName.CalendarDay" />
+                    </Button>
+                </Addon>
+            </Addons>
+            <ValidationMessage For="()=>ViewModel.ToDate"></ValidationMessage>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-danger">Search</button>
+        </div>
+
+    </div>
+
+
+</EditForm>
 <div>
     <table class="table">
         <thead>
@@ -32,7 +69,7 @@
                             @dailyEarning.TotalMinutes
                         </td>
                         <td>
-                            @dailyEarning.HourlyRate
+                            @dailyEarning.HourlyRate.ToString("C2")
                         </td>
                     </tr>
                 }
@@ -67,15 +104,15 @@
 
 
 @code {
+    DatePicker<DateTime> dashFromDateTimePicker;
+    DatePicker<DateTime> dashToDateTimePicker;
+
     public DailyEarningsViewModel ViewModel { get; set; } = new DailyEarningsViewModel();
     private IEnumerable<DailyEarningsModel> dailyEarnings = new List<DailyEarningsModel>();
 
     protected override async Task OnInitializedAsync()
     {
-        ViewModel.IsLoading = true;
-        dailyEarnings = await reportService.GetDailyEarnings(ViewModel.FromDate, ViewModel.ToDate);
-        ViewModel.DailyEarnings = PagedListModel<DailyEarningsModel>.Create(dailyEarnings, 1, 10);
-        ViewModel.IsLoading = false;
+        await LoadData(1);
     }
 
     public void GoToPage(int page)
@@ -84,4 +121,18 @@
         ViewModel.DailyEarnings = PagedListModel<DailyEarningsModel>.Create(dailyEarnings, page, 10);
         ViewModel.IsLoading = false;
     }
+
+    public async Task Search()
+    {
+        await LoadData(1);
+    }
+
+    private async Task LoadData(int page)
+    {
+        ViewModel.IsLoading = true;
+        dailyEarnings = await reportService.GetDailyEarnings(ViewModel.FromDate, ViewModel.ToDate);
+        ViewModel.DailyEarnings = PagedListModel<DailyEarningsModel>.Create(dailyEarnings, page, 10);
+        ViewModel.IsLoading = false;
+    }
+
 }

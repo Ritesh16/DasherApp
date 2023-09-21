@@ -37,8 +37,13 @@ namespace DasherApp.API.Data.Repository
                     Date = x.Key,
                     Amount = x.Sum(s => s.Amount),
                     Mileage = x.Sum(s => s.Mileage),
-                    TotalMinutes = x.Sum(s => (s.EndTime - s.StartTime).TotalMinutes)
-                }).OrderByDescending(x => x.Date).ToList();
+                    TotalMinutes = x.Sum(s => (s.EndTime - s.StartTime).TotalMinutes),
+                }).OrderBy(x => x.Date).ToList();
+
+            dailyEarnings.ForEach(x =>
+            {
+                x.HourlyRate = Math.Round((x.Amount * 60) / x.TotalMinutes, 2);
+            });
 
             return dailyEarnings;
         }
