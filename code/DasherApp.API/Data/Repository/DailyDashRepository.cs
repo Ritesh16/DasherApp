@@ -51,6 +51,8 @@ namespace DasherApp.API.Data.Repository
             foreach (DailyDashModel dailyDash in dailyDashList)
             {
                 var dailyDashEntity = mapper.Map<DailyDashModel, DailyDash>(dailyDash);
+                dailyDashEntity.Date = new DateTime(dailyDashEntity.Date.Year, dailyDashEntity.Date.Month,
+                                                dailyDashEntity.Date.Day, 0, 0, 0);
                 context.DailyDash.Add(dailyDashEntity);
             }
 
@@ -71,8 +73,8 @@ namespace DasherApp.API.Data.Repository
 
         public async Task<bool> Update(UpdateDailyDashModel updateDailyDashModel)
         {
-            var dash = await context.DailyDash.FirstOrDefaultAsync(x=>x.Id == updateDailyDashModel.Id);  
-            if(dash == null)
+            var dash = await context.DailyDash.FirstOrDefaultAsync(x => x.Id == updateDailyDashModel.Id);
+            if (dash == null)
             {
                 return false;
             }
