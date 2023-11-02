@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasherApp.API", "DasherApp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasherApp.Models", "DasherApp.Models\DasherApp.Models.csproj", "{204DCB46-EB28-4B14-8BD4-2063754A6870}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasherApp.Data", "DasherApp.Data\DasherApp.Data.csproj", "{FA6193F0-AF3C-4D47-A524-13C50DC959F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasherApp.APIV2", "DasherApp.APIV2\DasherApp.APIV2.csproj", "{E8E56EE4-8983-4083-8682-F4B2A62E553A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{204DCB46-EB28-4B14-8BD4-2063754A6870}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{204DCB46-EB28-4B14-8BD4-2063754A6870}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{204DCB46-EB28-4B14-8BD4-2063754A6870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA6193F0-AF3C-4D47-A524-13C50DC959F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6193F0-AF3C-4D47-A524-13C50DC959F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA6193F0-AF3C-4D47-A524-13C50DC959F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA6193F0-AF3C-4D47-A524-13C50DC959F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8E56EE4-8983-4083-8682-F4B2A62E553A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E56EE4-8983-4083-8682-F4B2A62E553A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E56EE4-8983-4083-8682-F4B2A62E553A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E56EE4-8983-4083-8682-F4B2A62E553A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,3 +17,7 @@
 /code/DasherApp.API/Properties/PublishProfiles
 /code/DasherApp.API/DasherApp.API.csproj.user
 /code/DasherApp/DasherApp.csproj.user
+/code/DasherApp.APIV2/obj
+/code/DasherApp.Data/obj
+/code/DasherApp.APIV2/bin
+/code/DasherApp.Data/bin
