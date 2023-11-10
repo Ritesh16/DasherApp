@@ -1,4 +1,4 @@
-﻿namespace DasherApp.Data
+﻿namespace DasherApp.Business
 {
     public class Class1
     {
