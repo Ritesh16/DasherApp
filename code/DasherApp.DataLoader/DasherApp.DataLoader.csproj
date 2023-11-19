@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DasherApp.Data\DasherApp.Data.csproj" />
+    <ProjectReference Include="..\DasherApp.Models\DasherApp.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

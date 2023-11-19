@@ -23,7 +23,15 @@
 
 //}
 
+using DasherApp.Data;
 using DasherApp.DataLoader;
+using Microsoft.EntityFrameworkCore;
 
-var loader = new DataLoader();
+var connectionString = "Server=DESKTOP-LR3L7OP;Database=DoorDashV2;Trusted_Connection=True;TrustServerCertificate=True";
+var options = new DbContextOptionsBuilder<AppDbContext>()
+                   .UseSqlServer(connectionString)
+                   .Options;
+
+var context = new AppDbContext(options);
+var loader = new DataLoader(context);
 loader.LoadDash();

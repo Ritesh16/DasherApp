@@ -1,6 +1,5 @@
 ﻿using DasherApp.Data.Entity;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace DasherApp.Data
 {
