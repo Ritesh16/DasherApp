@@ -21,3 +21,7 @@
 /code/DasherApp.Data/obj
 /code/DasherApp.APIV2/bin
 /code/DasherApp.Data/bin
+/code/DasherApp.Model/bin
+/code/DasherApp.Model/obj
+/code/DasherApp.Business/bin
+/code/DasherApp.Business/obj

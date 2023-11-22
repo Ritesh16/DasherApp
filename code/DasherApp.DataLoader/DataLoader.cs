@@ -1,8 +1,9 @@
-﻿using DasherApp.Business.Repository;
+﻿using DasherApp.Business.Extensions;
+using DasherApp.Business.Repository;
 using DasherApp.Business.Repository.Interface;
 using DasherApp.Data;
 using DasherApp.Data.Entity;
-using DasherApp.Models;
+using DasherApp.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,14 +27,23 @@ namespace DasherApp.DataLoader
         public async Task LoadDash()
         {
             ILocationRepository locationRepository = new LocationRepository(_context);
+            IDailyDashRepository dailyDashRepository = new DailyDashRepository(_context);
             
-            var loc = await locationRepository.GetLocations();
             var lines = File.ReadAllLines(Constants.FILE_PATH);
             Console.WriteLine($"--->{lines.Length} lines found.");
             var dashesList = GetDailyDashList(lines);
             await SaveLocations();
 
             var storedLocations = await locationRepository.GetLocations();
+
+            var dailyDashList = dashesList.ToDailyDashEntityList(storedLocations.ToList());
+
+            foreach (var dash in dailyDashList)
+            {
+                await dailyDashRepository.SaveAsync(dash);
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         private async Task SaveLocations()
@@ -49,7 +59,6 @@ namespace DasherApp.DataLoader
 
             await _context.SaveChangesAsync();
         }
-
         private DateTime ConvertDate(DateTime dashDate, string input)
         {
             input = input.Trim();
