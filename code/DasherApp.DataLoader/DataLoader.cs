@@ -1,9 +1,12 @@
-﻿using DasherApp.Data;
+﻿using DasherApp.Business.Repository;
+using DasherApp.Business.Repository.Interface;
+using DasherApp.Data;
 using DasherApp.Data.Entity;
 using DasherApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,18 +15,39 @@ namespace DasherApp.DataLoader
     public class DataLoader
     {
         private readonly AppDbContext _context;
-        HashSet<string> locations = new HashSet<string>();
+        HashSet<string> fileLocations = new HashSet<string>();
+        ILocationRepository locationRepository;
+
         public DataLoader(AppDbContext context)
         {
             this._context = context;
+            this.locationRepository = new LocationRepository(_context);
         }
-        public void LoadDash()
+        public async Task LoadDash()
         {
+            ILocationRepository locationRepository = new LocationRepository(_context);
+            
+            var loc = await locationRepository.GetLocations();
             var lines = File.ReadAllLines(Constants.FILE_PATH);
             Console.WriteLine($"--->{lines.Length} lines found.");
             var dashesList = GetDailyDashList(lines);
+            await SaveLocations();
 
+            var storedLocations = await locationRepository.GetLocations();
+        }
 
+        private async Task SaveLocations()
+        {
+            foreach (var item in fileLocations)
+            {
+                if(!await locationRepository.LocationExists(item))
+                {
+                    await locationRepository.Save(item);
+                    Console.WriteLine($"Saving {item} location in database.");
+                }
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         private DateTime ConvertDate(DateTime dashDate, string input)
@@ -50,7 +74,7 @@ namespace DasherApp.DataLoader
                 dailyDash.Mileage = Convert.ToDouble(data[4].Trim());
                 dailyDash.Location = data[5].Trim();
                 dashesList.Add(dailyDash);
-                locations.Add(dailyDash.Location);
+                fileLocations.Add(dailyDash.Location);
             }
 
             return dashesList;

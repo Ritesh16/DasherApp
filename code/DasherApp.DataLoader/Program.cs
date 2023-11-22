@@ -34,4 +34,6 @@ var options = new DbContextOptionsBuilder<AppDbContext>()
 
 var context = new AppDbContext(options);
 var loader = new DataLoader(context);
-loader.LoadDash();
+await loader.LoadDash();
+
+Console.WriteLine("Data loaded successfully.");

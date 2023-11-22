@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DasherApp.Business\DasherApp.Business.csproj" />
     <ProjectReference Include="..\DasherApp.Data\DasherApp.Data.csproj" />
     <ProjectReference Include="..\DasherApp.Models\DasherApp.Models.csproj" />
   </ItemGroup>

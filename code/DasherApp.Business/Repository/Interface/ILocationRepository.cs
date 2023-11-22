@@ -4,7 +4,8 @@ namespace DasherApp.Business.Repository.Interface
 {
     public interface ILocationRepository
     {
-        IEnumerable<Location> GetLocations();
-        bool Save(Location location);
+        Task<IEnumerable<Location>> GetLocations();
+        Task<bool> LocationExists(string name);
+        Task Save(string location);
     }
 }
