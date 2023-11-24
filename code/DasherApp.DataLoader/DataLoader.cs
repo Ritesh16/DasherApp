@@ -45,7 +45,6 @@ namespace DasherApp.DataLoader
 
             await _context.SaveChangesAsync();
         }
-
         private async Task SaveLocations()
         {
             foreach (var item in fileLocations)

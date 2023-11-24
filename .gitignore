@@ -25,3 +25,5 @@
 /code/DasherApp.Model/obj
 /code/DasherApp.Business/bin
 /code/DasherApp.Business/obj
+/code/DasherApp.DataLoader/bin
+/code/DasherApp.DataLoader/obj
