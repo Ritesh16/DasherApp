@@ -12,7 +12,11 @@ namespace DasherApp.Data.Entity
     {
         [Key]
         public int Id { get; set; }
-
+        public DateTime Date { get; set; }
+        public DateTime OrderCreateTime { get; set; }
+        public DateTime OrderPickupTime { get; set; }
+        public DateTime OrderDeliveryTime { get; set; }
+        
         [StringLength(200)]
         public string Name { get; set; }
         public int LocationId { get; set; }

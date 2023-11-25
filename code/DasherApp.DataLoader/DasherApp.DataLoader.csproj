@@ -29,6 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Files\DashFile.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Files\Mileage.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -6,6 +6,7 @@ using DasherApp.Data.Entity;
 using DasherApp.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -18,18 +19,20 @@ namespace DasherApp.DataLoader
         private readonly AppDbContext _context;
         HashSet<string> fileLocations = new HashSet<string>();
         ILocationRepository locationRepository;
-
+        IDailyDashRepository dailyDashRepository;
+        IRestaurantRepository restaurantRepository;
         public DataLoader(AppDbContext context)
         {
             this._context = context;
             this.locationRepository = new LocationRepository(_context);
+            this.dailyDashRepository = new DailyDashRepository(_context);
+            this.restaurantRepository = new RestaurantRepository(_context);
         }
         public async Task LoadDash()
         {
-            ILocationRepository locationRepository = new LocationRepository(_context);
-            IDailyDashRepository dailyDashRepository = new DailyDashRepository(_context);
+           IDailyDashRepository dailyDashRepository = new DailyDashRepository(_context);
             
-            var lines = File.ReadAllLines(Constants.FILE_PATH);
+            var lines = File.ReadAllLines(Constants.MILEAGE_FILE_PATH);
             Console.WriteLine($"--->{lines.Length} lines found.");
             var dashesList = GetDailyDashList(lines);
             await SaveLocations();
@@ -41,6 +44,39 @@ namespace DasherApp.DataLoader
             foreach (var dash in dailyDashList)
             {
                 await dailyDashRepository.SaveAsync(dash);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task LoadRestaurants()
+        {
+            var url = Constants.DASH_FILE_PATH;
+            var data = File.ReadAllLines(url);
+
+            var dashesList = await dailyDashRepository.GetAll();
+            
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                var restaurant = new Restaurant();
+                restaurant.RowUpdateDate = DateTime.Now;
+
+                restaurant.RowCreateDate = DateTime.Now;
+
+                restaurant.Name = data[i].Split(',')[3].Replace("\"","");
+                restaurant.OrderCreateTime = ConvertToEST(data[i].Split(',')[0].Replace("\"", ""));
+                restaurant.OrderPickupTime = ConvertToEST(data[i].Split(',')[1].Replace("\"", ""));
+                restaurant.OrderDeliveryTime = ConvertToEST(data[i].Split(',')[2].Replace("\"", ""));
+                restaurant.Date = restaurant.OrderCreateTime.Date;
+                restaurant.LocationId = dashesList.FirstOrDefault(x => x.Date == restaurant.Date).LocationId;
+
+                restaurantRepository.Save(restaurant);
+
             }
 
             await _context.SaveChangesAsync();
@@ -86,6 +122,14 @@ namespace DasherApp.DataLoader
             }
 
             return dashesList;
+        }
+
+        private DateTime ConvertToEST(string input)
+        {
+            var date = DateTime.Parse(input, CultureInfo.InvariantCulture);
+            var easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var dashDate = TimeZoneInfo.ConvertTimeFromUtc(date, easternZone);
+            return dashDate;
         }
     }
 }
