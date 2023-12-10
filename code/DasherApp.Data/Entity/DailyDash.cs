@@ -13,13 +13,14 @@ namespace DasherApp.Data.Entity
         public double Amount { get; set; }
         public double Mileage { get; set; }
         public int LocationId { get; set; }
-        public int TotalDelivery { get; set; }
         public bool IsActive { get; set; }
         public DateTime RowCreateDate { get; set; }
         public DateTime RowUpdateDate { get; set; }
         
         [ForeignKey("LocationId")]
         public Location Location { get; set; }
+
+        public ICollection<DashDetail> DashDetails { get; set; }
         public DailyDash()
         {
             IsActive = true;

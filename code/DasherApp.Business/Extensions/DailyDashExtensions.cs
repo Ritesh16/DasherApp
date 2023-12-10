@@ -13,7 +13,6 @@ namespace DasherApp.Business.Extensions
             {
                 var dailyDash = new DailyDash();
                 dailyDash.Amount = dailyDashModel.Amount;
-                dailyDash.TotalDelivery = 0;
                 dailyDash.RowUpdateDate = DateTime.Now;
                 dailyDash.RowCreateDate = DateTime.Now;
                 dailyDash.Date = dailyDashModel.Date;

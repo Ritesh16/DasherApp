@@ -15,11 +15,11 @@ namespace DasherApp.Data
         {
             modelBuilder.Entity<DailyDash>().ToTable("DailyDash");
             modelBuilder.Entity<Location>().ToTable("Location");
-            modelBuilder.Entity<Restaurant>().ToTable("Restaurant");
+            modelBuilder.Entity<DashDetail>().ToTable("DashDetail");
         }
 
         public DbSet<DailyDash> DailyDashes { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<Restaurant> Restaurants { get; set; }
+        public DbSet<DashDetail> DashDetails { get; set; }
     }
 }

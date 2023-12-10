@@ -4,7 +4,7 @@ namespace DasherApp.Business.Repository.Interface
 {
     public interface IRestaurantRepository
     {
-        Task<IEnumerable<Restaurant>> GetRestaurants();
-        Task Save(Restaurant restaurant);
+        //Task<IEnumerable<Restaurant>> GetRestaurants();
+        //Task Save(Restaurant restaurant);
     }
 }

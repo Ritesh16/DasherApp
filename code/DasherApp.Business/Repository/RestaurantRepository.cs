@@ -12,14 +12,14 @@ namespace DasherApp.Business.Repository
         {
             this._context = context;
         }
-        public async Task<IEnumerable<Restaurant>> GetRestaurants()
-        {
-            return await _context.Restaurants.ToListAsync();
-        }
+        //public async Task<IEnumerable<Restaurant>> GetRestaurants()
+        //{
+        //    return await _context.Restaurants.ToListAsync();
+        //}
 
-        public async Task Save(Restaurant restaurant)
-        {
-            await _context.Restaurants.AddAsync(restaurant);
-        }
+        //public async Task Save(Restaurant restaurant)
+        //{
+        //    await _context.Restaurants.AddAsync(restaurant);
+        //}
     }
 }

@@ -63,19 +63,19 @@ namespace DasherApp.DataLoader
                     continue;
                 }
 
-                var restaurant = new Restaurant();
-                restaurant.RowUpdateDate = DateTime.Now;
+                //var restaurant = new Restaurant();
+                //restaurant.RowUpdateDate = DateTime.Now;
 
-                restaurant.RowCreateDate = DateTime.Now;
+                //restaurant.RowCreateDate = DateTime.Now;
 
-                restaurant.Name = data[i].Split(',')[3].Replace("\"","");
-                restaurant.OrderCreateTime = ConvertToEST(data[i].Split(',')[0].Replace("\"", ""));
-                restaurant.OrderPickupTime = ConvertToEST(data[i].Split(',')[1].Replace("\"", ""));
-                restaurant.OrderDeliveryTime = ConvertToEST(data[i].Split(',')[2].Replace("\"", ""));
-                restaurant.Date = restaurant.OrderCreateTime.Date;
-                restaurant.LocationId = dashesList.FirstOrDefault(x => x.Date == restaurant.Date).LocationId;
+                //restaurant.Name = data[i].Split(',')[3].Replace("\"","");
+                //restaurant.OrderCreateTime = ConvertToEST(data[i].Split(',')[0].Replace("\"", ""));
+                //restaurant.OrderPickupTime = ConvertToEST(data[i].Split(',')[1].Replace("\"", ""));
+                //restaurant.OrderDeliveryTime = ConvertToEST(data[i].Split(',')[2].Replace("\"", ""));
+                //restaurant.Date = restaurant.OrderCreateTime.Date;
+                //restaurant.LocationId = dashesList.FirstOrDefault(x => x.Date == restaurant.Date).LocationId;
 
-                restaurantRepository.Save(restaurant);
+                //restaurantRepository.Save(restaurant);
 
             }
 
