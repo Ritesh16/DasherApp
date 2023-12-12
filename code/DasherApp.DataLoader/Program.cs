@@ -8,7 +8,7 @@ var options = new DbContextOptionsBuilder<AppDbContext>()
 
 var context = new AppDbContext(options);
 var loader = new DataLoader(context);
-await loader.LoadDash();
+//await loader.LoadDash();
 await loader.LoadRestaurants();
 
 Console.WriteLine("Data loaded successfully.");

@@ -20,13 +20,13 @@ namespace DasherApp.DataLoader
         HashSet<string> fileLocations = new HashSet<string>();
         ILocationRepository locationRepository;
         IDailyDashRepository dailyDashRepository;
-        IRestaurantRepository restaurantRepository;
+        IDashDetailRepository dashDetailRepository;
         public DataLoader(AppDbContext context)
         {
             this._context = context;
             this.locationRepository = new LocationRepository(_context);
             this.dailyDashRepository = new DailyDashRepository(_context);
-            this.restaurantRepository = new RestaurantRepository(_context);
+            this.dashDetailRepository = new DashDetailRepository(_context);
         }
         public async Task LoadDash()
         {
@@ -54,7 +54,7 @@ namespace DasherApp.DataLoader
             var url = Constants.DASH_FILE_PATH;
             var data = File.ReadAllLines(url);
 
-            var dashesList = await dailyDashRepository.GetAll();
+            //var dashesList = await dailyDashRepository.GetAll();
             
             for (int i = 0; i < data.Length; i++)
             {
@@ -63,19 +63,17 @@ namespace DasherApp.DataLoader
                     continue;
                 }
 
-                //var restaurant = new Restaurant();
-                //restaurant.RowUpdateDate = DateTime.Now;
+                var dashDetail = new DashDetail();
+                dashDetail.RowUpdateDate = DateTime.Now;
 
-                //restaurant.RowCreateDate = DateTime.Now;
+                dashDetail.RowCreateDate = DateTime.Now;
 
-                //restaurant.Name = data[i].Split(',')[3].Replace("\"","");
-                //restaurant.OrderCreateTime = ConvertToEST(data[i].Split(',')[0].Replace("\"", ""));
-                //restaurant.OrderPickupTime = ConvertToEST(data[i].Split(',')[1].Replace("\"", ""));
-                //restaurant.OrderDeliveryTime = ConvertToEST(data[i].Split(',')[2].Replace("\"", ""));
-                //restaurant.Date = restaurant.OrderCreateTime.Date;
-                //restaurant.LocationId = dashesList.FirstOrDefault(x => x.Date == restaurant.Date).LocationId;
+                dashDetail.Restaurant = data[i].Split(',')[3].Replace("\"", "");
+                dashDetail.OrderCreateTime = ConvertToEST(data[i].Split(',')[0].Replace("\"", ""));
+                dashDetail.OrderPickupTime = ConvertToEST(data[i].Split(',')[1].Replace("\"", ""));
+                dashDetail.OrderDeliveryTime = ConvertToEST(data[i].Split(',')[2].Replace("\"", ""));
 
-                //restaurantRepository.Save(restaurant);
+                await dashDetailRepository.Save(dashDetail);
 
             }
 

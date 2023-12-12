@@ -34,7 +34,7 @@ namespace DasherApp.Extensions
             foreach (var dailyDash in dailyDashList)
             {
                 var ss = dailyDash.StartTime.ToString("hh:mm tt");
-                var newLine = $"{dailyDash.Date.ToString("MMM-dd")}, {dailyDash.StartTime.ToString("hh:mm tt")}, {dailyDash.EndTime.ToString("hh:mm tt")}, {dailyDash.Amount.ToString("C2")}, {dailyDash.Mileage}, {dailyDash.Location}";
+                var newLine = $"{dailyDash.Date.ToString("MMM-dd-yyyy")}, {dailyDash.StartTime.ToString("hh:mm tt")}, {dailyDash.EndTime.ToString("hh:mm tt")}, {dailyDash.Amount.ToString("C2")}, {dailyDash.Mileage}, {dailyDash.Location}";
                 csv.AppendLine(newLine);
             }
 
