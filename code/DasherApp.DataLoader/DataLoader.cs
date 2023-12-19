@@ -54,7 +54,7 @@ namespace DasherApp.DataLoader
             var url = Constants.DASH_FILE_PATH;
             var data = File.ReadAllLines(url);
 
-            //var dashesList = await dailyDashRepository.GetAll();
+            var dashesList = await dailyDashRepository.GetAll();
             
             for (int i = 0; i < data.Length; i++)
             {
@@ -72,6 +72,27 @@ namespace DasherApp.DataLoader
                 dashDetail.OrderCreateTime = ConvertToEST(data[i].Split(',')[0].Replace("\"", ""));
                 dashDetail.OrderPickupTime = ConvertToEST(data[i].Split(',')[1].Replace("\"", ""));
                 dashDetail.OrderDeliveryTime = ConvertToEST(data[i].Split(',')[2].Replace("\"", ""));
+
+                var dailyDash = dashesList
+                      .FirstOrDefault(x => x.StartTime <= dashDetail.OrderPickupTime &&
+                                                x.EndTime >= dashDetail.OrderPickupTime);
+
+                if (dailyDash != null)
+                {
+                    dashDetail.DailyDashId = dailyDash.Id;
+                }
+                else
+                {
+                    var dash = dashesList.FirstOrDefault(x => x.Date == dashDetail.OrderCreateTime.Date);
+                    if (dash == null)
+                    {
+                        throw new Exception("Dash not found.");
+                    }
+                    else
+                    {
+                        dashDetail.Id = dash.Id;
+                    }
+                }
 
                 await dashDetailRepository.Save(dashDetail);
 

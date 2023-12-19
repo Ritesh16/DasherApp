@@ -15,18 +15,7 @@ namespace DasherApp.Business.Repository
 
         public async Task Save(DashDetail dashDetail)
         {
-            var dailyDash = _context.DailyDashes
-                      .FirstOrDefault(x => x.StartTime <= dashDetail.OrderPickupTime && 
-                                                x.EndTime >= dashDetail.OrderPickupTime);
-
-            if(dailyDash != null)
-            {
-                dashDetail.DailyDashId = dailyDash.Id;
-            }
-            else
-            {
-                throw new Exception($"Problem saving dash detail. DailDash not found.");
-            }
+            
 
             await _context.DashDetails.AddAsync(dashDetail);
         }
