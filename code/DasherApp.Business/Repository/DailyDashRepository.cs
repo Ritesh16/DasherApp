@@ -16,7 +16,7 @@ namespace DasherApp.Business.Repository
 
         public async Task<IEnumerable<DailyDash>> GetAll()
         {
-            return await _context.DailyDashes.ToListAsync();
+            return await _context.DailyDashes.Include("Location").ToListAsync();
         }
 
         public async Task SaveAsync(DailyDash dailyDash)

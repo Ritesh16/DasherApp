@@ -15,8 +15,6 @@ namespace DasherApp.Business.Repository
 
         public async Task Save(DashDetail dashDetail)
         {
-            
-
             await _context.DashDetails.AddAsync(dashDetail);
         }
     }

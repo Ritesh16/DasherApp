@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DasherApp.Data.Entity
 {
+    [Table("DailyDash")]
+
     public class DailyDash
     {
         [Key]
@@ -17,7 +19,6 @@ namespace DasherApp.Data.Entity
         public DateTime RowCreateDate { get; set; }
         public DateTime RowUpdateDate { get; set; }
         
-        [ForeignKey("LocationId")]
         public Location Location { get; set; }
 
         public ICollection<DashDetail> DashDetails { get; set; }

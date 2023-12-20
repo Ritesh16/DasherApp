@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Principal;
 
 namespace DasherApp.Data.Entity
 {
+    [Table("Location")]
     public class Location
     {
         [Key]
@@ -11,5 +14,7 @@ namespace DasherApp.Data.Entity
         public string Name { get; set; }
         public DateTime RowCreateDate { get; set; }
         public DateTime RowUpdateDate { get; set; }
+
+        public ICollection<DailyDash> DailyDashes { get; set; }
     }
 }
