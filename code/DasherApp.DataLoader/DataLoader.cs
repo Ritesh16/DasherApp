@@ -3,6 +3,7 @@ using DasherApp.Business.Repository;
 using DasherApp.Business.Repository.Interface;
 using DasherApp.Data;
 using DasherApp.Data.Entity;
+using DasherApp.Data.Migrations;
 using DasherApp.Model;
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace DasherApp.DataLoader
             var data = File.ReadAllLines(url);
 
             var dashesList = await dailyDashRepository.GetAll();
-            
+        
             for (int i = 0; i < data.Length; i++)
             {
                 if (i == 0)
@@ -65,7 +66,6 @@ namespace DasherApp.DataLoader
 
                 var dashDetail = new DashDetail();
                 dashDetail.RowUpdateDate = DateTime.Now;
-
                 dashDetail.RowCreateDate = DateTime.Now;
 
                 dashDetail.Restaurant = data[i].Split(',')[3].Replace("\"", "");
@@ -90,13 +90,13 @@ namespace DasherApp.DataLoader
                     }
                     else
                     {
-                        dashDetail.Id = dash.Id;
+                        dashDetail.DailyDashId = dash.Id;
                     }
                 }
 
                 await dashDetailRepository.Save(dashDetail);
-
             }
+
 
             await _context.SaveChangesAsync();
         }

@@ -24,6 +24,11 @@ namespace DasherApp.Data
                 .WithMany(u => u.DailyDashes)
                 .HasForeignKey(x => x.LocationId);
 
+            modelBuilder.Entity<DashDetail>()
+              .HasOne<DailyDash>(d => d.DailyDash)
+              .WithMany(u => u.DashDetails)
+              .HasForeignKey(x => x.DailyDashId);
+
             //modelBuilder.Entity<Location>()
             //    .HasMany(d => d.DailyDashes)
             //    .WithOne(u => u.Location)
