@@ -1,7 +1,9 @@
 ﻿using DasherApp.Business.Repository.Interface;
 using DasherApp.Data;
 using DasherApp.Data.Entity;
+using DasherApp.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Entity;
 
 namespace DasherApp.Business.Repository
 {
@@ -12,6 +14,11 @@ namespace DasherApp.Business.Repository
         public DailyDashRepository(AppDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<DailyDash>> Get(FilterModel filterModel)
+        {
+            return await GetDailyDashQuery(filterModel).ToListAsync();
         }
 
         public async Task<IEnumerable<DailyDash>> GetAll()

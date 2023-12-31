@@ -31,8 +31,8 @@ namespace DasherApp.DataLoader
         }
         public async Task LoadDash()
         {
-           IDailyDashRepository dailyDashRepository = new DailyDashRepository(_context);
-            
+            IDailyDashRepository dailyDashRepository = new DailyDashRepository(_context);
+
             var lines = File.ReadAllLines(Constants.MILEAGE_FILE_PATH);
             Console.WriteLine($"--->{lines.Length} lines found.");
             var dashesList = GetDailyDashList(lines);
@@ -56,7 +56,7 @@ namespace DasherApp.DataLoader
             var data = File.ReadAllLines(url);
 
             var dashesList = await dailyDashRepository.GetAll();
-        
+
             for (int i = 0; i < data.Length; i++)
             {
                 if (i == 0)
@@ -104,7 +104,7 @@ namespace DasherApp.DataLoader
         {
             foreach (var item in fileLocations)
             {
-                if(!await locationRepository.LocationExists(item))
+                if (!await locationRepository.LocationExists(item))
                 {
                     await locationRepository.Save(item);
                     Console.WriteLine($"Saving {item} location in database.");
