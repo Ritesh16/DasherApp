@@ -3,7 +3,6 @@ using DasherApp.Data;
 using DasherApp.Data.Entity;
 using DasherApp.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
 
 namespace DasherApp.Business.Repository
 {
@@ -23,7 +22,8 @@ namespace DasherApp.Business.Repository
 
         public async Task<IEnumerable<DailyDash>> GetAll()
         {
-            return await _context.DailyDashes.Include("Location").ToListAsync();
+            var data = await _context.DailyDashes.Include("Location").ToListAsync();
+            return data;
         }
 
         public async Task SaveAsync(DailyDash dailyDash)
