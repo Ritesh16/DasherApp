@@ -1,5 +1,7 @@
-﻿using DasherApp.Business.Repository.Interface;
+﻿using AutoMapper;
+using DasherApp.Business.Repository.Interface;
 using DasherApp.Data.Entity;
+using DasherApp.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +16,7 @@ namespace DasherApp.APIV2.Controllers
         {
             this.dailyDashRepository = dailyDashRepository;
         }
-        public async Task<IEnumerable<DailyDash>> Get()
+        public async Task<IEnumerable<DailyDashModel>> Get()
         {
             var data = await dailyDashRepository.GetAll();
             return data;

@@ -1,6 +1,5 @@
 ﻿using DasherApp.Data.Entity;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace DasherApp.Data
 {
@@ -14,10 +13,7 @@ namespace DasherApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<DailyDash>().ToTable("DailyDash");
-            //modelBuilder.Entity<DashDetail>().ToTable("DashDetail");
             base.OnModelCreating(modelBuilder);
-
 
             modelBuilder.Entity<DailyDash>()
                 .HasOne<Location>(d => d.Location)
@@ -28,16 +24,7 @@ namespace DasherApp.Data
               .HasOne<DailyDash>(d => d.DailyDash)
               .WithMany(u => u.DashDetails)
               .HasForeignKey(x => x.DailyDashId);
-
-            //modelBuilder.Entity<Location>()
-            //    .HasMany(d => d.DailyDashes)
-            //    .WithOne(u => u.Location)
-            //    .HasForeignKey(ur => ur.LocationId)
-            //    ;
-
-
         }
-
         public DbSet<DailyDash> DailyDashes { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<DashDetail> DashDetails { get; set; }
