@@ -16,7 +16,7 @@ namespace DasherApp.APIV2.Controllers
         {
             this.dailyDashRepository = dailyDashRepository;
         }
-        public async Task<IEnumerable<DailyDashModel>> Get()
+        public async Task<IEnumerable<DailyDashModelV2>> Get()
         {
             var data = await dailyDashRepository.GetAll();
             return data;

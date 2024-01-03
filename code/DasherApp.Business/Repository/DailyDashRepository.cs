@@ -23,11 +23,19 @@ namespace DasherApp.Business.Repository
             return await GetDailyDashQuery(filterModel).ToListAsync();
         }
 
-        public async Task<IEnumerable<DailyDashModel>> GetAll()
+        public async Task<IEnumerable<DailyDashModelV2>> GetAll()
         {
-            var data = await _context.DailyDashes.Include("Location").ToListAsync();
-            var output = mapper.Map<List<DailyDash>, List<DailyDashModel>>(data);
-            return output;
+            var dashData = await _context.DailyDashes.Include("Location")
+                                .OrderByDescending(x=>x.Id).ToListAsync();
+
+            var dashModelData = mapper.Map<List<DailyDash>, List<DailyDashModelV2>>(dashData);
+            foreach (var dash in dashModelData)
+            {
+                var dashTimeInHour = (dash.EndTime - dash.StartTime).TotalHours;
+                dash.HourlyRate = dash.Amount / dashTimeInHour;
+            }
+            
+            return dashModelData;
         }
 
         public async Task SaveAsync(DailyDash dailyDash)

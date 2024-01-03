@@ -6,7 +6,7 @@ namespace DasherApp.Business.Repository.Interface
     public interface IDailyDashRepository
     {
         Task SaveAsync(DailyDash dailyDash);
-        Task<IEnumerable<DailyDashModel>> GetAll();
+        Task<IEnumerable<DailyDashModelV2>> GetAll();
         Task<IEnumerable<DailyDash>> Get(FilterModel filterModel);
     }
 }

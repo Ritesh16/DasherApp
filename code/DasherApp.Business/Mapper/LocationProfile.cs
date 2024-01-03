@@ -4,11 +4,11 @@ using DasherApp.Model;
 
 namespace DasherApp.Business.Mapper
 {
-    public class DailyDashProfile : Profile
+    public class LocationProfile : Profile
     {
-        public DailyDashProfile()
+        public LocationProfile()
         {
-            CreateMap<DailyDash, DailyDashModelV2>().ReverseMap();
+            CreateMap<Location, LocationModel>().ReverseMap();
         }
     }
 }
