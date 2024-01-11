@@ -26,7 +26,8 @@ namespace DasherApp.Business.Repository
         public async Task<IEnumerable<DailyDashModelV2>> GetAll()
         {
             var dashData = await _context.DailyDashes.Include("Location")
-                                .OrderByDescending(x=>x.Id).ToListAsync();
+                                .Include("DashDetails")
+                                .ToListAsync();
 
             var dashModelData = mapper.Map<List<DailyDash>, List<DailyDashModelV2>>(dashData);
             foreach (var dash in dashModelData)
@@ -34,7 +35,7 @@ namespace DasherApp.Business.Repository
                 var dashTimeInHour = (dash.EndTime - dash.StartTime).TotalHours;
                 dash.HourlyRate = dash.Amount / dashTimeInHour;
             }
-            
+
             return dashModelData;
         }
 

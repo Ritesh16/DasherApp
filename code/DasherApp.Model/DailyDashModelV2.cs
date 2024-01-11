@@ -11,5 +11,12 @@
         public LocationModel Location { get; set; }
         public bool IsActive { get; set; }
         public double HourlyRate { get; set; }
+        public int DeliveryCount { get; set; }
+        public List<DashDetailModel> DashDetails { get; set; }
+
+        public DailyDashModelV2()
+        {
+            DashDetails = new List<DashDetailModel>();
+        }
     }
 }
