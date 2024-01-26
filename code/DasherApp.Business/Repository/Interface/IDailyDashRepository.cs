@@ -1,5 +1,6 @@
 ﻿using DasherApp.Data.Entity;
 using DasherApp.Model;
+using DasherApp.Model.Helper;
 
 namespace DasherApp.Business.Repository.Interface
 {
@@ -7,6 +8,6 @@ namespace DasherApp.Business.Repository.Interface
     {
         Task SaveAsync(DailyDash dailyDash);
         Task<IEnumerable<DailyDashModelV2>> GetAll();
-        Task<IEnumerable<DailyDash>> Get(FilterModel filterModel);
+        Task<IEnumerable<DailyDashModelV2>> Get(DailyDashFilterParams dailyDashFilterParams);
     }
 }

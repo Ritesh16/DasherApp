@@ -1,6 +1,6 @@
-﻿namespace DasherApp.Model
+﻿namespace DasherApp.Model.Helper
 {
-    public class PaginationModel
+    public class PaginationParams
     {
         private const int MAX_PAGE_SIZE = 50;
         private int _pageSize = 10;

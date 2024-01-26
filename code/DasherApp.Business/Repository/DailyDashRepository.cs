@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using DasherApp.Business.Repository.Interface;
 using DasherApp.Data;
 using DasherApp.Data.Entity;
 using DasherApp.Model;
+using DasherApp.Model.Helper;
 using Microsoft.EntityFrameworkCore;
 
 namespace DasherApp.Business.Repository
@@ -18,15 +20,35 @@ namespace DasherApp.Business.Repository
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<DailyDash>> Get(FilterModel filterModel)
+        public async Task<IEnumerable<DailyDashModelV2>> Get(DailyDashFilterParams dailyDashFilterParams)
         {
-            return await GetDailyDashQuery(filterModel).ToListAsync();
+            var dashData = _context.DailyDashes.AsQueryable();
+
+            if (dailyDashFilterParams.FromDate != null)
+            {
+                dashData = dashData.Where(x => x.StartTime >= dailyDashFilterParams.FromDate);
+            }
+
+            if (dailyDashFilterParams.ToDate != null)
+            {
+                dashData = dashData.Where(x => x.EndTime <= dailyDashFilterParams.ToDate);
+            }
+
+            dashData = dashData.Include(x => x.Location).Include(x => x.DashDetails);
+
+            if (!string.IsNullOrEmpty(dailyDashFilterParams.Location) && dailyDashFilterParams.Location.ToLower() != "all")
+            {
+                dashData = dashData.Where(x => x.Location.Name.ToLower() == dailyDashFilterParams.Location.ToLower());
+            }
+
+            return await PagedList<DailyDashModelV2>.CreateAsync(dashData.ProjectTo<DailyDashModelV2>(
+                    mapper.ConfigurationProvider).AsNoTracking(), dailyDashFilterParams.PageNumber, dailyDashFilterParams.PageSize);
         }
 
         public async Task<IEnumerable<DailyDashModelV2>> GetAll()
         {
-            var dashData = await _context.DailyDashes.Include("Location")
-                                .Include("DashDetails")
+            var dashData = await _context.DailyDashes.Include(x => x.Location)
+                                .Include(d => d.DashDetails)
                                 .ToListAsync();
 
             var dashModelData = mapper.Map<List<DailyDash>, List<DailyDashModelV2>>(dashData);
