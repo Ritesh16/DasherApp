@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DasherApp.APIV2.Extensions;
 using DasherApp.Business.Repository.Interface;
 using DasherApp.Data.Entity;
 using DasherApp.Model;
@@ -28,8 +29,11 @@ namespace DasherApp.APIV2.Controllers
         [HttpGet()]
         public async Task<IEnumerable<DailyDashModelV2>> Get([FromQuery] DailyDashFilterParams dailyDashFilterParams)
         {
-            var data = await dailyDashRepository.Get(dailyDashFilterParams);
-            return data;
+            var dailyDashes = await dailyDashRepository.Get(dailyDashFilterParams);
+            Response.AddPaginationHeader(dailyDashes.CurrentPage, dailyDashes.PageSize,
+                       dailyDashes.TotalCount, dailyDashes.TotalPages);
+
+            return dailyDashes;
         }
     }
 }

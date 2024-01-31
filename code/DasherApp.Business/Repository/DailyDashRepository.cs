@@ -20,7 +20,7 @@ namespace DasherApp.Business.Repository
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<DailyDashModelV2>> Get(DailyDashFilterParams dailyDashFilterParams)
+        public async Task<PagedList<DailyDashModelV2>> Get(DailyDashFilterParams dailyDashFilterParams)
         {
             var dashData = _context.DailyDashes.OrderByDescending(x => x.Date).AsQueryable();
 

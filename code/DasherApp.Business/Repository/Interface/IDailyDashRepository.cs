@@ -8,6 +8,6 @@ namespace DasherApp.Business.Repository.Interface
     {
         Task SaveAsync(DailyDash dailyDash);
         Task<IEnumerable<DailyDashModelV2>> GetAll();
-        Task<IEnumerable<DailyDashModelV2>> Get(DailyDashFilterParams dailyDashFilterParams);
+        Task<PagedList<DailyDashModelV2>> Get(DailyDashFilterParams dailyDashFilterParams);
     }
 }
