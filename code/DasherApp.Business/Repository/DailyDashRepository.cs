@@ -22,7 +22,7 @@ namespace DasherApp.Business.Repository
 
         public async Task<IEnumerable<DailyDashModelV2>> Get(DailyDashFilterParams dailyDashFilterParams)
         {
-            var dashData = _context.DailyDashes.AsQueryable();
+            var dashData = _context.DailyDashes.OrderByDescending(x => x.Date).AsQueryable();
 
             if (dailyDashFilterParams.FromDate != null)
             {
@@ -49,6 +49,7 @@ namespace DasherApp.Business.Repository
         {
             var dashData = await _context.DailyDashes.Include(x => x.Location)
                                 .Include(d => d.DashDetails)
+                                .OrderByDescending(x => x.Date)
                                 .ToListAsync();
 
             var dashModelData = mapper.Map<List<DailyDash>, List<DailyDashModelV2>>(dashData);
@@ -56,6 +57,7 @@ namespace DasherApp.Business.Repository
             {
                 var dashTimeInHour = (dash.EndTime - dash.StartTime).TotalHours;
                 dash.HourlyRate = dash.Amount / dashTimeInHour;
+                dash.DeliveryCount = dash.DashDetails.Count;
             }
 
             return dashModelData;
