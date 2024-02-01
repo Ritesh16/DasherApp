@@ -6,6 +6,7 @@ using DasherApp.Data.Entity;
 using DasherApp.Model;
 using DasherApp.Model.Helper;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Policy;
 
 namespace DasherApp.Business.Repository
 {
@@ -41,8 +42,17 @@ namespace DasherApp.Business.Repository
                 dashData = dashData.Where(x => x.Location.Name.ToLower() == dailyDashFilterParams.Location.ToLower());
             }
 
-            return await PagedList<DailyDashModelV2>.CreateAsync(dashData.ProjectTo<DailyDashModelV2>(
+            var pagedDashList = await PagedList<DailyDashModelV2>.CreateAsync(dashData.ProjectTo<DailyDashModelV2>(
                     mapper.ConfigurationProvider).AsNoTracking(), dailyDashFilterParams.PageNumber, dailyDashFilterParams.PageSize);
+
+            foreach (var dash in pagedDashList)
+            {
+                var dashTimeInHour = (dash.EndTime - dash.StartTime).TotalHours;
+                dash.HourlyRate = dash.Amount / dashTimeInHour;
+                dash.DeliveryCount = dash.DashDetails.Count;
+            }
+
+            return pagedDashList;
         }
 
         public async Task<IEnumerable<DailyDashModelV2>> GetAll()
