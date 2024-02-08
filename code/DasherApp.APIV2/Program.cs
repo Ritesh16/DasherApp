@@ -18,7 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IDailyDashRepository, DailyDashRepository>();
-
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

@@ -1,10 +1,11 @@
-﻿using DasherApp.Data.Entity;
+﻿using DasherApp.Model;
+using DasherApp.Model.Helper;
 
 namespace DasherApp.Business.Repository.Interface
 {
     public interface ILocationRepository
     {
-        Task<IEnumerable<Location>> GetLocations();
+        Task<PagedList<LocationModel>> Get();
         Task<bool> LocationExists(string name);
         Task Save(string location);
     }
