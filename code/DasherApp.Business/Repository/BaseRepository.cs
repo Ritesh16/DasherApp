@@ -1,53 +1,45 @@
 ﻿using DasherApp.Data;
 using DasherApp.Data.Entity;
-using DasherApp.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DasherApp.Model.Helper;
+using System.Data.Entity;
 
 namespace DasherApp.Business.Repository
 {
     public class BaseRepository
     {
-        private readonly AppDbContext context;
+        private readonly AppDbContext _context;
 
         public BaseRepository(AppDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
         public async Task<bool> SaveChanges()
         {
-            return await context.SaveChangesAsync() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
-        //public IQueryable<DailyDash> GetDailyDashQuery(FilterModel filterModel)
-        //{
-        //    var query = context.DailyDashes.AsQueryable();
 
-        //    if (filterModel.FromDate != null)
-        //    {
-        //        query = query.Where(x => x.StartTime >= filterModel.FromDate);
-        //    }
+        public IQueryable<DailyDash> GetDailyDashesQuery(DailyDashFilterParams dailyDashFilterParams)
+        {
+            var dashData = _context.DailyDashes.OrderByDescending(x => x.Date).AsQueryable();
 
-        //    if (filterModel.ToDate != null)
-        //    {
-        //        query = query.Where(x => x.EndTime <= filterModel.ToDate);
-        //    }
+            if (dailyDashFilterParams.FromDate != null)
+            {
+                dashData = dashData.Where(x => x.StartTime >= dailyDashFilterParams.FromDate);
+            }
 
-        //    if (!string.IsNullOrEmpty(filterModel.Location) && filterModel.Location != "all")
-        //    {
-        //        var q = query.Join(context.Locations,
-        //                    l => l.LocationId,
-        //                    d => d.Id,
-        //                    (d, l) => new { DailyDash = d, Location = l }
-        //                    ).Where(x => x.Location.Name == filterModel.Location)
-        //                    .Select(x => x.DailyDash).AsQueryable();
+            if (dailyDashFilterParams.ToDate != null)
+            {
+                dashData = dashData.Where(x => x.EndTime <= dailyDashFilterParams.ToDate);
+            }
 
-        //        return q;
-        //    }
+            dashData = dashData.Include(x => x.Location).Include(x => x.DashDetails);
 
-        //    return query;
-        //}
+            if (!string.IsNullOrEmpty(dailyDashFilterParams.Location) && dailyDashFilterParams.Location.ToLower() != "all")
+            {
+                dashData = dashData.Where(x => x.Location.Name.ToLower() == dailyDashFilterParams.Location.ToLower());
+            }
+
+            return dashData;
+        }
     }
 }

@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasherApp.Business", "Dashe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasherApp.DataLoader", "DasherApp.DataLoader\DasherApp.DataLoader.csproj", "{BDED5E72-C493-4737-971B-04BE4CA2D543}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DasherApp.Model", "DasherApp.Model\DasherApp.Model.csproj", "{024161C9-9051-4AC2-90EF-E0A687ECDD92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DasherApp.Model", "DasherApp.Model\DasherApp.Model.csproj", "{024161C9-9051-4AC2-90EF-E0A687ECDD92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -19,16 +19,6 @@ namespace DasherApp.APIV2.Controllers
             this.dailyDashRepository = dailyDashRepository;
         }
 
-        //[HttpGet("All")]
-        //public async Task<IEnumerable<DailyDashModelV2>> Get()
-        //{
-        //    var dailyDashes = await dailyDashRepository.Get(new DailyDashFilterParams());
-        //    Response.AddPaginationHeader(dailyDashes.CurrentPage, dailyDashes.PageSize,
-        //              dailyDashes.TotalCount, dailyDashes.TotalPages);
-
-        //    return dailyDashes;
-        //}
-
         [HttpGet]
         public async Task<IEnumerable<DailyDashModelV2>> Get([FromQuery] DailyDashFilterParams dailyDashFilterParams)
         {
