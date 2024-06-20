@@ -1,19 +1,16 @@
-﻿using DasherApp.Business.Repository;
+﻿using DasherApp.Business.Repository.Interface;
+using DasherApp.Model.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using DasherApp.Business.Repository.Interface;
-using DasherApp.APIV2.Extensions;
-using DasherApp.Model.Helper;
-using DasherApp.Model;
 
 namespace DasherApp.APIV2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EarningsController : ControllerBase
+    public class TotalEarningsController : ControllerBase
     {
         private readonly ITotalEarnedRepository totalEarnedRepository;
-        public EarningsController(ITotalEarnedRepository totalEarnedRepository)
+        public TotalEarningsController(ITotalEarnedRepository totalEarnedRepository)
         {
             this.totalEarnedRepository = totalEarnedRepository;
         }

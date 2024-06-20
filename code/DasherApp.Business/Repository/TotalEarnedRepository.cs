@@ -2,9 +2,9 @@
 using DasherApp.Business.Repository.Interface;
 using DasherApp.Data;
 using DasherApp.Model.Helper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,8 +24,18 @@ namespace DasherApp.Business.Repository
 
         public async Task<double> GetTotalEarnedAsync(DailyDashFilterParams dailyDashFilterParams)
         {
-            var amount = await GetDailyDashesQuery(dailyDashFilterParams).SumAsync(x => x.Amount);
-            return amount;
+            try
+            {
+                var query = GetDailyDashesQuery(dailyDashFilterParams);
+                var amount = await query.SumAsync(x => x.Amount);
+                return amount;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return 0;
         }
     }
 }

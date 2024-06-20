@@ -1,7 +1,6 @@
 ﻿using DasherApp.Business.Repository.Interface;
 using DasherApp.Data;
 using DasherApp.Data.Entity;
-using System.Data.Entity;
 
 namespace DasherApp.Business.Repository
 {
