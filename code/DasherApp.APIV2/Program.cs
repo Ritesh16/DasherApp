@@ -14,7 +14,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IDailyDashRepository, DailyDashRepository>();
@@ -26,6 +25,21 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
     builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
 
+
+builder.Host.ConfigureLogging((context, logger) =>
+{
+    logger.Configure(options =>
+    {
+        options.ActivityTrackingOptions = ActivityTrackingOptions.SpanId
+                                        | ActivityTrackingOptions.TraceId
+                                        | ActivityTrackingOptions.ParentId;
+    });
+
+    logger.AddConfiguration(context.Configuration.GetSection("Logging"));
+    logger.AddConsole();
+    logger.AddDebug();
+    logger.AddEventSourceLogger();
+});
 
 var app = builder.Build();
 

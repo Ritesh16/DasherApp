@@ -1,7 +1,6 @@
 ﻿using DasherApp.APIV2.Extensions;
 using DasherApp.Business.Repository.Interface;
 using DasherApp.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DasherApp.APIV2.Controllers
@@ -10,16 +9,20 @@ namespace DasherApp.APIV2.Controllers
     [ApiController]
     public class LocationsController : ControllerBase
     {
-        private readonly ILocationRepository locationRepository;
-        public LocationsController(ILocationRepository locationRepository)
+        private readonly ILogger<LocationsController> _logger;
+        private readonly ILocationRepository _locationRepository;
+        public LocationsController(ILogger<LocationsController> logger, ILocationRepository locationRepository)
         {
-            this.locationRepository = locationRepository;
+            _logger = logger;
+            _locationRepository = locationRepository;
         }
 
         [HttpGet]
         public async Task<IEnumerable<LocationModel>> Get()
         {
-            var locations = await locationRepository.Get();
+            _logger.LogInformation("Get all locations.");
+            var locations = await _locationRepository.Get();
+            _logger.LogDebug("Setting up headers.");
             Response.AddPaginationHeader(locations.CurrentPage, locations.PageSize,
                        locations.TotalCount, locations.TotalPages);
 
