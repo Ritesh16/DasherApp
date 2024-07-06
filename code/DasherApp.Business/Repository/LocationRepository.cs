@@ -15,16 +15,20 @@ namespace DasherApp.Business.Repository
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
         private readonly ILogger<LocationRepository> _logger;
+        private readonly ILogger loggerFactory;
 
-        public LocationRepository(AppDbContext context, IMapper mapper, ILogger<LocationRepository> logger)
+        public LocationRepository(AppDbContext context, IMapper mapper, ILogger<LocationRepository> logger, ILoggerFactory loggerFactory)
         {
             _context = context;
             _mapper = mapper;
             _logger = logger;
+            this.loggerFactory = loggerFactory.CreateLogger("LocationRepository");
         }
         public async Task<PagedList<LocationModel>> Get()
         {
-            _logger.LogDebug("Get all locations. Begin querying database.");
+            _logger.LogInformation("Get all locations. Begin querying database.");
+            loggerFactory.LogInformation("(F)Get all locations. Begin querying database.");
+
             var locations = _context.Locations.AsQueryable();
             _logger.LogDebug("Creating a paged list.");
             var pagedLocationList = await PagedList<LocationModel>.CreateAsync(locations.ProjectTo<LocationModel>(
@@ -35,13 +39,13 @@ namespace DasherApp.Business.Repository
 
         public async Task<bool> LocationExists(string locationName)
         {
-            _logger.LogDebug("Check if {locationName} location exists.", locationName);
+            _logger.LogInformation("Check if {locationName} location exists.", locationName);
             return await _context.Locations.AnyAsync(x => x.Name.ToLower() == locationName.ToLower());
         }
 
         public async Task Save(string name)
         {
-            _logger.LogDebug("Saving {locationName} location exists.", name);
+            _logger.LogInformation("Saving {locationName} location.", name);
             var location = new Location();
             location.Name = name;
             location.RowUpdateDate= DateTime.Now;

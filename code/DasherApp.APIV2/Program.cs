@@ -26,23 +26,7 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 }));
 
 
-builder.Host.ConfigureLogging((context, logger) =>
-{
-    logger.Configure(options =>
-    {
-        options.ActivityTrackingOptions = ActivityTrackingOptions.SpanId
-                                        | ActivityTrackingOptions.TraceId
-                                        | ActivityTrackingOptions.ParentId;
-    });
-
-    logger.AddConfiguration(context.Configuration.GetSection("Logging"));
-    logger.AddConsole();
-    logger.AddDebug();
-    logger.AddEventSourceLogger();
-});
-
 var app = builder.Build();
-
 
 
 // Configure the HTTP request pipeline.
