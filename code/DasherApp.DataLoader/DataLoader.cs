@@ -1,10 +1,12 @@
-﻿using DasherApp.Business.Extensions;
+﻿using AutoMapper;
+using DasherApp.Business.Extensions;
 using DasherApp.Business.Repository;
 using DasherApp.Business.Repository.Interface;
 using DasherApp.Data;
 using DasherApp.Data.Entity;
 using DasherApp.Data.Migrations;
 using DasherApp.Model;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,6 +14,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DasherApp.DataLoader
 {
@@ -22,32 +25,31 @@ namespace DasherApp.DataLoader
         ILocationRepository locationRepository;
         IDailyDashRepository dailyDashRepository;
         IDashDetailRepository dashDetailRepository;
-        public DataLoader(AppDbContext context)
+        IMapper mapper;
+        public DataLoader(AppDbContext context, IMapper mapper, ILogger<LocationRepository> logger)
         {
             this._context = context;
-            this.locationRepository = new LocationRepository(_context);
-            this.dailyDashRepository = new DailyDashRepository(_context);
+            this.locationRepository = new LocationRepository(_context, mapper, logger);
+            this.dailyDashRepository = new DailyDashRepository(_context, mapper);
             this.dashDetailRepository = new DashDetailRepository(_context);
         }
         public async Task LoadDash()
         {
-            IDailyDashRepository dailyDashRepository = new DailyDashRepository(_context);
-
             var lines = File.ReadAllLines(Constants.MILEAGE_FILE_PATH);
             Console.WriteLine($"--->{lines.Length} lines found.");
             var dashesList = GetDailyDashList(lines);
             await SaveLocations();
 
-            var storedLocations = await locationRepository.GetLocations();
+            var storedLocations = await locationRepository.Get();
 
-            var dailyDashList = dashesList.ToDailyDashEntityList(storedLocations.ToList());
+            //var dailyDashList = dashesList.ToDailyDashEntityList(storedLocations.ToList());
 
-            foreach (var dash in dailyDashList)
-            {
-                await dailyDashRepository.SaveAsync(dash);
-            }
+            //foreach (var dash in dailyDashList)
+            //{
+            //    await dailyDashRepository.SaveAsync(dash);
+            //}
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
         }
 
         public async Task LoadRestaurants()

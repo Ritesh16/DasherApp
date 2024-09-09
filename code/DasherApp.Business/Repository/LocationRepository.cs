@@ -17,17 +17,17 @@ namespace DasherApp.Business.Repository
         private readonly ILogger<LocationRepository> _logger;
         private readonly ILogger loggerFactory;
 
-        public LocationRepository(AppDbContext context, IMapper mapper, ILogger<LocationRepository> logger, ILoggerFactory loggerFactory)
+        public LocationRepository(AppDbContext context, IMapper mapper, ILogger<LocationRepository> logger)
         {
             _context = context;
             _mapper = mapper;
             _logger = logger;
-            this.loggerFactory = loggerFactory.CreateLogger("LocationRepository");
+            //this.loggerFactory = loggerFactory.CreateLogger("LocationRepository");
         }
         public async Task<PagedList<LocationModel>> Get()
         {
             _logger.LogInformation("Get all locations. Begin querying database.");
-            loggerFactory.LogInformation("(F)Get all locations. Begin querying database.");
+            //loggerFactory.LogInformation("(F)Get all locations. Begin querying database.");
 
             var locations = _context.Locations.AsQueryable();
             _logger.LogDebug("Creating a paged list.");

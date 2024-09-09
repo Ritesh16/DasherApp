@@ -5,8 +5,8 @@ namespace DasherApp.Business.Repository.Interface
 {
     public interface ILocationRepository
     {
-        Task<PagedList<LocationModel>> Get();
-        Task<bool> LocationExists(string name);
-        Task Save(string location);
+        public Task<PagedList<LocationModel>> Get();
+        public Task<bool> LocationExists(string name);
+        public Task Save(string location);
     }
 }
