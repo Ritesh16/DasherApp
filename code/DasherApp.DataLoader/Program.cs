@@ -6,6 +6,8 @@ using DasherApp.DataLoader;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using DasherApp.Data.Entity;
+using DasherApp.Model;
 
 using ILoggerFactory factory = LoggerFactory.Create(builder => builder.SetMinimumLevel(LogLevel.Debug));
 ILogger<LocationRepository> logger = factory.CreateLogger<LocationRepository>();
@@ -20,6 +22,8 @@ var config = new MapperConfiguration(cfg =>
     cfg.CreateMap<IDailyDashRepository, DailyDashRepository>();
     cfg.CreateMap<ILocationRepository, LocationRepository>();
     cfg.CreateMap<ITotalEarnedRepository, TotalEarnedRepository>();
+    cfg.CreateMap<Location, LocationModel>().ReverseMap();
+    cfg.CreateMap<DailyDash, DailyDashModelV2>().ReverseMap();
     //Any Other Mapping Configuration ....
 
 });
@@ -28,7 +32,7 @@ var mapper = new Mapper(config);
 
 var context = new AppDbContext(options);
 var loader = new DataLoader(context, mapper, logger);
-//await loader.LoadDash();
+await loader.LoadDash();
 await loader.LoadRestaurants();
 
 Console.WriteLine("Data loaded successfully.");

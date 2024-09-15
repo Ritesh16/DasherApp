@@ -42,14 +42,14 @@ namespace DasherApp.DataLoader
 
             var storedLocations = await locationRepository.Get();
 
-            //var dailyDashList = dashesList.ToDailyDashEntityList(storedLocations.ToList());
+            var dailyDashList = dashesList.ToDailyDashEntityList(storedLocations);
 
-            //foreach (var dash in dailyDashList)
-            //{
-            //    await dailyDashRepository.SaveAsync(dash);
-            //}
+            foreach (var dash in dailyDashList)
+            {
+                await dailyDashRepository.SaveAsync(dash);
+            }
 
-            //await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task LoadRestaurants()
