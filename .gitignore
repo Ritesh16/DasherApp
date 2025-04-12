@@ -28,3 +28,6 @@
 /code/DasherApp.DataLoader/bin
 /code/DasherApp.DataLoader/obj
 /code/obj
+/code/DasherApp.Models/bin/Debug/net8.0
+/code/DasherApp/bin/Debug/net8.0
+/code/DasherApp.API/bin/Debug/net8.0

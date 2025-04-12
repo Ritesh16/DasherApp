@@ -19,6 +19,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IDailyDashRepository, DailyDashRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<ITotalEarnedRepository, TotalEarnedRepository>();
+builder.Services.AddScoped<IHighestEarningDayRepository, HighestEarningDayRepository>();
 
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
