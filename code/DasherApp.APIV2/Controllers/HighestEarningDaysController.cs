@@ -1,4 +1,6 @@
-﻿using DasherApp.Business.Repository.Interface;
+﻿using DasherApp.APIV2.Extensions;
+using DasherApp.Business.Repository.Interface;
+using DasherApp.Model;
 using DasherApp.Model.Helper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +24,13 @@ namespace DasherApp.APIV2.Controllers
         {
             logger.LogInformation("Get Highest Earning Day from {dailyDashFilterParams.FromDate} to {dailyDashFilterParams.ToDate}", dailyDashFilterParams.FromDate, dailyDashFilterParams.ToDate);
             var highestEarningDay = await highestEarningDayRepository.GetHighestEarningDayAsync(dailyDashFilterParams);
-            return Ok(highestEarningDay);
+            if(highestEarningDay == null)
+            {
+                logger.LogWarning("No highest earning day found for the given date range.");
+                return NotFound("Highest Earning day not found!".Failure<ApiResponse<OutputModel>>());
+            }
+
+            return Ok(highestEarningDay.Success<OutputModel>());
         }
 
     }

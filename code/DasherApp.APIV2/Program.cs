@@ -1,3 +1,4 @@
+using DasherApp.APIV2.Middleware;
 using DasherApp.Business.Repository;
 using DasherApp.Business.Repository.Interface;
 using DasherApp.Data;
@@ -29,7 +30,7 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 
 var app = builder.Build();
 
-
+app.UseMiddleware<ErrorHandlingMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
